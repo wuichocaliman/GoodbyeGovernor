@@ -107,6 +107,7 @@ namespace ElDespacho
             rng = new System.Random();
             currentCard = null;
             cardAnswered = false;
+            documentOpened = false;
             cardsThisYear = 0;
             current = null;
             news.Insert(0, "<b>Nuevo líder en Aurelia</b>\nTomas posesión del cargo. El mundo observa qué tipo de líder serás.");
@@ -161,7 +162,14 @@ namespace ElDespacho
 
         void Clear()
         {
-            for (int i = root.childCount - 1; i >= 0; i--) Destroy(root.GetChild(i).gameObject);
+            // Destroy is deferred: deactivate first to stop stale input and document animations.
+            for (int i = root.childCount - 1; i >= 0; i--)
+            {
+                var child = root.GetChild(i).gameObject;
+                child.SetActive(false);
+                Destroy(child);
+            }
+            deskDocument = null;
         }
 
         Image Background(Color c) => Kit.Panel(root, c, Vector2.zero, Vector2.one, default, default, "Background");
@@ -283,6 +291,9 @@ namespace ElDespacho
         System.Random rng = new System.Random();
         Card currentCard;
         bool cardAnswered;
+        bool documentOpened;
+        float cardAnsweredAt;
+        DeskDocument deskDocument;
         string cardResultText;
         Effect cardResultEffect;
         int cardsThisYear;
@@ -301,6 +312,7 @@ namespace ElDespacho
         {
             currentCard = null;
             cardAnswered = false;
+            documentOpened = false;
             while (cardQueue.Count > 0 && currentCard == null)
             {
                 string id = cardQueue[0];
@@ -326,7 +338,7 @@ namespace ElDespacho
         void AnswerCard(bool yes)
         {
             var k = currentCard;
-            if (k == null || cardAnswered) return;
+            if (k == null || cardAnswered || !documentOpened || deskDocument == null || !deskDocument.CanDecide) return;
             var eff = yes ? k.yes : k.no;
             Apply(eff);
             string flag = yes ? k.yesFlag : k.noFlag;
@@ -334,6 +346,7 @@ namespace ElDespacho
             string next = yes ? k.yesNext : k.noNext;
             if (!string.IsNullOrEmpty(next)) cardQueue.Insert(0, next);
             cardAnswered = true;
+            cardAnsweredAt = Time.unscaledTime;
             cardResultText = yes ? k.yesResult : k.noResult;
             cardResultEffect = eff;
             news.Insert(0, $"<b>{(yes ? k.yesLabel : k.noLabel)} a {k.who}</b>\n{cardResultText}");
@@ -341,11 +354,20 @@ namespace ElDespacho
             ShowOffice();
         }
 
+        void ArchiveCard()
+        {
+            // A second click on a decision must not immediately dismiss its result.
+            if (!cardAnswered || Time.unscaledTime - cardAnsweredAt < 0.3f ||
+                deskDocument == null || !deskDocument.CanDecide) return;
+            deskDocument.Dismiss(ContinueCard);
+        }
+
         void ContinueCard()
         {
             Sfx.Play(Sfx.Click);
             currentCard = null;
             cardAnswered = false;
+            documentOpened = false;
             if (IsDefeated) { ShowGameOver(); return; }
             ShowOffice();
         }
@@ -365,24 +387,55 @@ namespace ElDespacho
                 return;
             }
 
-            Kit.Panel(holder, new Color(0, 0, 0, 0.4f), new Vector2(0.02f, 0.18f), new Vector2(0.98f, 1f), new Vector2(12, -12), new Vector2(12, -12), "CardShadow");
+            var desk = holder;
+            var tray = Kit.Panel(desk, Pal.WoodLight, new Vector2(0.02f, 0.30f), new Vector2(0.98f, 0.99f), default, default, "ReadingZone");
+            Kit.Panel(tray.transform, Pal.Gold, new Vector2(0, 1), Vector2.one, new Vector2(0, -3), Vector2.zero);
+            var trayHint = Kit.Label(tray.transform, "", 24, Pal.Cream, TextAnchor.MiddleCenter,
+                new Vector2(0.07f, 0.35f), new Vector2(0.93f, 0.65f), default, default, FontStyle.Normal, true);
+            for (int i = 2; i >= 0; i--)
+            {
+                var pile = Kit.Panel(desk, i == 0 ? Pal.PaperDark : Pal.Paper,
+                    new Vector2(0.10f, 0.025f), new Vector2(0.36f, 0.29f),
+                    new Vector2(i * 5, -i * 4), new Vector2(i * 5, -i * 4), "PaperStack");
+                pile.rectTransform.localEulerAngles = new Vector3(0, 0, -5 + i * 3);
+            }
+            Kit.Label(desk, "ASUNTOS PENDIENTES\nMantén pulsado y arrastra", 21, Pal.Cream, TextAnchor.MiddleLeft,
+                new Vector2(0.42f, 0.06f), new Vector2(0.98f, 0.23f), default, default, FontStyle.Normal, true);
+            var sheet = Kit.Panel(desk, Pal.Paper, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), default, default, "DeskDocument");
+            sheet.raycastTarget = true;
+            var shadow = Kit.Panel(sheet.transform, new Color(0, 0, 0, 0.28f), Vector2.zero, Vector2.one,
+                new Vector2(12, -12), new Vector2(12, -12), "PaperShadow");
+            Kit.Panel(sheet.transform, Pal.Paper, Vector2.zero, Vector2.one, default, default, "PaperSurface");
+            var cover = Kit.Rect(sheet.transform, "ClosedCover", Vector2.zero, Vector2.one);
+            Kit.Panel(cover, Pal.Gold, new Vector2(0.09f, 0.81f), new Vector2(0.91f, 0.83f));
+            Kit.Label(cover, "AURELIA\nPRESIDENCIA", 58, Pal.Ink, TextAnchor.MiddleCenter,
+                new Vector2(0.08f, 0.53f), new Vector2(0.92f, 0.8f), default, default, FontStyle.Bold, true);
+            Kit.Label(cover, "EXPEDIENTE\nPENDIENTE DE REVISIÓN", 44, Pal.Red, TextAnchor.MiddleCenter,
+                new Vector2(0.08f, 0.22f), new Vector2(0.92f, 0.5f), default, default, FontStyle.Bold, true);
+            Kit.Label(cover, $"AÑO {year}  /  ASUNTO {cardsThisYear}", 38, Pal.InkSoft, TextAnchor.MiddleCenter,
+                new Vector2(0.08f, 0.06f), new Vector2(0.92f, 0.2f));
+            holder = Kit.Rect(sheet.transform, "OpenedContent", Vector2.zero, Vector2.one);
+
             var card = Kit.Panel(holder, Pal.Paper, new Vector2(0.02f, 0.18f), new Vector2(0.98f, 1f), default, default, "Card");
             var ct = card.transform;
             Kit.Panel(ct, k.color, new Vector2(0, 1), new Vector2(1, 1), new Vector2(0, -10), Vector2.zero);
 
+            Kit.Label(ct, "AURELIA / PRESIDENCIA", 18, Pal.Red, TextAnchor.UpperLeft,
+                new Vector2(0.06f, 0.94f), new Vector2(0.63f, 0.99f), default, default, FontStyle.Bold);
+            Kit.Panel(ct, Pal.PaperDark, new Vector2(0.06f, 0.64f), new Vector2(0.94f, 0.643f));
             Kit.Label(ct, $"Asunto {Mathf.Min(cardsThisYear, CardsPerYear)} de {CardsPerYear}", 17, Pal.InkSoft, TextAnchor.UpperRight, Vector2.zero, Vector2.one, Vector2.zero, new Vector2(-20, -18));
 
-            var portrait = Kit.Panel(ct, Color.Lerp(k.color, Color.white, 0.25f), new Vector2(0.32f, 0.53f), new Vector2(0.68f, 0.93f), default, default, "Portrait");
+            var portrait = Kit.Panel(ct, Color.Lerp(k.color, Color.white, 0.25f), new Vector2(0.06f, 0.68f), new Vector2(0.30f, 0.92f), default, default, "Portrait");
             portrait.gameObject.AddComponent<RectMask2D>();
             BuildFace(portrait.transform, k.color, k.id, cardAnswered && cardResultEffect.estabilidad + cardResultEffect.seguridad + cardResultEffect.prosperidad < 0);
 
             Kit.Label(ct, $"<b>{k.who}</b>\n<size=19>{k.role}</size>", 27, Pal.Ink, TextAnchor.UpperCenter,
-                new Vector2(0.04f, 0.38f), new Vector2(0.96f, 0.52f), default, default, FontStyle.Normal, true);
+                new Vector2(0.34f, 0.69f), new Vector2(0.94f, 0.88f), default, default, FontStyle.Normal, true);
 
             if (!cardAnswered)
             {
                 Kit.Label(ct, "«" + k.text + "»", 26, Pal.Ink, TextAnchor.UpperCenter,
-                    new Vector2(0.07f, 0.09f), new Vector2(0.93f, 0.37f), default, default, FontStyle.Normal, true);
+                    new Vector2(0.07f, 0.18f), new Vector2(0.93f, 0.59f), default, default, FontStyle.Normal, true);
                 var preview = Kit.Label(ct, "<i>Pasa el ratón por un botón para ver a qué afecta.</i>", 18, Pal.InkSoft, TextAnchor.MiddleCenter,
                     new Vector2(0.03f, 0.0f), new Vector2(0.97f, 0.09f));
                 string idle = preview.text;
@@ -397,12 +450,15 @@ namespace ElDespacho
             else
             {
                 Kit.Label(ct, cardResultText, 26, Pal.Ink, TextAnchor.UpperCenter,
-                    new Vector2(0.07f, 0.14f), new Vector2(0.93f, 0.37f), default, default, FontStyle.Italic, true);
+                    new Vector2(0.07f, 0.20f), new Vector2(0.93f, 0.59f), default, default, FontStyle.Italic, true);
                 Kit.Label(ct, DeltaTextOnPaper(cardResultEffect), 24, Pal.Ink, TextAnchor.MiddleCenter,
                     new Vector2(0.03f, 0.02f), new Vector2(0.97f, 0.13f), default, default, FontStyle.Bold);
-                Kit.MakeButton(holder, "CONTINUAR", 30, Pal.WoodLight, Pal.Cream, ContinueCard,
+                Kit.MakeButton(holder, "CONTINUAR", 30, Pal.WoodLight, Pal.Cream, ArchiveCard,
                     new Vector2(0.25f, 0f), new Vector2(0.75f, 0.15f));
             }
+            deskDocument = sheet.gameObject.AddComponent<DeskDocument>();
+            deskDocument.Initialize(desk, tray, trayHint, cover.gameObject, holder.gameObject, shadow,
+                documentOpened || cardAnswered, () => documentOpened = true);
         }
 
         /// <summary>Como en Reigns: dice QUÉ indicadores cambian, pero no si suben o bajan.</summary>
