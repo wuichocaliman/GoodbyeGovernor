@@ -47,8 +47,7 @@
 
 # NuGet Packages
 *.nupkg
-**/[Pp]ackages/*
-!**/[Pp]ackages/build/
+# OJO: no ignorar la carpeta Packages/ de Unity (manifest.json y packages-lock.json son obligatorios)
 
 # .NET build artifacts
 artifacts/
