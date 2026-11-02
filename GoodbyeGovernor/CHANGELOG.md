@@ -1,5 +1,28 @@
 # El Despacho - Registro de cambios
 
+## v0.4-prototipo - 2026-11-02 - Sellos estilo Papers, Please
+
+### Implementado
+- Los botones SÍ / NO del expediente se sustituyen por dos sellos sobre un soporte: APROBADO (verde) y DENEGADO (rojo).
+- El jugador arrastra un sello sobre el expediente abierto; al soltarlo encima queda la marca del sello (ligeramente girada) en el papel y se aplica la decisión.
+- Soltar el sello fuera del papel lo devuelve a su sitio sin decidir nada.
+- Al pasar el ratón o coger un sello se muestra a qué indicadores afecta (misma pista estilo Reigns de antes).
+- Cartas con etiquetas propias (NEGARLO / ADMITIRLO) usan esas palabras en el sello.
+- La marca del sello se mantiene en el resultado y al volver del mapa.
+- Texto de la pantalla de título actualizado.
+- El botón MAPA DEL MUNDO tiembla cada 2 segundos si ya sellaste todos los expedientes del año, quedan países por visitar y aún no has abierto el mapa ese año (componente Wiggle en Kit.cs).
+
+### Archivos
+- Nuevo: Assets/Scripts/ElDespacho/StampTool.cs (+ .meta): arrastre y soltado del sello; solo presentación.
+- Modificado: Assets/Scripts/ElDespacho/DespachoGame.cs: soporte de sellos, StampCard, BuildStamp, BuildStampMark y estado del sello (stampPlaced, stampPos...). AnswerCard no cambia.
+- Modificado: Assets/Tests/DeskValidationProbe.cs: la comprobación de etiquetas busca los sellos en vez de botones.
+- Documentación: Documentacion/El_Despacho_Informe_Avances_v0.4.pdf (avances desde la v0.2, detalle de la v0.4, cómo integrarla y pruebas).
+
+### Pruebas realizadas
+- Compilación en Unity 6000.3.24f1 sin errores ni advertencias.
+- Prueba manual con ratón físico: arrastre del expediente a la zona de lectura (primera vez comprobado con ratón real), sello APROBADO (Seguridad +4), sello DENEGADO (Estabilidad +1) y sello soltado fuera del papel que vuelve a su sitio.
+- Tools > El Despacho > Validate document flow: 32 PASS, 0 FAIL.
+
 ## v0.3.1-prototipo - 2026-10-28 - Integración en el proyecto local
 
 Proyecto: C:/Users/User/GoodbyeGovernor/GoodbyeGovernor.

@@ -108,7 +108,9 @@ namespace ElDespacho
             currentCard = null;
             cardAnswered = false;
             documentOpened = false;
+            stampPlaced = false;
             cardsThisYear = 0;
+            mapOpenedThisYear = false;
             current = null;
             news.Insert(0, "<b>Nuevo líder en Aurelia</b>\nTomas posesión del cargo. El mundo observa qué tipo de líder serás.");
             news.Insert(0, "<b>Tres países piden audiencia</b>\nLindmark, Pavonia y Tarvessa esperan tu visita este año.");
@@ -215,7 +217,7 @@ namespace ElDespacho
 
             Kit.Label(paper.transform,
                 "Acabas de llegar al poder en <b>Aurelia</b>, un país pequeño y próspero en un mundo inestable.\n\n" +
-                "Cada día te llegarán problemas a la mesa y tendrás que responder <b>SÍ</b> o <b>NO</b>. Y cada año visitarás a otros líderes, leerás sus documentos y decidirás: " +
+                "Cada día te llegarán expedientes a la mesa: ábrelos, léelos y séllalos con <color=#2f7a3a><b>APROBADO</b></color> o <color=#9a2a25><b>DENEGADO</b></color>. Y cada año visitarás a otros líderes, leerás sus documentos y decidirás: " +
                 "<color=#2f7a3a><b>alianza</b></color> o <color=#9a2a25><b>cortar lazos</b></color>.\n\n" +
                 "Si la <b>Estabilidad</b>, la <b>Seguridad</b> o la <b>Prosperidad</b> llegan a cero, tu mandato termina antes de tiempo.\n\n" +
                 "Los líderes no siempre dicen la verdad. Los informes, tampoco.",
@@ -269,6 +271,9 @@ namespace ElDespacho
                 Sfx.Play(Sfx.Paper);
                 ShowMap();
             }, new Vector2(0.73f, 0.22f), new Vector2(0.985f, 0.36f));
+            // Aviso: si ya sellaste todos los expedientes del año y aún no has abierto el mapa,
+            // el botón tiembla cada 2 segundos para indicar que faltan países por visitar
+            if (left > 0 && !mapOpenedThisYear && CardsDoneThisYear) mapBtn.gameObject.AddComponent<Wiggle>();
 
             bool cardsDone = CardsDoneThisYear;
             string endLabel = year >= YearsInMandate ? "TERMINAR EL MANDATO" : $"CERRAR EL AÑO {year}";
@@ -294,9 +299,15 @@ namespace ElDespacho
         bool documentOpened;
         float cardAnsweredAt;
         DeskDocument deskDocument;
+        // Sello estilo Papers, Please: dónde y con qué se selló el expediente
+        bool stampPlaced, stampYes;
+        Vector2 stampPos;
+        float stampAngle;
+        string stampText;
         string cardResultText;
         Effect cardResultEffect;
         int cardsThisYear;
+        bool mapOpenedThisYear; // para el aviso del botón del mapa
 
         IEnumerable<Card> EligibleCards()
         {
@@ -313,6 +324,7 @@ namespace ElDespacho
             currentCard = null;
             cardAnswered = false;
             documentOpened = false;
+            stampPlaced = false;
             while (cardQueue.Count > 0 && currentCard == null)
             {
                 string id = cardQueue[0];
@@ -368,6 +380,7 @@ namespace ElDespacho
             currentCard = null;
             cardAnswered = false;
             documentOpened = false;
+            stampPlaced = false;
             if (IsDefeated) { ShowGameOver(); return; }
             ShowOffice();
         }
@@ -432,23 +445,28 @@ namespace ElDespacho
             Kit.Label(ct, $"<b>{k.who}</b>\n<size=19>{k.role}</size>", 27, Pal.Ink, TextAnchor.UpperCenter,
                 new Vector2(0.34f, 0.69f), new Vector2(0.94f, 0.88f), default, default, FontStyle.Normal, true);
 
+            StampTool stampNoTool = null, stampYesTool = null;
+            Text preview = null;
+            string idle = null;
             if (!cardAnswered)
             {
                 Kit.Label(ct, "«" + k.text + "»", 26, Pal.Ink, TextAnchor.UpperCenter,
                     new Vector2(0.07f, 0.18f), new Vector2(0.93f, 0.59f), default, default, FontStyle.Normal, true);
-                var preview = Kit.Label(ct, "<i>Pasa el ratón por un botón para ver a qué afecta.</i>", 18, Pal.InkSoft, TextAnchor.MiddleCenter,
+                preview = Kit.Label(ct, "<i>Coge un sello y estámpalo sobre el expediente para decidir.</i>", 18, Pal.InkSoft, TextAnchor.MiddleCenter,
                     new Vector2(0.03f, 0.0f), new Vector2(0.97f, 0.09f));
-                string idle = preview.text;
+                idle = preview.text;
 
-                var noBtn = Kit.MakeButton(holder, k.noLabel, 38, Pal.Red, Color.white, () => AnswerCard(false),
-                    new Vector2(0.02f, 0f), new Vector2(0.48f, 0.15f));
-                var yesBtn = Kit.MakeButton(holder, k.yesLabel, 38, Pal.Green, Color.white, () => AnswerCard(true),
-                    new Vector2(0.52f, 0f), new Vector2(0.98f, 0.15f));
-                AddHover(noBtn.gameObject, () => preview.text = PreviewText(k.no), () => preview.text = idle);
-                AddHover(yesBtn.gameObject, () => preview.text = PreviewText(k.yes), () => preview.text = idle);
+                // Soporte de sellos (sustituye a los botones SÍ / NO)
+                var rack = Kit.Panel(holder, Pal.WoodMid, new Vector2(0.02f, 0f), new Vector2(0.98f, 0.16f), default, default, "StampRack");
+                Kit.Panel(rack.transform, Pal.Gold, new Vector2(0, 1), Vector2.one, new Vector2(0, -3), Vector2.zero);
+                Kit.Label(rack.transform, "SELLOS\n<size=15>arrastra uno al papel</size>", 18, Pal.Cream, TextAnchor.MiddleCenter,
+                    new Vector2(0.36f, 0f), new Vector2(0.64f, 1f), default, default, FontStyle.Bold, true);
+                stampNoTool = BuildStamp(holder, StampLabel(false, k), Pal.Red, false);
+                stampYesTool = BuildStamp(holder, StampLabel(true, k), Pal.Green, true);
             }
             else
             {
+                if (stampPlaced) BuildStampMark(ct);
                 Kit.Label(ct, cardResultText, 26, Pal.Ink, TextAnchor.UpperCenter,
                     new Vector2(0.07f, 0.20f), new Vector2(0.93f, 0.59f), default, default, FontStyle.Italic, true);
                 Kit.Label(ct, DeltaTextOnPaper(cardResultEffect), 24, Pal.Ink, TextAnchor.MiddleCenter,
@@ -459,6 +477,72 @@ namespace ElDespacho
             deskDocument = sheet.gameObject.AddComponent<DeskDocument>();
             deskDocument.Initialize(desk, tray, trayHint, cover.gameObject, holder.gameObject, shadow,
                 documentOpened || cardAnswered, () => documentOpened = true);
+            if (stampNoTool != null)
+            {
+                var area = (RectTransform)holder;
+                var paperImg = card;
+                stampNoTool.Initialize(area, new Vector2(0.17f, 0.08f), paperImg,
+                    on => preview.text = on ? "<b>" + StampLabel(false, k) + ":</b> " + PreviewText(k.no) : idle,
+                    pos => StampCard(false, pos, StampLabel(false, k)));
+                stampYesTool.Initialize(area, new Vector2(0.83f, 0.08f), paperImg,
+                    on => preview.text = on ? "<b>" + StampLabel(true, k) + ":</b> " + PreviewText(k.yes) : idle,
+                    pos => StampCard(true, pos, StampLabel(true, k)));
+            }
+        }
+
+        // ───────────── Sellos (estilo Papers, Please) ─────────────
+
+        static string StampLabel(bool yes, Card k)
+        {
+            string label = yes ? k.yesLabel : k.noLabel;
+            if (yes && label == "SÍ") return "APROBADO";
+            if (!yes && label == "NO") return "DENEGADO";
+            return label;
+        }
+
+        void StampCard(bool yes, Vector2 pos, string label)
+        {
+            if (cardAnswered || deskDocument == null || !deskDocument.CanDecide) return;
+            stampPlaced = true;
+            stampYes = yes;
+            stampPos = pos;
+            stampAngle = UnityEngine.Random.Range(-14f, 9f);
+            stampText = label;
+            AnswerCard(yes);
+            if (!cardAnswered) stampPlaced = false;
+        }
+
+        StampTool BuildStamp(Transform parent, string label, Color ink, bool yes)
+        {
+            var rt = Kit.Rect(parent, yes ? "StampYes" : "StampNo", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
+            rt.sizeDelta = new Vector2(210, 128);
+            var hit = rt.gameObject.AddComponent<Image>();
+            hit.color = new Color(0, 0, 0, 0);
+            hit.raycastTarget = true;
+            Kit.Panel(rt, new Color(0, 0, 0, 0.35f), new Vector2(0.04f, 0f), new Vector2(0.96f, 0.42f), new Vector2(5, -5), new Vector2(5, -5));
+            var foot = Kit.Panel(rt, ink, new Vector2(0.04f, 0f), new Vector2(0.96f, 0.42f), default, default, "StampFoot");
+            Kit.Label(foot.transform, label, 26, Color.white, TextAnchor.MiddleCenter, Vector2.zero, Vector2.one,
+                new Vector2(8, 2), new Vector2(-8, -2), FontStyle.Bold, true);
+            Kit.Panel(rt, Pal.Wood, new Vector2(0.33f, 0.42f), new Vector2(0.67f, 0.78f), default, default, "StampHandle");
+            Kit.Dot(rt, Pal.WoodLight, new Vector2(0.5f, 0.82f), 56, "StampKnob");
+            return rt.gameObject.AddComponent<StampTool>();
+        }
+
+        void BuildStampMark(Transform card)
+        {
+            Color ink = stampYes ? Kit.Hex("#2f7a3a") : Kit.Hex("#a8322d");
+            ink.a = 0.78f;
+            var mark = Kit.Rect(card, "StampMark", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
+            mark.sizeDelta = new Vector2(330, 112);
+            mark.anchoredPosition = stampPos;
+            mark.localEulerAngles = new Vector3(0, 0, stampAngle);
+            const float t = 7f;
+            Kit.Panel(mark, ink, new Vector2(0, 1), Vector2.one, new Vector2(0, -t), Vector2.zero);
+            Kit.Panel(mark, ink, Vector2.zero, new Vector2(1, 0), Vector2.zero, new Vector2(0, t));
+            Kit.Panel(mark, ink, Vector2.zero, new Vector2(0, 1), Vector2.zero, new Vector2(t, 0));
+            Kit.Panel(mark, ink, new Vector2(1, 0), Vector2.one, new Vector2(-t, 0), Vector2.zero);
+            Kit.Label(mark, stampText, 56, ink, TextAnchor.MiddleCenter, Vector2.zero, Vector2.one,
+                new Vector2(14, 6), new Vector2(-14, -6), FontStyle.Bold, true);
         }
 
         /// <summary>Como en Reigns: dice QUÉ indicadores cambian, pero no si suben o bajan.</summary>
@@ -588,6 +672,7 @@ namespace ElDespacho
 
         void ShowMap()
         {
+            mapOpenedThisYear = true;
             Clear();
             Background(Pal.Wood);
             BuildHud();
@@ -1043,6 +1128,7 @@ namespace ElDespacho
 
             year++;
             cardsThisYear = 0;
+            mapOpenedThisYear = false;
             var events = FirePending(year);
             var names = string.Join(", ", ThisYear.Select(c => c.name));
             news.Insert(0, $"<b>Comienza el año {year}</b>\nPiden audiencia: {names}.");

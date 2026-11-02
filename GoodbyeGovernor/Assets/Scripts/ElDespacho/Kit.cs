@@ -233,4 +233,53 @@ namespace ElDespacho
             if (_src != null && clip != null) _src.PlayOneShot(clip, volume);
         }
     }
+
+    /// <summary>
+    /// Hace temblar un elemento de la interfaz cada cierto tiempo para llamar la atención
+    /// (por ejemplo, el botón del mapa cuando hay países pendientes).
+    /// </summary>
+    public class Wiggle : MonoBehaviour
+    {
+        public float interval = 2f;    // segundos entre temblores
+        public float duration = 0.45f; // lo que dura cada temblor
+        public float angle = 3.5f;     // grados de giro máximo
+        public float pulse = 0.04f;    // cuánto crece durante el temblor
+
+        RectTransform rt;
+        Quaternion baseRotation;
+        Vector3 baseScale;
+        float timer;
+
+        void Awake()
+        {
+            rt = (RectTransform)transform;
+            baseRotation = rt.localRotation;
+            baseScale = rt.localScale;
+            timer = -1f; // primer temblor poco después de aparecer
+        }
+
+        void Update()
+        {
+            timer += Time.unscaledDeltaTime;
+            float cycle = interval + duration;
+            if (timer >= cycle) timer -= cycle;
+            if (timer < interval)
+            {
+                rt.localRotation = baseRotation;
+                rt.localScale = baseScale;
+                return;
+            }
+            float t = (timer - interval) / duration;   // 0..1
+            float fade = 1f - t;                          // se apaga al final
+            rt.localRotation = baseRotation * Quaternion.Euler(0, 0, Mathf.Sin(t * Mathf.PI * 6f) * angle * fade);
+            rt.localScale = baseScale * (1f + Mathf.Sin(t * Mathf.PI) * pulse);
+        }
+
+        void OnDisable()
+        {
+            if (rt == null) return;
+            rt.localRotation = baseRotation;
+            rt.localScale = baseScale;
+        }
+    }
 }
