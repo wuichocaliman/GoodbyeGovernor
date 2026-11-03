@@ -1,5 +1,45 @@
 # El Despacho - Registro de cambios
 
+## v0.6-prototipo - 2026-11-03 - Más dificultad
+
+### Motivo
+En las pruebas casi nadie perdía y el golpe de Estado solo llegaba tras el año 4. Una simulación de 4.000 partidas por tipo de jugador lo confirmó: un jugador razonable perdía ~2 % de las partidas y uno perfecto nunca bajaba de ~47 en ningún indicador.
+
+### Cambios (todos los números en Assets/Scripts/ElDespacho/Balance.cs)
+- Valores iniciales: 50 / 45 / 45 (antes 60 / 55 / 50).
+- Desgaste del cargo al empezar los años 2, 3 y 4: Estabilidad -3, Seguridad -4, Prosperidad -3. Se muestra en la pantalla de cambio de año y en la gaceta.
+- Los efectos NEGATIVOS de las cartas se multiplican por año: x1 / x1,2 / x1,4 / x1,6. La pista al pasar el ratón por un sello usa ya el valor real.
+- Diplomacia, eventos retrasados y finales sin cambios.
+
+### Resultado simulado (4.000 partidas por perfil)
+- Jugador «humano» (80 % de aciertos en diplomacia, 70 % en cartas): pierde 23 % (antes 2 %); derrotas en los años 3 y 4.
+- Jugador al azar: pierde 98 % (antes 74 %); derrotas desde el año 2.
+- Jugador perfecto: sigue ganando, con algún indicador por debajo de 30.
+- La Seguridad casi nunca causa la derrota: las cartas apenas la tocan. Pendiente de ajustar contenido.
+
+### Pruebas
+- Compilación sin errores en Unity 6000.3.24f1. Falta jugar partidas completas para validar la sensación.
+
+## v0.5-prototipo - 2026-11-03 - Tutorial paso a paso
+
+### Implementado
+- Tutorial de 6 pasos en la primera partida: ASUMIR EL CARGO, coger el expediente, llevarlo a la zona de lectura, sellar, CONTINUAR y despedida.
+- Overlay en un Canvas propio (sortingOrder 200), generado por código: oscurece la pantalla con 4 paneles alrededor de un foco con marco dorado que late; fuera del foco no se puede hacer clic.
+- El foco busca el objeto de la interfaz por nombre (targetName) y lo sigue aunque la pantalla se redibuje; spotlightAnchor queda como alternativa.
+- Botón SALTAR TUTORIAL en todos los pasos. Al terminar se guarda en PlayerPrefs (tutorial_done_v1) y no vuelve a salir.
+- Pasos editables como assets (TutorialStepData) en Assets/Resources/Tutorial/; si no hay assets, se usan los pasos por defecto del código.
+- Menú Tools > El Despacho > Tutorial: crear los assets de los pasos y volver a mostrar el tutorial.
+
+### Archivos
+- Nuevos: Assets/Scripts/ElDespacho/Tutorial/TutorialStepData.cs, TutorialManager.cs, INTEGRATION.md (+ .meta).
+- Nuevos: Assets/Resources/Tutorial/Step_00_Welcome ... Step_05_Done (.asset + .meta).
+- Modificado: DespachoGame.cs: 4 llamadas a TutorialManager.Instance?.TryAdvance(...) y el botón ASUMIR EL CARGO se llama AssumeButton.
+- Modificado: DeskDocument.cs: evento estático Grabbed al coger el expediente.
+
+### Pruebas realizadas
+- Compilación sin errores ni advertencias en Unity 6000.3.24f1.
+- Recorrido completo con ratón físico de los 6 pasos; al terminar el juego queda libre y en la siguiente partida no vuelve a aparecer.
+
 ## v0.4-prototipo - 2026-11-02 - Sellos estilo Papers, Please
 
 ### Implementado

@@ -91,9 +91,9 @@ namespace ElDespacho
 
         void NewGame()
         {
-            estabilidad = 60;
-            seguridad = 55;
-            prosperidad = 50;
+            estabilidad = Balance.StartEstabilidad;
+            seguridad = Balance.StartSeguridad;
+            prosperidad = Balance.StartProsperidad;
             year = 1;
             countries = CountryDatabase.Create();
             news.Clear();
@@ -223,11 +223,13 @@ namespace ElDespacho
                 "Los líderes no siempre dicen la verdad. Los informes, tampoco.",
                 26, Pal.Ink, TextAnchor.UpperCenter, new Vector2(0.08f, 0.24f), new Vector2(0.92f, 0.65f), default, default, FontStyle.Normal, true);
 
-            Kit.MakeButton(paper.transform, "ASUMIR EL CARGO", 32, Pal.Green, Color.white, () =>
+            var assume = Kit.MakeButton(paper.transform, "ASUMIR EL CARGO", 32, Pal.Green, Color.white, () =>
             {
                 Sfx.Play(Sfx.Thunk);
                 ShowOffice();
+                TutorialManager.Instance?.TryAdvance(TutorialAdvanceCondition.PressAssumeOffice);
             }, new Vector2(0.3f, 0.07f), new Vector2(0.7f, 0.18f));
+            assume.gameObject.name = "AssumeButton"; // el tutorial lo busca por nombre
         }
 
         // ───────────── PANTALLA 1: El despacho (cartas al estilo Reigns) ─────────────
@@ -351,7 +353,9 @@ namespace ElDespacho
         {
             var k = currentCard;
             if (k == null || cardAnswered || !documentOpened || deskDocument == null || !deskDocument.CanDecide) return;
-            var eff = yes ? k.yes : k.no;
+            TutorialManager.Instance?.TryAdvance(TutorialAdvanceCondition.PressYesOrNo);
+            // Las cartas pesan más cada año (ver Balance.cs)
+            var eff = Balance.ScaleCardCost(yes ? k.yes : k.no, year);
             Apply(eff);
             string flag = yes ? k.yesFlag : k.noFlag;
             if (!string.IsNullOrEmpty(flag)) flags.Add(flag);
@@ -376,6 +380,7 @@ namespace ElDespacho
 
         void ContinueCard()
         {
+            TutorialManager.Instance?.TryAdvance(TutorialAdvanceCondition.PressContinue);
             Sfx.Play(Sfx.Click);
             currentCard = null;
             cardAnswered = false;
@@ -476,16 +481,20 @@ namespace ElDespacho
             }
             deskDocument = sheet.gameObject.AddComponent<DeskDocument>();
             deskDocument.Initialize(desk, tray, trayHint, cover.gameObject, holder.gameObject, shadow,
-                documentOpened || cardAnswered, () => documentOpened = true);
+                documentOpened || cardAnswered, () =>
+                {
+                    documentOpened = true;
+                    TutorialManager.Instance?.TryAdvance(TutorialAdvanceCondition.DragDocumentToTray);
+                });
             if (stampNoTool != null)
             {
                 var area = (RectTransform)holder;
                 var paperImg = card;
                 stampNoTool.Initialize(area, new Vector2(0.17f, 0.08f), paperImg,
-                    on => preview.text = on ? "<b>" + StampLabel(false, k) + ":</b> " + PreviewText(k.no) : idle,
+                    on => preview.text = on ? "<b>" + StampLabel(false, k) + ":</b> " + PreviewText(Balance.ScaleCardCost(k.no, year)) : idle,
                     pos => StampCard(false, pos, StampLabel(false, k)));
                 stampYesTool.Initialize(area, new Vector2(0.83f, 0.08f), paperImg,
-                    on => preview.text = on ? "<b>" + StampLabel(true, k) + ":</b> " + PreviewText(k.yes) : idle,
+                    on => preview.text = on ? "<b>" + StampLabel(true, k) + ":</b> " + PreviewText(Balance.ScaleCardCost(k.yes, year)) : idle,
                     pos => StampCard(true, pos, StampLabel(true, k)));
             }
         }
@@ -1130,6 +1139,16 @@ namespace ElDespacho
             cardsThisYear = 0;
             mapOpenedThisYear = false;
             var events = FirePending(year);
+            // Desgaste del cargo al empezar cada año (ver Balance.cs)
+            if (year >= Balance.WearFromYear)
+            {
+                var wear = new DelayedEvent(0, "Desgaste del cargo",
+                    "Un año más en el poder: la oposición se organiza, las reservas bajan y el ejército pide más medios.",
+                    Balance.YearlyWear);
+                Apply(wear.effect);
+                news.Insert(0, $"<b>{wear.headline}</b>\n{wear.body}");
+                events.Insert(0, new Pending { year = year, ev = wear, country = null });
+            }
             var names = string.Join(", ", ThisYear.Select(c => c.name));
             news.Insert(0, $"<b>Comienza el año {year}</b>\nPiden audiencia: {names}.");
             ShowYearEvents($"AÑO {year} DE MANDATO", CountryDatabase.YearHint(year), events, "ENTRAR AL DESPACHO", () =>
@@ -1150,7 +1169,7 @@ namespace ElDespacho
             string body;
             if (events.Count == 0) body = "<i>Nada de lo que hiciste el año pasado ha vuelto a por ti... todavía.</i>";
             else body = string.Join("\n\n", events.Select(e => $"<b>{e.ev.headline}</b>\n{e.ev.body}\n{DeltaTextOnPaper(e.ev.effect)}"));
-            Kit.Label(paper.transform, "<b>CONSECUENCIAS QUE LLEGAN TARDE</b>\n\n" + body, 23, Pal.Ink, TextAnchor.UpperLeft, Vector2.zero, Vector2.one,
+            Kit.Label(paper.transform, "<b>LO QUE TRAE EL NUEVO AÑO</b>\n\n" + body, 23, Pal.Ink, TextAnchor.UpperLeft, Vector2.zero, Vector2.one,
                 new Vector2(30, 20), new Vector2(-30, -20), FontStyle.Normal, true);
 
             Kit.MakeButton(root, button, 26, Pal.Gold, Pal.Ink, () => { Sfx.Play(Sfx.Thunk); next(); },

@@ -23,6 +23,8 @@ namespace ElDespacho
         const float ClosedScale = 0.28f;
         static readonly Color ZoneIdle = new Color(0.38f, 0.30f, 0.18f, 0.85f);
         public bool CanDecide => phase == Phase.Open;
+        /// <summary>Se lanza cuando el jugador coge un expediente de la pila (lo usa el tutorial).</summary>
+        public static event Action Grabbed;
         Vector2 PilePosition => new Vector2(-desk.rect.width * 0.27f, -desk.rect.height * 0.34f);
 
         public void Initialize(RectTransform area, Image tray, Text trayHint, GameObject closedCover,
@@ -63,6 +65,7 @@ namespace ElDespacho
             paper.color = Pal.Paper;
             shadow.color = new Color(0, 0, 0, 0.48f);
             Sfx.Play(Sfx.Paper, 0.35f);
+            Grabbed?.Invoke();
         }
         public void OnBeginDrag(PointerEventData e) { }
         public void OnDrag(PointerEventData e)
