@@ -11,7 +11,7 @@ namespace ElDespacho
     /// El Despacho — prototipo jugable.
     /// Se crea solo al pulsar Play en cualquier escena (ver Boot). Toda la interfaz se genera por código.
     /// </summary>
-    public class DespachoGame : MonoBehaviour
+    public partial class DespachoGame : MonoBehaviour
     {
         /// <summary>Pon esto a false si más adelante quieres colocar el juego a mano en una escena concreta.</summary>
         public static bool AutoBoot = true;
@@ -85,6 +85,8 @@ namespace ElDespacho
             scaler.matchWidthOrHeight = 0.5f;
             root = cgo.transform;
 
+            menus = gameObject.AddComponent<DeskMenus>();
+            menus.Initialize(this, root);
             NewGame();
             ShowTitle();
         }
@@ -104,7 +106,10 @@ namespace ElDespacho
             usedCards.Clear();
             flags.Clear();
             cardQueue.Clear();
-            rng = new System.Random();
+            randomSeed = System.Environment.TickCount;
+            randomDraws = 0;
+            rng = new System.Random(randomSeed);
+            mandateFinished = false;
             currentCard = null;
             cardAnswered = false;
             documentOpened = false;
@@ -192,7 +197,7 @@ namespace ElDespacho
 
             int left = PendingThisYear;
             Kit.Label(bar.transform, left > 0 ? $"Países por atender\n<b><size=30>{left}</size></b>" : "Año completado", 20,
-                Pal.Cream, TextAnchor.MiddleRight, new Vector2(0.88f, 0), new Vector2(1, 1), Vector2.zero, new Vector2(-30, 0));
+                Pal.Cream, TextAnchor.MiddleRight, new Vector2(0.88f, 0.3f), new Vector2(1, 1), Vector2.zero, new Vector2(-30, 0));
         }
 
         void Indicator(Transform p, string name, int v, float x)
@@ -205,8 +210,9 @@ namespace ElDespacho
 
         // ───────────── PANTALLA: Título ─────────────
 
-        void ShowTitle()
+        void ShowIntroduction()
         {
+            ScreenName = "Introducción";
             Clear();
             Background(Pal.Wood);
             var paper = Kit.Panel(root, Pal.Paper, new Vector2(0.25f, 0.12f), new Vector2(0.75f, 0.88f));
@@ -236,6 +242,7 @@ namespace ElDespacho
 
         void ShowOffice()
         {
+            ScreenName = "Despacho";
             if (currentCard == null) DrawCard();
 
             Clear();
@@ -340,7 +347,7 @@ namespace ElDespacho
                 // Las cartas que reaccionan a tus decisiones tienen prioridad
                 var story = pool.Where(k => !string.IsNullOrEmpty(k.requires)).ToList();
                 if (story.Count > 0) pool = story;
-                if (pool.Count > 0) currentCard = pool[rng.Next(pool.Count)];
+                if (pool.Count > 0) { currentCard = pool[rng.Next(pool.Count)]; randomDraws++; }
             }
             if (currentCard != null)
             {
@@ -681,6 +688,7 @@ namespace ElDespacho
 
         void ShowMap()
         {
+            ScreenName = "Mapa";
             mapOpenedThisYear = true;
             Clear();
             Background(Pal.Wood);
@@ -844,6 +852,7 @@ namespace ElDespacho
 
         void ShowVisit()
         {
+            ScreenName = "Visita";
             var c = current;
             Clear();
             Background(Pal.Wood);
@@ -1082,6 +1091,7 @@ namespace ElDespacho
 
         void ShowConsequence(Country c, Decision d, Effect total, List<string> chain)
         {
+            ScreenName = "Consecuencias";
             Clear();
             bool attack = d == Decision.Corte && c.attacked;
             Color bg = d == Decision.Alianza ? Pal.Wood : attack ? Kit.Hex("#161616") : Kit.Hex("#2a1414");
@@ -1127,6 +1137,7 @@ namespace ElDespacho
         {
             if (year >= YearsInMandate)
             {
+                mandateFinished = true;
                 var last = FirePending(int.MaxValue);
                 ShowYearEvents("FIN DEL MANDATO", "Antes de dejar el despacho, llegan las últimas noticias...", last, "VER EL VEREDICTO", () =>
                 {
@@ -1159,6 +1170,7 @@ namespace ElDespacho
 
         void ShowYearEvents(string title, string subtitle, List<Pending> events, string button, UnityEngine.Events.UnityAction next)
         {
+            ScreenName = "Cambio de año";
             Clear();
             Background(Kit.Hex("#140d08"));
             BuildHud();
@@ -1185,6 +1197,7 @@ namespace ElDespacho
 
         void ShowGameOver()
         {
+            ScreenName = "Fin";
             Clear();
             Background(Kit.Hex("#120808"));
             string title, text;
@@ -1211,6 +1224,7 @@ namespace ElDespacho
 
         void ShowEnding()
         {
+            ScreenName = "Fin";
             Clear();
             Background(Pal.Wood);
             var decided = countries.Where(c => c.decision != Decision.Ninguna).ToList();

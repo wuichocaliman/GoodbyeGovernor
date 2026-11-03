@@ -42,6 +42,7 @@ namespace ElDespacho
 
         public void OnPointerDown(PointerEventData e)
         {
+            if (DeskPreferences.Paused) return;
             if (used || dragging || e.button != PointerEventData.InputButton.Left) return;
             if (!Local(area, e, out var local)) return;
             StopAllCoroutines();
@@ -69,6 +70,7 @@ namespace ElDespacho
 
         void Release(PointerEventData e)
         {
+            if (DeskPreferences.Paused) return;
             if (!dragging || e.pointerId != pointerId || e.button != PointerEventData.InputButton.Left) return;
             dragging = false;
             targetImage.color = targetIdle;
@@ -92,8 +94,8 @@ namespace ElDespacho
         IEnumerator GoHome()
         {
             Vector2 start = self.anchoredPosition;
-            const float duration = 0.18f;
-            for (float t = 0; t < duration; t += Time.unscaledDeltaTime)
+            float duration = DeskPreferences.AnimationDuration(0.18f);
+            for (float t = 0; t < duration; t += DeskPreferences.GameDelta)
             {
                 self.anchoredPosition = Vector2.Lerp(start, home, Mathf.SmoothStep(0, 1, t / duration));
                 yield return null;
@@ -110,6 +112,8 @@ namespace ElDespacho
         {
             if (!dragging && !used) onHover?.Invoke(false);
         }
+
+        public void CancelDrag() => OnApplicationFocus(false);
 
         void OnApplicationFocus(bool focused)
         {

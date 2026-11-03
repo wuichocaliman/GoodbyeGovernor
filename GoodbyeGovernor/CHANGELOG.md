@@ -1,5 +1,39 @@
 # El Despacho - Registro de cambios
 
+## v0.7-prototipo - 2026-11-03 - Menús, pausa y guardado
+
+### Implementado
+- Menú principal con fondo del despacho aportado por el equipo: Continuar, Nueva partida, Cargar partida, Ajustes, Cómo jugar, Créditos y Salir; versión y resumen de guardado.
+- Ajustes por categorías con fondo de lámpara verde. Volumen maestro, efectos y UI; pantalla completa/resolución (ejecutable), VSync, FPS y brillo; tutorial/autoguardado; restablecer; reducir movimiento, contraste y tamaño de texto de menús. Persistencia JSON.
+- Pausa por ESC y botón por encima del tutorial. Bloquea interacción y animaciones de documentos/sellos, con cancelación segura de arrastres y restauración de la escala temporal.
+- Tres slots manuales y autoguardado independiente. Escritura atómica, copia anterior .bak, versión/esquema y comprobación SHA-256; slots corruptos desactivados.
+- Guardado de cartas, flags, cadenas, sellos, resultados, preguntas, relaciones, eventos pendientes, efectos por turnos, noticias y secuencia aleatoria. Sin duplicar consecuencias al cargar.
+- Confirmación antes de cargar en partida, sustituir guardados, volver al menú o salir; opciones Guardar y volver/Guardar y salir (slot 1).
+
+### Integración y preservación
+- Nuevos: DeskMenus.cs, DeskPreferences.cs, DeskSaveStore.cs, DespachoGame.Persistence.cs; dos fondos en Assets/Resources/Menus; MenuValidationProbe.cs.
+- Modificados: DespachoGame.cs (partial e integración), DeskDocument.cs, StampTool.cs, Kit.cs, TutorialManager.cs y arranque de DeskValidationProbe.cs. Incluir sus .meta.
+- Conservados los sellos v0.4, tutorial v0.5 y balance v0.6. Cards, CountryDatabase, Model, Balance, escenas, Packages y ProjectSettings sin cambios de esta entrega (verificación SHA-256).
+- Respaldo previo: C:/Users/User/Documents/Codex/work/menus-v07/GoodbyeGovernor_antes_v07_2026-11-03.zip. No se trabajó sobre un proyecto ZIP ni se restableció Git.
+
+### Pruebas ejecutadas
+- Compilación real en Unity 6000.3.24f1 sin errores de scripts.
+- Play Mode automático: 58 PASS de menús/guardado y 32 PASS de regresión de documentos. Último ensayo sin errores ni advertencias de ejecución.
+- Fondos importados; navegación, slots vacíos/Continuar, pausa en arrastre/apertura, ESC vía Input System, preferencias recargadas desde disco, carga de resultados/cadenas/visitas/efectos, corrupción, copia .bak, temporizador de autoguardado, secuencia aleatoria y estados preparados de final/derrota.
+- Revisión visual del Editor y navegación por clics: fondos, principal, ajustes, introducción y tutorial. Las pruebas automáticas de eventos no se presentan como recorrido completo con ratón físico.
+
+### Limitaciones y pendientes
+- Las pantallas de consecuencias y cambio de año cargan en el despacho con efectos ya aplicados; el final/derrota sí se conserva. No se guarda la fase intermedia de una animación ni el paso del tutorial.
+- Música ausente, idioma español y texto instantáneo: no se añaden controles falsos. Texto ampliado y alto contraste afectan solo a los nuevos menús. Sin remapeo ni confirmación adicional de sellos.
+- Pendientes: ejecutable Windows (resolución/fullscreen/reversión), evaluación auditiva, recorrido físico completo, otras pantallas y cuatro años con todos los finales.
+- Fondos de baja resolución y créditos individuales/atribución final por completar con el equipo.
+
+### Documentación y reproducción
+- Documentation/El_Despacho_Menu_Principal_y_Pausa_v0.7-prototipo.pdf.
+- Documentation/Pruebas_Menus_v0.7.txt y Verificacion_Archivos_v0.7.json.
+- Con el Editor cerrado: Unity -batchmode -nographics -projectPath RUTA -executeMethod MenuValidationRunner.Run -logFile LOG. Usa archivos temporales separados de las partidas y cierra el Editor al terminar.
+- Futuras modificaciones: nueva entrada de CHANGELOG e informe técnico PDF versionado.
+
 ## v0.6-prototipo - 2026-11-03 - Más dificultad
 
 ### Motivo

@@ -54,6 +54,7 @@ namespace ElDespacho
         }
         public void OnPointerDown(PointerEventData e)
         {
+            if (DeskPreferences.Paused) return;
             if (e.button != PointerEventData.InputButton.Left || phase != Phase.Pile) return;
             if (!LocalPointer(e, out var local)) return;
             phase = Phase.Dragging;
@@ -78,6 +79,7 @@ namespace ElDespacho
         public void OnEndDrag(PointerEventData e) => Release(e);
         void Release(PointerEventData e)
         {
+            if (DeskPreferences.Paused) return;
             if (phase != Phase.Dragging || e.pointerId != pointerId ||
                 e.button != PointerEventData.InputButton.Left) return;
             bool accepted = IsOverTray(e);
@@ -110,10 +112,11 @@ namespace ElDespacho
         }
         IEnumerator Move(Vector2 target, float scale, float angle, float duration, Action finished)
         {
+            duration = DeskPreferences.AnimationDuration(duration);
             Vector2 start = sheet.anchoredPosition;
             Vector3 startScale = sheet.localScale;
             Quaternion startRotation = sheet.localRotation;
-            for (float elapsed = 0; elapsed < duration; elapsed += Time.unscaledDeltaTime)
+            for (float elapsed = 0; elapsed < duration; elapsed += DeskPreferences.GameDelta)
             {
                 float t = Mathf.SmoothStep(0, 1, elapsed / duration);
                 sheet.anchoredPosition = Vector2.Lerp(start, target, t);
@@ -121,6 +124,7 @@ namespace ElDespacho
                 sheet.localRotation = Quaternion.Slerp(startRotation, Quaternion.Euler(0, 0, angle), t);
                 yield return null;
             }
+            while (DeskPreferences.Paused) yield return null;
             sheet.anchoredPosition = target;
             sheet.localScale = Vector3.one * scale;
             sheet.localRotation = Quaternion.Euler(0, 0, angle);
@@ -143,6 +147,8 @@ namespace ElDespacho
         {
             if (phase == Phase.Pile) paper.color = Pal.Paper;
         }
+        public void CancelDrag() => OnApplicationFocus(false);
+
         void OnApplicationFocus(bool focused)
         {
             if (focused || phase != Phase.Dragging) return;

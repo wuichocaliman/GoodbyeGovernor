@@ -69,6 +69,9 @@ public class DeskValidationProbe : MonoBehaviour
         yield return null;
         game=FindAnyObjectByType<DespachoGame>();
         Check(game!=null,"game boots in Unity Play mode");
+        game.GetComponent<DeskMenus>().Resume();
+        game.StartFromMenu();
+        DeskPreferences.Current.tutorial = false;
         Call("NewGame"); Call("ShowOffice");
         yield return null;
         Check(!Doc.CanDecide && !Doc.transform.Find("OpenedContent").gameObject.activeSelf,"fresh card is closed and decisions hidden");

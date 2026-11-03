@@ -51,7 +51,10 @@ namespace ElDespacho
         Text header, body, hint;
         Coroutine pulse;
 
+        bool suspendedForSession;
         public bool IsActive => current >= 0;
+        public void SuppressLoadedSession() { suspendedForSession = true; SetMenuSuspended(true); }
+        public void PrepareNewSession() { suspendedForSession = false; if (IsActive) ShowStep(0); }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void Boot()
@@ -77,6 +80,11 @@ namespace ElDespacho
             if (overlay != null) Destroy(overlay.gameObject);
         }
 
+        public void SetMenuSuspended(bool suspended)
+        {
+            if (overlay != null) overlay.GetComponent<Canvas>().enabled = !suspended && !suspendedForSession;
+        }
+
         IEnumerator Start()
         {
             bool force = forceShowInEditor && Application.isEditor;
@@ -91,6 +99,13 @@ namespace ElDespacho
                 else yield return null;
             }
 
+            // Wait for the introduction, not the new main menu. Loading a save never starts the tutorial.
+            while (true)
+            {
+                var game = FindAnyObjectByType<DespachoGame>();
+                if (game != null && game.InIntroduction && DeskPreferences.Current.tutorial) break;
+                yield return null;
+            }
             if (steps == null || steps.Length == 0) steps = LoadSteps();
             if (steps.Length == 0) { Destroy(this); yield break; }
 
@@ -110,7 +125,7 @@ namespace ElDespacho
         /// <summary>DespachoGame avisa de una acción del jugador. Si es la que espera el paso actual, avanza.</summary>
         public void TryAdvance(TutorialAdvanceCondition trigger)
         {
-            if (!IsActive || steps[current].advanceCondition != trigger) return;
+            if (!IsActive || suspendedForSession || !DeskPreferences.Current.tutorial || steps[current].advanceCondition != trigger) return;
             Sfx.Play(Sfx.Paper, 0.5f);
             ShowStep(current + 1);
         }
@@ -208,7 +223,7 @@ namespace ElDespacho
                 t += Time.unscaledDeltaTime;
                 relayout += Time.unscaledDeltaTime;
                 // Pulso del marco del foco
-                float alpha = 0.45f + 0.55f * Mathf.Abs(Mathf.Sin(t * 3f));
+                float alpha = DeskPreferences.Current.reduceMotion ? 1f : 0.45f + 0.55f * Mathf.Abs(Mathf.Sin(t * 3f));
                 foreach (var f in frame) f.color = Kit.WithAlpha(Pal.Gold, alpha);
                 // El juego destruye y recrea su interfaz a menudo: si el objeto destacado
                 // desaparece o se mueve, se vuelve a buscar y a colocar el foco.

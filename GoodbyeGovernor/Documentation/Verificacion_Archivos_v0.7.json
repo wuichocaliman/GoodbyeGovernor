@@ -1,0 +1,12 @@
+{
+  "original_files": 110,
+  "unchanged": 104,
+  "modified": [
+    "Assets\\Tests\\DeskValidationProbe.cs",
+    "Assets\\Scripts\\ElDespacho\\DeskDocument.cs",
+    "Assets\\Scripts\\ElDespacho\\DespachoGame.cs",
+    "Assets\\Scripts\\ElDespacho\\Kit.cs",
+    "Assets\\Scripts\\ElDespacho\\StampTool.cs",
+    "Assets\\Scripts\\ElDespacho\\Tutorial\\TutorialManager.cs"
+  ]
+}

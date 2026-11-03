@@ -230,7 +230,7 @@ namespace ElDespacho
 
         public static void Play(AudioClip clip, float volume = 1f)
         {
-            if (_src != null && clip != null) _src.PlayOneShot(clip, volume);
+            if (_src != null && clip != null) _src.PlayOneShot(clip, volume * (clip == Click ? DeskPreferences.Current.ui : DeskPreferences.Current.effects));
         }
     }
 
@@ -260,7 +260,8 @@ namespace ElDespacho
 
         void Update()
         {
-            timer += Time.unscaledDeltaTime;
+            if (DeskPreferences.Paused || DeskPreferences.Current.reduceMotion) { rt.localRotation = baseRotation; rt.localScale = baseScale; return; }
+            timer += DeskPreferences.GameDelta;
             float cycle = interval + duration;
             if (timer >= cycle) timer -= cycle;
             if (timer < interval)
