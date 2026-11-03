@@ -20,6 +20,10 @@ En las pruebas casi nadie perdía y el golpe de Estado solo llegaba tras el año
 ### Pruebas
 - Compilación sin errores en Unity 6000.3.24f1. Falta jugar partidas completas para validar la sensación.
 
+### Documentación
+- Documentacion/El_Despacho_Informe_Avances_v0.6.pdf: tutorial (v0.5) y dificultad (v0.6), archivos, integración y pruebas.
+- Documentacion/El_Despacho_Analisis_Arquitectura.pdf: análisis y hoja de ruta para cartas en CSV, tags de trama, menú de pausa y guardado (pendiente de implementar).
+
 ## v0.5-prototipo - 2026-11-03 - Tutorial paso a paso
 
 ### Implementado
