@@ -1,0 +1,22 @@
+PASS UI import: PresidentialOffice
+PASS native width retained: PresidentialOffice
+PASS UI import: GreenLamp
+PASS native width retained: GreenLamp
+PASS UI import: button_default
+PASS native width retained: button_default
+PASS UI import: button_hover
+PASS native width retained: button_hover
+PASS UI import: button_pressed
+PASS native width retained: button_pressed
+PASS UI import: button_disabled
+PASS native width retained: button_disabled
+PASS background preserves original aspect ratio
+PASS no obsolete white-border crop
+PASS sprite swap and nine-slice configured
+PASS normal sprite
+PASS hover sprite
+PASS pressed sprite
+PASS disabled sprite
+PASS Continue remains disabled without saves
+PASS text inset from decorative edges
+COMPLETE 21 visual/import assertions

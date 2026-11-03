@@ -51,6 +51,7 @@ public sealed class MenuValidationProbe : MonoBehaviour
         game=FindAnyObjectByType<DespachoGame>();menus=game.GetComponent<DeskMenus>();
         Check(game!=null&&menus.PageName=="Principal","main menu boots in actual Unity Play Mode");
         Check(Resources.Load<Texture2D>("Menus/PresidentialOffice")!=null && Resources.Load<Texture2D>("Menus/GreenLamp")!=null,"both supplied backgrounds imported");
+        MenuSkinValidation.Check(menus);
         Check(!FindButton("CONTINUAR").interactable,"Continue disabled without saves");
         Click("CARGAR PARTIDA"); Check(menus.GetComponentsInChildren<Button>().Count(b=>b.name=="CARGAR"&&!b.interactable)==4,"four empty load slots disabled");
         Click("VOLVER");Click("AJUSTES");

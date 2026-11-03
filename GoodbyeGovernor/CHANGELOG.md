@@ -1,5 +1,15 @@
 # El Despacho - Registro de cambios
 
+## v0.7.1-prototipo - 2026-11-03 - Art pass / UI polish de menús
+
+- Nuevos fondos del pack suministrado (1672 x 941), proporción conservada mediante EnvelopeParent y recorte del excedente. Se mantienen rutas y GUID de los fondos.
+- Cuatro estados gráficos de botón con SpriteSwap y 9-slicing, texto oscuro y márgenes interiores. Vista de sprite en ejecución para compensar márgenes transparentes sin alterar los PNG. Estilo común para principal, ajustes, pausa, carga/guardado, confirmaciones, créditos y ayuda.
+- DeskMenuSkin.cs e importador limitado a seis texturas; cambios de presentación en DeskMenus.cs. Sin cambios en lógica de juego, guardado, autoguardado, preferencias o contenido.
+- Backup previo: C:/Users/User/Documents/Codex/work/menus-v071/GoodbyeGovernor_antes_v071_2026-11-03.zip.
+- Validación final Unity 6000.3.24f1: compilación correcta; 21 PASS visual/importación + 58 PASS menús/guardado + 32 PASS documentos en Play Mode automatizado; sin errores ni advertencias de ejecución. Revisión visual real Full HD 16:9 de principal, ajustes Audio/Pantalla, nueva partida y pausa mediante botón.
+- Pendiente: recorrido humano completo, ESC físico, otras proporciones, escalas de texto extremas y build Windows. Los estados del pack tienen siluetas distintas; monitorizar memoria de texturas sin compresión.
+- Informe e instrucciones: Documentation/El_Despacho_Menu_Visual_Update_v0.7.1-prototipo.pdf. Evidencias en Documentation/Validacion_v0.7.1/.
+
 ## v0.7-prototipo - 2026-11-03 - Menús, pausa y guardado
 
 ### Implementado

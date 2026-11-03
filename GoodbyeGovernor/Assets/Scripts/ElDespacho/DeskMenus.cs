@@ -10,7 +10,7 @@ namespace ElDespacho
     // Dedicated overlay: never deletes or reconstructs the live game to pause it.
     public sealed class DeskMenus : MonoBehaviour
     {
-        public const string Version="v0.7-prototipo";
+        public const string Version="v0.7.1-prototipo";
         DespachoGame game;
         Transform root, page;
         CanvasGroup gameInput;
@@ -57,7 +57,8 @@ namespace ElDespacho
             launch.transform.SetParent(transform,false); pauseLauncher=launch;
             var lc=launch.GetComponent<Canvas>();lc.renderMode=RenderMode.ScreenSpaceOverlay;lc.sortingOrder=300;
             var ls=launch.GetComponent<CanvasScaler>();ls.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;ls.referenceResolution=new Vector2(1920,1080);ls.matchWidthOrHeight=.5f;
-            Kit.MakeButton(launch.transform,"PAUSA · ESC",16,Pal.WoodMid,Pal.Cream,ShowPause,new Vector2(.89f,.909f),new Vector2(.99f,.936f));
+            var pauseButton = Kit.MakeButton(launch.transform,"PAUSA · ESC",16,Pal.WoodMid,Pal.Cream,ShowPause,new Vector2(.89f,.909f),new Vector2(.99f,.936f));
+            DeskMenuSkin.Apply(pauseButton, true);
             launch.SetActive(false);
             visible=false;
         }
@@ -119,11 +120,15 @@ namespace ElDespacho
                 var image=new GameObject("OfficeArtwork",typeof(RectTransform),typeof(RawImage)); image.transform.SetParent(page,false);
                 var rt=(RectTransform)image.transform; rt.anchorMin=Vector2.zero; rt.anchorMax=Vector2.one; rt.offsetMin=rt.offsetMax=Vector2.zero;
                 image.GetComponent<RawImage>().texture=art;
-                // Trim only the white capture border; preserve the supplied artwork.
-                image.GetComponent<RawImage>().uvRect=settings?new Rect(0.02f,0.06f,0.96f,0.88f):new Rect(0.085f,0.045f,0.875f,0.90f);
+                // Fill the viewport without deforming the supplied 16:9 artwork.
+                // A mask clips the small overflow on other aspect ratios.
+                var fit = image.AddComponent<AspectRatioFitter>();
+                fit.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
+                fit.aspectRatio = art.width / (float)art.height;
+                page.gameObject.AddComponent<RectMask2D>();
                 image.GetComponent<RawImage>().raycastTarget=false;
             }
-            Kit.Panel(page,new Color(0.035f,0.04f,0.03f,prefs.highContrast?0.6f:0.27f),Vector2.zero,Vector2.one);
+            Kit.Panel(page,new Color(0.035f,0.04f,0.03f,prefs.highContrast?0.6f:0.14f),Vector2.zero,Vector2.one);
             Kit.Panel(page,Kit.Hex("#bc9959"),new Vector2(0.035f,0.93f),new Vector2(0.965f,0.933f));
             Label("REPÚBLICA DE AURELIA  /  PRESIDENCIA",19,Pal.Cream,.04f,.94f,.8f,.98f);
             Label(Version,17,Pal.Cream,.8f,.94f,.96f,.98f,TextAnchor.MiddleRight);
@@ -141,12 +146,13 @@ namespace ElDespacho
             => Kit.Label(page,text,Mathf.RoundToInt(size*prefs.menuTextScale),color,anchor,new Vector2(x,y),new Vector2(right,top),default,default,FontStyle.Normal,true);
         void Paper(float x,float y,float right,float top)
         {
-            Kit.Panel(page,Kit.WithAlpha(Kit.Hex("#131e1b"), pageName=="Ajustes" ? .82f : .96f),new Vector2(x,y),new Vector2(right,top));
+            Kit.Panel(page,Kit.WithAlpha(Kit.Hex("#131e1b"), prefs.highContrast ? .96f : pageName=="Principal" ? .76f : .72f),new Vector2(x,y),new Vector2(right,top));
             Kit.Panel(page,Pal.Gold,new Vector2(x,y),new Vector2(x+.002f,top));
         }
         Button Button(string label,UnityAction action,float x,float y,float right,float top,bool enabled=true)
         {
             var b=Kit.MakeButton(page,label,Mathf.RoundToInt(23*prefs.menuTextScale),prefs.highContrast?Color.black:Kit.Hex("#25392f"),Pal.Cream,()=>{Sfx.Play(Sfx.Click);action?.Invoke();},new Vector2(x,y),new Vector2(right,top));
+            DeskMenuSkin.Apply(b);
             b.name=label; b.interactable=enabled; return b;
         }
         void Heading(string title,string subtitle)
@@ -163,7 +169,7 @@ namespace ElDespacho
             int latest=DeskSaveStore.LatestSlot();
             string[] labels={"CONTINUAR","NUEVA PARTIDA","CARGAR PARTIDA","AJUSTES","CÓMO JUGAR","CRÉDITOS","SALIR"};
             UnityAction[] actions={()=>LoadSlot(latest),()=>ConfirmNew(),()=>ShowSlots(false),()=>ShowSettings(0),()=>ShowHelp(),()=>ShowCredits(),()=>ConfirmExit()};
-            for(int i=0;i<labels.Length;i++) Button(labels[i],actions[i],.075f,.52f-i*.061f,.365f,.571f-i*.061f,i!=0||latest>=0);
+            for(int i=0;i<labels.Length;i++) Button(labels[i],actions[i],.075f,.52f-i*.067f,.365f,.585f-i*.067f,i!=0||latest>=0);
             Paper(.56f,.105f,.94f,.27f);
             string summary=latest>=0&&DeskSaveStore.TryRead(latest,out var s,out _) ? Describe(s) : "No hay partidas guardadas.\nUn nuevo mandato espera tu firma.";
             Label("ÚLTIMO EXPEDIENTE GUARDADO",18,Pal.Gold,.58f,.22f,.92f,.26f);

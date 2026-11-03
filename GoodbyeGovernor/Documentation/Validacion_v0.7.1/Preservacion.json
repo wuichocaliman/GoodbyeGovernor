@@ -1,0 +1,12 @@
+{
+  "original_files": 130,
+  "unchanged": 124,
+  "modified": [
+    "Assets\\Tests\\MenuValidationProbe.cs",
+    "Assets\\Resources\\Menus\\GreenLamp.png",
+    "Assets\\Resources\\Menus\\GreenLamp.png.meta",
+    "Assets\\Resources\\Menus\\PresidentialOffice.png",
+    "Assets\\Resources\\Menus\\PresidentialOffice.png.meta",
+    "Assets\\Scripts\\ElDespacho\\DeskMenus.cs"
+  ]
+}
