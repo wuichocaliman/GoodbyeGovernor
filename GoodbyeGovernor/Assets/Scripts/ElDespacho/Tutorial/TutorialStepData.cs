@@ -26,6 +26,8 @@ namespace ElDespacho
         [Tooltip("Texto de la burbuja de ayuda.")]
         [TextArea(2, 5)]
         public string instructionText;
+        public string persistentId, context, actionFact;
+        public int lesson;
 
         [Header("Qué destacar (foco)")]
         [Tooltip("Nombre del objeto de la interfaz a destacar, generado por código: AssumeButton, DeskDocument, " +

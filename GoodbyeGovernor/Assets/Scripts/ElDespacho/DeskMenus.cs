@@ -10,7 +10,7 @@ namespace ElDespacho
     // Dedicated overlay: never deletes or reconstructs the live game to pause it.
     public sealed class DeskMenus : MonoBehaviour
     {
-        public const string Version="v0.7.1-prototipo";
+        public const string Version="v0.8-prototipo";
         DespachoGame game;
         Transform root, page;
         CanvasGroup gameInput;
@@ -89,6 +89,7 @@ namespace ElDespacho
 #if ENABLE_INPUT_SYSTEM
             escapeAction?.Dispose();
 #endif
+            if(manualSteps!=null)foreach(var step in manualSteps)Destroy(step);
             if(DeskPreferences.Paused) Time.timeScale=oldTimeScale; DeskPreferences.Paused=false;
         }
         void Open()
@@ -243,12 +244,29 @@ namespace ElDespacho
             Application.Quit();
 #endif
         }
+        TutorialStepData[] manualSteps;
+        TutorialStepData[] ManualSteps => manualSteps ?? (manualSteps=TutorialLessons.Create(Resources.LoadAll<TutorialStepData>("Tutorial").OrderBy(s=>s.name).ToArray()));
         void ShowHelp()
         {
             NewPage("Cómo jugar"); back=ReturnContext; Paper(.05f,.07f,.95f,.9f);
-            Heading("MANUAL DE PRESIDENCIA","Lee. Contrasta. Decide. Asume las consecuencias.");
-            Label("01  Arrastra el expediente hasta la zona de lectura y suéltalo para abrirlo.\n\n02  Lee el asunto. Lleva APROBADO o DENEGADO hasta el papel para decidir.\n\n03  Revisa el resultado y pulsa CONTINUAR. Atiende también a los países del mapa.\n\n04  Contrasta sus informes y preguntas antes de pactar o cortar relaciones.\n\n05  Completa los asuntos y visitas del año. Mantén los tres indicadores por encima de cero.\n\nESC abre la pausa. Desde ella puedes guardar, cargar o cambiar los ajustes.",27,Pal.Cream,.09f,.20f,.90f,.70f);
-            Button("VOLVER",ReturnContext,.73f,.10f,.91f,.17f);
+            Heading("TUTORIAL PRESIDENCIAL","Julián Paz · Consulta libre: no cambia su campaña ni el progreso de la guía.");
+            for(int i=0;i<12;i++) {
+                int lesson=i,col=i/6,row=i%6;
+                Button((i+1)+". "+TutorialLessons.Titles[i],()=>ShowLesson(lesson),.08f+col*.45f,.60f-row*.075f,.48f+col*.45f,.66f-row*.075f);
+            }
+            Button("VOLVER",ReturnContext,.74f,.09f,.91f,.15f);
+        }
+        public void ShowLesson(int lesson,int step=0)
+        {
+            var pages=ManualSteps.Where(s=>s.lesson==lesson).ToArray();step=Mathf.Clamp(step,0,pages.Length-1);
+            NewPage("Consulta");back=ShowHelp;Paper(.08f,.12f,.92f,.9f);
+            Heading(TutorialLessons.Titles[lesson],$"Julián Paz · Lección {lesson+1}/12 · Nota {step+1}/{pages.Length} · Solo consulta");
+            Label(TutorialLessons.Text(pages[step],game.HasSession?game.TutorialQuestions:3),32,Pal.Cream,.13f,.36f,.87f,.69f);
+            Label("Puede revisar estas notas sin realizar acciones. ESC vuelve al índice. En el año 4 hay dos preguntas por visita.",22,Pal.Cream,.13f,.25f,.87f,.34f);
+            int previous=step-1,following=step+1;
+            Button("ATRÁS",()=>{if(previous>=0)ShowLesson(lesson,previous);else ShowLesson(lesson-1);},.13f,.16f,.34f,.23f,step>0||lesson>0);
+            Button("VOLVER",ShowHelp,.40f,.16f,.60f,.23f);
+            Button("SIGUIENTE",()=>{if(following<pages.Length)ShowLesson(lesson,following);else ShowLesson(lesson+1);},.66f,.16f,.87f,.23f,step<pages.Length-1||lesson<11);
         }
         void ShowCredits()
         {
@@ -285,7 +303,7 @@ namespace ElDespacho
                 ToggleRow("Mostrar tutorial",prefs.tutorial,.62f,()=>{prefs.tutorial=!prefs.tutorial;Persist();ShowSettings(2);});
                 ToggleRow("Autoguardado",prefs.autosave,.51f,()=>{prefs.autosave=!prefs.autosave;Persist();ShowSettings(2);});
                 Button($"AUTOGUARDADO CADA {prefs.autosaveMinutes} MIN",()=>{prefs.autosaveMinutes=prefs.autosaveMinutes==1?3:prefs.autosaveMinutes==3?5:1;Persist();ShowSettings(2);},.35f,.40f,.91f,.48f);
-                Label("Idioma: español\nTexto instantáneo, como en el juego original.\nEl tutorial completado no se repite automáticamente.",24,Pal.Cream,.35f,.22f,.91f,.37f);
+                Label("Idioma: español\nTexto instantáneo, como en el juego original.\nLa guía se guarda con cada campaña.\nRepita las lecciones desde Cómo jugar.",24,Pal.Cream,.35f,.22f,.91f,.37f);
             } else if(category==3) {
                 Label("Ratón izquierdo: coger, arrastrar y soltar\nESC: abrir pausa / volver\n\nEl papel y los sellos siguen el cursor 1:1.\nNo se altera su precisión con una sensibilidad artificial.",27,Pal.Cream,.35f,.34f,.91f,.68f);
                 Button("RESTABLECER AJUSTES",()=>Confirm("RESTABLECER AJUSTES","Las preferencias volverán a sus valores iniciales. No se borrará ningún guardado.",()=>{DeskPreferences.Reset();desiredWidth=prefs.width;desiredHeight=prefs.height;desiredFullscreen=prefs.fullscreen;Persist();ShowSettings(3);},()=>ShowSettings(3)),.35f,.23f,.91f,.31f);

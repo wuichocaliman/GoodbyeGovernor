@@ -5,244 +5,127 @@ using UnityEngine.UI;
 
 namespace ElDespacho
 {
-    /// <summary>
-    /// Tutorial paso a paso para la primera partida.
-    ///
-    /// - Se crea solo al pulsar Play (igual que DespachoGame) y construye su propio Canvas
-    ///   por código, con sortingOrder 200: DespachoGame.Clear() nunca lo toca.
-    /// - Oscurece la pantalla con 4 paneles alrededor de un "agujero" (el foco). Los paneles
-    ///   bloquean los clics; dentro del agujero el jugador puede usar el juego con normalidad.
-    /// - DespachoGame avisa de lo que hace el jugador con TryAdvance(...); el paso solo avanza
-    ///   si coincide con su advanceCondition.
-    /// - Al terminar (o al pulsar SALTAR TUTORIAL) guarda en PlayerPrefs que ya se vio.
-    ///
-    /// No conoce las reglas del juego: solo dibuja el overlay y escucha avisos.
-    /// </summary>
+    // Extends the existing spotlight overlay; game rules stay in DespachoGame.
     public class TutorialManager : MonoBehaviour
     {
         public static TutorialManager Instance { get; private set; }
-
-        // ── Configuración en Inspector ─────────────────────────────────
-        [Header("Pasos del tutorial (arrastrar en orden)")]
-        [Tooltip("Vacío = se cargan los assets de Resources/Tutorial por orden de nombre; " +
-                 "si tampoco hay, se usan los pasos por defecto de TutorialStepData.")]
+        internal const string DefaultPrefsKey="tutorial_done_v1", ResourcesFolder="Tutorial";
         [SerializeField] TutorialStepData[] steps;
-
-        [Header("Opciones")]
-        [SerializeField] string playerPrefsKey = DefaultPrefsKey;
-        [Tooltip("En el Editor, muestra el tutorial aunque ya se haya completado.")]
-        [SerializeField] bool forceShowInEditor = false;
-
-        internal const string DefaultPrefsKey = "tutorial_done_v1";
-        internal const string ResourcesFolder = "Tutorial";
-        const int SortingOrder = 200;
-        const float DimAlpha = 0.72f;
-        const float FrameThickness = 4f;
-        const float HudHeight = 100f;
-        static readonly Vector2 BubbleSize = new Vector2(500f, 210f);
-
-        int current = -1;
-        RectTransform overlay;
-        Transform gameCanvas;
-        RectTransform target;
-        readonly Image[] blockers = new Image[4]; // arriba, abajo, izquierda, derecha del foco
-        readonly Image[] frame = new Image[4];    // marco dorado que late alrededor del foco
-        RectTransform bubble;
-        Text header, body, hint;
-        Coroutine pulse;
-
-        bool suspendedForSession;
-        public bool IsActive => current >= 0;
-        public void SuppressLoadedSession() { suspendedForSession = true; SetMenuSuspended(true); }
-        public void PrepareNewSession() { suspendedForSession = false; if (IsActive) ShowStep(0); }
-
+        DespachoGame game; DeskMenus menus;
+        int current=-1; bool ready;
+        RectTransform overlay, target, bubble; Transform gameCanvas;
+        readonly Image[] blockers=new Image[4], frame=new Image[4];
+        Text header, body, hint; Button next; CanvasGroup noteAlpha; float noteShownAt;
+        const float FrameThickness=3;
+        public bool IsActive=>current>=0 && overlay!=null && overlay.GetComponent<Canvas>().enabled;
+        public string ActiveId=>current>=0?steps[current].persistentId:"";
+        public TutorialStepData[] Steps=>steps;
+        TutorialProgress Progress=>game.Tutorial;
+        public TutorialStatus Status=>Progress.Status(steps);
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        static void Boot()
-        {
-            if (!DespachoGame.AutoBoot) return;
-            if (FindAnyObjectByType<TutorialManager>() != null) return;
-            // Ojo: con objetos de Unity no se usa ?. ni ?? (no respetan el "null" de Unity).
-            var game = FindAnyObjectByType<DespachoGame>();
-            var host = game != null ? game.gameObject : new GameObject("TutorialManager");
-            host.AddComponent<TutorialManager>();
+        static void Boot() {
+            if(!DespachoGame.AutoBoot || FindAnyObjectByType<TutorialManager>()!=null)return;
+            var owner=FindAnyObjectByType<DespachoGame>();
+            (owner!=null?owner.gameObject:new GameObject("TutorialManager")).AddComponent<TutorialManager>();
         }
-
-        void Awake()
-        {
-            if (Instance != null && Instance != this) { Destroy(this); return; }
-            Instance = this;
-        }
-
-        void OnDestroy()
-        {
-            if (Instance == this) Instance = null;
-            DeskDocument.Grabbed -= OnDocumentGrabbed;
-            if (overlay != null) Destroy(overlay.gameObject);
-        }
-
-        public void SetMenuSuspended(bool suspended)
-        {
-            if (overlay != null) overlay.GetComponent<Canvas>().enabled = !suspended && !suspendedForSession;
-        }
-
-        IEnumerator Start()
-        {
-            bool force = forceShowInEditor && Application.isEditor;
-            if (!force && PlayerPrefs.GetInt(playerPrefsKey, 0) == 1) { Destroy(this); yield break; }
-
-            // DespachoGame puede arrancar antes o después que nosotros: esperamos a su Canvas.
-            while (gameCanvas == null)
-            {
-                var game = FindAnyObjectByType<DespachoGame>();
-                var canvas = game != null ? game.GetComponentInChildren<Canvas>() : null;
-                if (canvas != null) gameCanvas = canvas.transform;
-                else yield return null;
+        void Awake() {if(Instance!=null && Instance!=this){Destroy(this);return;}Instance=this;}
+        void OnDestroy() {if(Instance==this)Instance=null;DeskDocument.Grabbed-=OnDocumentGrabbed;if(overlay!=null)Destroy(overlay.gameObject);if(steps!=null)foreach(var s in steps)Destroy(s);}
+        IEnumerator Start() {
+            while(gameCanvas==null) {
+                game=FindAnyObjectByType<DespachoGame>();
+                var c=game!=null?game.GetComponentInChildren<Canvas>():null;
+                if(c!=null)gameCanvas=c.transform;else yield return null;
             }
-
-            // Wait for the introduction, not the new main menu. Loading a save never starts the tutorial.
-            while (true)
-            {
-                var game = FindAnyObjectByType<DespachoGame>();
-                if (game != null && game.InIntroduction && DeskPreferences.Current.tutorial) break;
-                yield return null;
-            }
-            if (steps == null || steps.Length == 0) steps = LoadSteps();
-            if (steps.Length == 0) { Destroy(this); yield break; }
-
-            BuildOverlay();
-            DeskDocument.Grabbed += OnDocumentGrabbed;
-            ShowStep(0);
+            menus=game.GetComponent<DeskMenus>();
+            var legacy=steps!=null && steps.Length>0?steps:Resources.LoadAll<TutorialStepData>(ResourcesFolder).OrderBy(s=>s.name).ToArray();
+            if(legacy.Length==0)legacy=TutorialStepData.CreateDefaults();
+            steps=TutorialLessons.Create(legacy);
+            BuildOverlay();DeskDocument.Grabbed+=OnDocumentGrabbed;ready=true;
         }
-
-        static TutorialStepData[] LoadSteps()
-        {
-            var assets = Resources.LoadAll<TutorialStepData>(ResourcesFolder).OrderBy(s => s.name).ToArray();
-            return assets.Length > 0 ? assets : TutorialStepData.CreateDefaults();
+        public void SetMenuSuspended(bool suspended) { /* Visibility is derived from context in LateUpdate, including the pause lesson. */ }
+        void OnDocumentGrabbed()=>TryAdvance(TutorialAdvanceCondition.GrabDocument);
+        public void TryAdvance(TutorialAdvanceCondition trigger) {
+            if(game==null || !game.HasSession)return;
+            string fact=trigger==TutorialAdvanceCondition.PressAssumeOffice?"assumed":trigger==TutorialAdvanceCondition.GrabDocument?"grabbed":trigger==TutorialAdvanceCondition.DragDocumentToTray?"opened":trigger==TutorialAdvanceCondition.PressYesOrNo?"answered":trigger==TutorialAdvanceCondition.PressContinue?"archived":"";
+            if(fact!="")Progress.Observe(fact);
         }
-
-        // ───────────── API pública ─────────────
-
-        /// <summary>DespachoGame avisa de una acción del jugador. Si es la que espera el paso actual, avanza.</summary>
-        public void TryAdvance(TutorialAdvanceCondition trigger)
-        {
-            if (!IsActive || suspendedForSession || !DeskPreferences.Current.tutorial || steps[current].advanceCondition != trigger) return;
-            Sfx.Play(Sfx.Paper, 0.5f);
-            ShowStep(current + 1);
-        }
-
-        /// <summary>Termina el tutorial (último paso o SALTAR) y no vuelve a mostrarse.</summary>
-        public void CompleteTutorial()
-        {
-            PlayerPrefs.SetInt(playerPrefsKey, 1);
-            PlayerPrefs.Save();
-            current = -1;
-            StopAllCoroutines();
-            Destroy(this); // OnDestroy borra el overlay y se desuscribe
-        }
-
-        void OnDocumentGrabbed() => TryAdvance(TutorialAdvanceCondition.GrabDocument);
-
-        // ───────────── Construcción del overlay (una sola vez) ─────────────
-
-        void BuildOverlay()
-        {
-            var go = new GameObject("TutorialCanvas", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
-            go.transform.SetParent(transform, false);
-            var canvas = go.GetComponent<Canvas>();
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            canvas.sortingOrder = SortingOrder;
-            var scaler = go.GetComponent<CanvasScaler>();
-            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scaler.referenceResolution = new Vector2(1920, 1080);
-            scaler.matchWidthOrHeight = 0.5f;
-            overlay = (RectTransform)go.transform;
-
-            for (int i = 0; i < blockers.Length; i++)
-            {
-                var b = Kit.Panel(overlay, new Color(0, 0, 0, DimAlpha), Vector2.zero, Vector2.zero, default, default, "Blocker" + i);
-                b.raycastTarget = true;
-                AddClick(b.gameObject);
-                blockers[i] = b;
-            }
-            for (int i = 0; i < frame.Length; i++)
-                frame[i] = Kit.Panel(overlay, Pal.Gold, Vector2.zero, Vector2.zero, default, default, "Frame" + i);
-
-            var paper = Kit.Panel(overlay, Pal.Paper, Vector2.zero, Vector2.zero, default, default, "Bubble");
-            paper.raycastTarget = true; // la burbuja no deja pasar clics al juego
-            AddClick(paper.gameObject);
-            var outline = paper.gameObject.AddComponent<Outline>();
-            outline.effectColor = Pal.Gold;
-            outline.effectDistance = new Vector2(3, -3);
-            bubble = paper.rectTransform;
-            bubble.pivot = Vector2.zero;
-            bubble.sizeDelta = BubbleSize;
-
-            header = Kit.Label(bubble, "", 15, Pal.Red, TextAnchor.UpperLeft, Vector2.zero, Vector2.one,
-                new Vector2(22, 0), new Vector2(-22, -12), FontStyle.Bold);
-            body = Kit.Label(bubble, "", 23, Pal.Ink, TextAnchor.UpperLeft, Vector2.zero, Vector2.one,
-                new Vector2(22, 58), new Vector2(-22, -38), FontStyle.Normal, true);
-            hint = Kit.Label(bubble, "", 15, Pal.InkSoft, TextAnchor.LowerLeft, Vector2.zero, Vector2.one,
-                new Vector2(22, 16), new Vector2(-220, -12), FontStyle.Italic);
-            Kit.MakeButton(bubble, "SALTAR TUTORIAL", 15, Pal.WoodMid, Pal.Cream, CompleteTutorial,
-                new Vector2(1, 0), new Vector2(1, 0), new Vector2(-196, 12), new Vector2(-16, 48));
-        }
-
-        void AddClick(GameObject go)
-        {
-            var button = go.AddComponent<Button>();
-            button.transition = Selectable.Transition.None;
-            button.onClick.AddListener(() => TryAdvance(TutorialAdvanceCondition.ClickAnywhere));
-        }
-
-        // ───────────── Pasos ─────────────
-
-        void ShowStep(int index)
-        {
-            if (index >= steps.Length) { CompleteTutorial(); return; }
-            current = index;
-            target = null;
-            var step = steps[index];
-            header.text = $"TUTORIAL  ·  PASO {index + 1} DE {steps.Length}";
-            body.text = step.instructionText;
-            hint.text = step.advanceCondition == TutorialAdvanceCondition.ClickAnywhere
-                ? "Haz clic en cualquier sitio para continuar." : "";
-            if (pulse != null) StopCoroutine(pulse);
-            // DespachoGame suele redibujar la pantalla en este mismo frame (Clear + Show...):
-            // esperamos uno para que el objeto a destacar ya exista.
-            pulse = StartCoroutine(StepRoutine());
-        }
-
-        IEnumerator StepRoutine()
-        {
-            yield return null;
-            Canvas.ForceUpdateCanvases();
-            Layout();
-            float t = 0f, relayout = 0f;
-            while (true)
-            {
-                t += Time.unscaledDeltaTime;
-                relayout += Time.unscaledDeltaTime;
-                // Pulso del marco del foco
-                float alpha = DeskPreferences.Current.reduceMotion ? 1f : 0.45f + 0.55f * Mathf.Abs(Mathf.Sin(t * 3f));
-                foreach (var f in frame) f.color = Kit.WithAlpha(Pal.Gold, alpha);
-                // El juego destruye y recrea su interfaz a menudo: si el objeto destacado
-                // desaparece o se mueve, se vuelve a buscar y a colocar el foco.
-                if (relayout >= 0.15f)
-                {
-                    relayout = 0f;
-                    if (target == null || target.hasChanged)
-                    {
-                        if (target != null) target.hasChanged = false;
-                        Layout();
-                    }
-                }
-                yield return null;
+        bool Eligible(TutorialStepData s) {
+            string context=menus.IsVisible?menus.PageName:game.ScreenName;
+            if(s.context!=context)return false;
+            switch(s.persistentId) {
+                case "grab":case "open":return game.TutorialHasPaper && !game.TutorialOpen;
+                case "decision":return game.TutorialOpen && !game.TutorialAnswered;
+                case "result":return game.TutorialAnswered;
+                case "dossier":return game.TutorialTab==0;
+                case "intel":return game.TutorialTab==1;
+                case "trade":return game.TutorialTab==2;
+                case "region":return game.TutorialTab==3;
+                case "chain":return game.TutorialChain && game.TutorialHasPaper && !game.TutorialAnswered;
+                case "year":return game.TutorialReadyYear;
+                default:return true;
             }
         }
-
-        // ───────────── Colocación del foco, los bloqueadores y la burbuja ─────────────
-        // Todo en píxeles de referencia, con origen en la esquina inferior izquierda.
-
+        void LateUpdate() {
+            if(!ready)return;
+            game.ReconcileTutorial();
+            foreach(var s in steps)if(!string.IsNullOrEmpty(s.actionFact) && Progress.facts.Contains(s.actionFact))Progress.Complete(s.persistentId);
+            if(Progress.facts.Contains("diplomacy"))Progress.Complete("relations");
+            if(Progress.facts.Contains("year"))Progress.Complete("year");
+            var canvas=overlay.GetComponent<Canvas>();
+            canvas.enabled=game.HasSession && DeskPreferences.Current.tutorial && (!menus.IsVisible || menus.PageName=="Pausa");
+            if(!canvas.enabled){current=-1;return;}
+            int index=System.Array.FindIndex(steps,s=>s.persistentId=="relations" && Progress.facts.Contains("decisionHelp") && !Progress.Resolved(s.persistentId) && Eligible(s));
+            if(index<0)index=System.Array.FindIndex(steps,s=>!Progress.Resolved(s.persistentId) && Eligible(s));
+            if(index<0){current=-1;canvas.enabled=false;return;}
+            if(index!=current || Progress.active!=steps[index].persistentId)ShowStep(index);
+            Canvas.ForceUpdateCanvases();Layout();
+            noteAlpha.alpha=DeskPreferences.Current.reduceMotion?1:Mathf.Lerp(.65f,1,(Time.unscaledTime-noteShownAt)/.18f);
+            float alpha=DeskPreferences.Current.reduceMotion?1:.7f+.3f*Mathf.Abs(Mathf.Sin(Time.unscaledTime*2));
+            foreach(var f in frame)f.color=Kit.WithAlpha(Kit.Hex("#C6A24F"),alpha);
+        }
+        public bool ExplainDiplomacy() {
+            if(!ready || !DeskPreferences.Current.tutorial || Progress.Resolved("relations"))return false;
+            Progress.Observe("decisionHelp");Progress.active="relations";ShowStep(System.Array.FindIndex(steps,s=>s.persistentId=="relations"));return true;
+        }
+        public void Next() {
+            if(current<0 || !string.IsNullOrEmpty(steps[current].actionFact))return;
+            Progress.Complete(steps[current].persistentId);current=-1;
+        }
+        public void SkipLesson() {
+            if(current<0)return;
+            int lesson=steps[current].lesson;
+            foreach(var s in steps.Where(s=>s.lesson==lesson))if(!Progress.Resolved(s.persistentId))Progress.skipped.Add(s.persistentId);
+            Progress.active="";current=-1;
+        }
+        // Compatibility API: omission is not completion and never writes a global PlayerPrefs flag.
+        public void CompleteTutorial() {
+            foreach(var s in steps)if(!Progress.Resolved(s.persistentId))Progress.skipped.Add(s.persistentId);
+            Progress.active="";current=-1;
+        }
+        void ShowStep(int index) {
+            current=index;target=null;noteShownAt=Time.unscaledTime;var s=steps[index];Progress.active=s.persistentId;
+            var group=steps.Where(x=>x.lesson==s.lesson).ToArray();
+            header.text=$"JULIÁN PAZ · JEFE DE GABINETE\n{s.lesson+1}/12 · {TutorialLessons.Titles[s.lesson]} · {System.Array.IndexOf(group,s)+1}/{group.Length}";
+            body.text=TutorialLessons.Text(s,game.TutorialQuestions);
+            hint.text=string.IsNullOrEmpty(s.actionFact)?"":"Realice la acción o salte esta lección.";
+            next.interactable=string.IsNullOrEmpty(s.actionFact);
+        }
+        void BuildOverlay() {
+            var go=new GameObject("TutorialCanvas",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler),typeof(GraphicRaycaster));go.transform.SetParent(transform,false);
+            var canvas=go.GetComponent<Canvas>();canvas.renderMode=RenderMode.ScreenSpaceOverlay;canvas.sortingOrder=500;canvas.enabled=false;
+            var scaler=go.GetComponent<CanvasScaler>();scaler.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;scaler.referenceResolution=new Vector2(1920,1080);scaler.matchWidthOrHeight=.5f;
+            overlay=(RectTransform)go.transform;
+            for(int i=0;i<4;i++){blockers[i]=Kit.Panel(overlay,Color.clear,Vector2.zero,Vector2.zero);blockers[i].raycastTarget=false;frame[i]=Kit.Panel(overlay,Kit.Hex("#C6A24F"),Vector2.zero,Vector2.zero);frame[i].raycastTarget=false;}
+            var paper=Kit.Panel(overlay,Kit.Hex("#F3E7CF"),Vector2.zero,Vector2.zero,default,default,"AdvisorNote");paper.raycastTarget=true;
+            bubble=paper.rectTransform;bubble.pivot=Vector2.zero;noteAlpha=paper.gameObject.AddComponent<CanvasGroup>();
+            var outline=paper.gameObject.AddComponent<Outline>();outline.effectColor=Kit.Hex("#C6A24F");outline.effectDistance=new Vector2(2,-2);
+            header=Kit.Label(bubble,"",17,Kit.Hex("#7A1F2A"),TextAnchor.UpperLeft,Vector2.zero,Vector2.one,new Vector2(16,0),new Vector2(-16,-10),FontStyle.Bold);
+            body=Kit.Label(bubble,"",22,Kit.Hex("#2B2B2B"),TextAnchor.UpperLeft,Vector2.zero,Vector2.one,new Vector2(16,78),new Vector2(-16,-62),FontStyle.Normal,true);
+            hint=Kit.Label(bubble,"",14,Pal.InkSoft,TextAnchor.LowerLeft,Vector2.zero,Vector2.one,new Vector2(16,52),new Vector2(-16,-10));
+            Kit.MakeButton(bubble,"CONSULTAR",15,Kit.Hex("#7A4E2E"),Pal.Cream,()=>menus.ShowLesson(steps[current].lesson),new Vector2(0,0),new Vector2(.33f,0),new Vector2(12,12),new Vector2(-4,44));
+            next=Kit.MakeButton(bubble,"SIGUIENTE",15,Kit.Hex("#2F4B3A"),Pal.Cream,Next,new Vector2(.33f,0),new Vector2(.67f,0),new Vector2(4,12),new Vector2(-4,44));
+            Kit.MakeButton(bubble,"SALTAR",15,Kit.Hex("#7A1F2A"),Pal.Cream,SkipLesson,new Vector2(.67f,0),new Vector2(1,0),new Vector2(4,12),new Vector2(-12,44));
+        }
         void Layout()
         {
             if (!IsActive) return;
@@ -271,7 +154,7 @@ namespace ElDespacho
 
             // Si un paso pide interactuar pero no encuentra qué destacar, no bloqueamos nada:
             // mejor un tutorial sin foco que un jugador atascado.
-            bool block = hasHole || step.advanceCondition == TutorialAdvanceCondition.ClickAnywhere;
+            bool block = false;
             foreach (var b in blockers) b.raycastTarget = block;
 
             PlaceBubble(hasHole, hole, size);
@@ -328,24 +211,16 @@ namespace ElDespacho
         /// <summary>Burbuja al lado del foco donde quepa (derecha, izquierda, abajo, arriba), sin tapar el HUD.</summary>
         void PlaceBubble(bool hasHole, Rect hole, Vector2 size)
         {
-            var b = BubbleSize;
-            const float gap = 24f, margin = 16f;
-            float maxY = size.y - HudHeight - b.y;
-            Vector2 pos;
-            if (!hasHole)
-                pos = (size - b) * 0.5f;
-            else
-            {
-                float midY = Mathf.Clamp(hole.center.y - b.y / 2, margin, maxY);
-                float midX = Mathf.Clamp(hole.center.x - b.x / 2, margin, size.x - b.x - margin);
-                if (size.x - hole.xMax >= b.x + gap + margin) pos = new Vector2(hole.xMax + gap, midY);
-                else if (hole.xMin >= b.x + gap + margin) pos = new Vector2(hole.xMin - gap - b.x, midY);
-                else if (hole.yMin >= b.y + gap + margin) pos = new Vector2(midX, hole.yMin - gap - b.y);
-                else if (size.y - HudHeight - hole.yMax >= b.y + gap) pos = new Vector2(midX, hole.yMax + gap);
-                else pos = new Vector2(midX, margin); // no cabe en ningún lado: abajo, encima de lo que haya
-            }
-            bubble.anchorMin = bubble.anchorMax = Vector2.zero;
-            bubble.anchoredPosition = pos;
+            // Reserve the central paper, diplomatic tabs/questions and all decision buttons.
+            Vector2 b = new Vector2(Mathf.Min(450, size.x * .235f), 300);
+            Vector2 pos = new Vector2(20, size.y * .15f);
+            if(game.ScreenName=="Introducción") pos.y=size.y*.38f;
+            if(game.ScreenName=="Visita") { b.x=size.x*.44f; b.y=250;pos=new Vector2(size.x*.03f,size.y*.38f); }
+            if(game.ScreenName=="Mapa") { b.x=size.x*.18f;b.y=380;pos=new Vector2(size.x*.80f,size.y*.18f); }
+            if(menus.IsVisible) { b=new Vector2(size.x*.42f,205);pos=new Vector2(size.x*.54f,size.y*.045f); }
+            bubble.sizeDelta=b;
+            bubble.anchorMin=bubble.anchorMax=Vector2.zero;
+            bubble.anchoredPosition=pos;
             bubble.SetAsLastSibling();
         }
 
@@ -362,38 +237,6 @@ namespace ElDespacho
             Rect.MinMaxRect(Mathf.Max(0, r.xMin), Mathf.Max(0, r.yMin), Mathf.Min(size.x, r.xMax), Mathf.Min(size.y, r.yMax));
     }
 
-#if UNITY_EDITOR
-    /// <summary>Utilidades de editor del tutorial (menú Tools > El Despacho > Tutorial).</summary>
-    static class TutorialEditorMenu
-    {
-        const string Folder = "Assets/Resources/" + TutorialManager.ResourcesFolder;
-
-        [UnityEditor.MenuItem("Tools/El Despacho/Tutorial/Crear assets de los pasos")]
-        static void CreateStepAssets()
-        {
-            if (!UnityEditor.AssetDatabase.IsValidFolder("Assets/Resources"))
-                UnityEditor.AssetDatabase.CreateFolder("Assets", "Resources");
-            if (!UnityEditor.AssetDatabase.IsValidFolder(Folder))
-                UnityEditor.AssetDatabase.CreateFolder("Assets/Resources", TutorialManager.ResourcesFolder);
-            int created = 0;
-            foreach (var step in TutorialStepData.CreateDefaults())
-            {
-                string path = $"{Folder}/{step.name}.asset";
-                if (UnityEditor.AssetDatabase.LoadAssetAtPath<TutorialStepData>(path) != null) continue; // no pisar ediciones
-                UnityEditor.AssetDatabase.CreateAsset(step, path);
-                created++;
-            }
-            UnityEditor.AssetDatabase.SaveAssets();
-            Debug.Log($"[Tutorial] {created} paso(s) creados en {Folder}. Edítalos en el Inspector; se muestran por orden de nombre.");
-        }
-
-        [UnityEditor.MenuItem("Tools/El Despacho/Tutorial/Volver a mostrar el tutorial")]
-        static void ResetTutorial()
-        {
-            PlayerPrefs.DeleteKey(TutorialManager.DefaultPrefsKey);
-            PlayerPrefs.Save();
-            Debug.Log("[Tutorial] Se volverá a mostrar en la próxima partida.");
-        }
-    }
-#endif
 }
+
+

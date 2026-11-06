@@ -1,5 +1,17 @@
 # El Despacho - Registro de cambios
 
+## v0.8-prototipo - 2026-11-06 - Tutorial Presidencial
+
+- Ampliación del tutorial existente a 12 lecciones / 18 notas de Julián Paz, con activación por pantalla, pestaña y acciones reales. Guía de expedientes, indicadores, diplomacia, cadenas, cierre anual y guardado.
+- Estados por campaña: pendiente, en curso, completado y omitido. Saltar una lección no completa la guía. Desactivar/reactivar reconoce acciones ya realizadas.
+- Progreso opcional en SaveData schema 1, compatible con datos anteriores y compartido por los tres slots manuales y el autoguardado.
+- Índice de lecciones en Cómo jugar desde principal y pausa; consulta con Atrás/Siguiente sin modificar campaña, preguntas ni progreso.
+- Notas de pergamino, resaltados no bloqueantes y transiciones compatibles con Reducir movimiento. Primera decisión diplomática pendiente muestra explicación: confirmar/omitir y volver a elegir antes de ejecutar consecuencias.
+- Conservados assets originales del tutorial, arte v0.7.2, contenido, reglas, balance, perfiles y lógica de efectos. Backup previo verificado; detalles y archivos en el informe técnico PDF de Documentation y Tutorial/INTEGRATION.md.
+- Validación Unity 6000.3.24f1: compilación; 54 comprobaciones Play Mode de tutorial, 58 de menús/guardado, 21 de skin y 32 de documentos, todas PASS. Sin errores ni advertencias de ejecución en esos recorridos.
+- Revisión visual de bienvenida, indicadores, expediente, pausa e índice/consulta. Pendiente aceptación humana del arrastre con guía activa: la herramienta de escritorio no completó el arrastre, aunque eventos uGUI y raycast pasan. No se realizó una campaña manual completa ni build distribuible.
+
+
 ## v0.7.2-prototipo - 2026-11-06 - Pixel art del pack «GoodbyeGovernor_Arte»
 
 ### Implementado

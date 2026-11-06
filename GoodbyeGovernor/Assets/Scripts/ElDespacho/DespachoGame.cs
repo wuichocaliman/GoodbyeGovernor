@@ -93,6 +93,7 @@ namespace ElDespacho
 
         void NewGame()
         {
+            Tutorial = new TutorialProgress();
             estabilidad = Balance.StartEstabilidad;
             seguridad = Balance.StartSeguridad;
             prosperidad = Balance.StartProsperidad;
@@ -292,6 +293,7 @@ namespace ElDespacho
                 Sfx.Play(Sfx.Thunk);
                 EndYear();
             }, new Vector2(0.73f, 0.05f), new Vector2(0.985f, 0.18f));
+            endBtn.gameObject.name = "YearEndButton";
             endBtn.interactable = left == 0 && cardsDone;
         }
 
@@ -353,6 +355,7 @@ namespace ElDespacho
             {
                 usedCards.Add(currentCard.id);
                 cardsThisYear++;
+                if (currentCard.followUpOnly || !string.IsNullOrEmpty(currentCard.requires)) TutorialFact("chain");
             }
         }
 
@@ -949,9 +952,9 @@ namespace ElDespacho
             // ── Los dos botones
             var desk = Kit.Panel(root, Kit.Hex("#1a110a"), new Vector2(0, 0), new Vector2(1, 0.14f), default, default, "Buttons");
             var dt = desk.transform;
-            Kit.MakeButton(dt, "HACER ALIANZA", 34, Pal.Green, Color.white, () => Decide(Decision.Alianza),
+            Kit.MakeButton(dt, "HACER ALIANZA", 34, Pal.Green, Color.white, () => GuidedDiplomacy(Decision.Alianza),
                 new Vector2(0.08f, 0.15f), new Vector2(0.40f, 0.85f));
-            Kit.MakeButton(dt, c.attackable ? "CORTAR LAZOS / ATACAR" : "CORTAR LAZOS / SANCIONAR", 34, Pal.Red, Color.white, () => Decide(Decision.Corte),
+            Kit.MakeButton(dt, c.attackable ? "CORTAR LAZOS / ATACAR" : "CORTAR LAZOS / SANCIONAR", 34, Pal.Red, Color.white, () => GuidedDiplomacy(Decision.Corte),
                 new Vector2(0.60f, 0.15f), new Vector2(0.92f, 0.85f));
             Kit.Label(dt, "No hay opción de esperar.\nDecide.", 20, Pal.Cream, TextAnchor.MiddleCenter,
                 new Vector2(0.40f, 0), new Vector2(0.60f, 1), default, default, FontStyle.Italic);
@@ -1057,6 +1060,12 @@ namespace ElDespacho
         }
 
         // ───────────── PANTALLA 5 y 6: Decisión y consecuencias ─────────────
+
+        void GuidedDiplomacy(Decision d)
+        {
+            if (TutorialManager.Instance != null && TutorialManager.Instance.ExplainDiplomacy()) return;
+            Decide(d);
+        }
 
         void Decide(Decision d)
         {

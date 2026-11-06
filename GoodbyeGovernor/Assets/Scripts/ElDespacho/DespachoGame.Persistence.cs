@@ -23,6 +23,7 @@ namespace ElDespacho
         [Serializable] public class SaveData
         {
             public int schema = 1;
+            public TutorialProgress tutorial;
             public string version = DeskMenus.Version;
             public long utcTicks;
             public int year, estabilidad, seguridad, prosperidad, allies, destroyed, sanctioned;
@@ -45,7 +46,7 @@ namespace ElDespacho
 
         internal void StartFromMenu()
         {
-            if (TutorialManager.Instance != null) TutorialManager.Instance.PrepareNewSession();
+            
             NewGame(); HasSession = true; ShowIntroduction();
         }
         internal void ReturnToTitle()
@@ -62,7 +63,7 @@ namespace ElDespacho
         {
             if (!HasSession) throw new InvalidOperationException("No hay una partida en curso");
             return new SaveData {
-                utcTicks = DateTime.UtcNow.Ticks, year = year, estabilidad = estabilidad, seguridad = seguridad, prosperidad = prosperidad,
+                tutorial = Tutorial.Copy(), utcTicks = DateTime.UtcNow.Ticks, year = year, estabilidad = estabilidad, seguridad = seguridad, prosperidad = prosperidad,
                 allies = allies, destroyed = destroyed, sanctioned = sanctioned, cardsThisYear = cardsThisYear,
                 randomSeed = randomSeed, randomDraws = randomDraws, docTab = docTab, screen = ScreenName,
                 currentCardId = currentCard?.id, countryId = current?.id, cardResultText = cardResultText,
@@ -102,8 +103,9 @@ namespace ElDespacho
         internal void RestoreSave(SaveData s)
         {
             ValidateSave(s); // Complete validation before replacing the session.
-            if (TutorialManager.Instance != null) TutorialManager.Instance.SuppressLoadedSession();
+            
             NewGame(); HasSession = true;
+            Tutorial = s.tutorial != null ? s.tutorial.Copy() : new TutorialProgress();
             year=s.year; estabilidad=s.estabilidad; seguridad=s.seguridad; prosperidad=s.prosperidad;
             allies=s.allies; destroyed=s.destroyed; sanctioned=s.sanctioned; cardsThisYear=s.cardsThisYear;
             randomSeed=s.randomSeed; randomDraws=s.randomDraws; rng=new System.Random(randomSeed);
@@ -128,6 +130,7 @@ namespace ElDespacho
             else if(s.screen=="Visita") ShowVisit();
             else if(s.screen=="Introducción") ShowIntroduction();
             else ShowOffice();
+            ReconcileTutorial();
         }
     }
 }
