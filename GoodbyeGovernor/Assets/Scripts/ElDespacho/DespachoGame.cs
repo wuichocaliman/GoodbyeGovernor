@@ -432,11 +432,24 @@ namespace ElDespacho
                 new Vector2(12, -12), new Vector2(12, -12), "PaperShadow");
             Kit.Panel(sheet.transform, Pal.Paper, Vector2.zero, Vector2.one, default, default, "PaperSurface");
             var cover = Kit.Rect(sheet.transform, "ClosedCover", Vector2.zero, Vector2.one);
-            Kit.Panel(cover, Pal.Gold, new Vector2(0.09f, 0.81f), new Vector2(0.91f, 0.83f));
-            Kit.Label(cover, "AURELIA\nPRESIDENCIA", 58, Pal.Ink, TextAnchor.MiddleCenter,
-                new Vector2(0.08f, 0.53f), new Vector2(0.92f, 0.8f), default, default, FontStyle.Bold, true);
-            Kit.Label(cover, "EXPEDIENTE\nPENDIENTE DE REVISIÓN", 44, Pal.Red, TextAnchor.MiddleCenter,
-                new Vector2(0.08f, 0.22f), new Vector2(0.92f, 0.5f), default, default, FontStyle.Bold, true);
+            var dossierArt = Art.Get("UI/UI_Dossier");
+            if (dossierArt != null)
+            {
+                // Portada con el dossier del pack de arte (Resources/Art/UI/UI_Dossier)
+                Kit.Label(cover, "AURELIA · PRESIDENCIA", 44, Pal.Ink, TextAnchor.MiddleCenter,
+                    new Vector2(0.06f, 0.84f), new Vector2(0.94f, 0.96f), default, default, FontStyle.Bold, true);
+                Art.Fill(cover, dossierArt, new Vector2(0.05f, 0.25f), new Vector2(0.95f, 0.83f), "DossierArt");
+                Kit.Label(cover, "PENDIENTE DE REVISIÓN", 40, Pal.Red, TextAnchor.MiddleCenter,
+                    new Vector2(0.06f, 0.13f), new Vector2(0.94f, 0.24f), default, default, FontStyle.Bold, true);
+            }
+            else
+            {
+                Kit.Panel(cover, Pal.Gold, new Vector2(0.09f, 0.81f), new Vector2(0.91f, 0.83f));
+                Kit.Label(cover, "AURELIA\nPRESIDENCIA", 58, Pal.Ink, TextAnchor.MiddleCenter,
+                    new Vector2(0.08f, 0.53f), new Vector2(0.92f, 0.8f), default, default, FontStyle.Bold, true);
+                Kit.Label(cover, "EXPEDIENTE\nPENDIENTE DE REVISIÓN", 44, Pal.Red, TextAnchor.MiddleCenter,
+                    new Vector2(0.08f, 0.22f), new Vector2(0.92f, 0.5f), default, default, FontStyle.Bold, true);
+            }
             Kit.Label(cover, $"AÑO {year}  /  ASUNTO {cardsThisYear}", 38, Pal.InkSoft, TextAnchor.MiddleCenter,
                 new Vector2(0.08f, 0.06f), new Vector2(0.92f, 0.2f));
             holder = Kit.Rect(sheet.transform, "OpenedContent", Vector2.zero, Vector2.one);
@@ -768,8 +781,13 @@ namespace ElDespacho
             for (int i = 0; i < legend.Length; i++)
             {
                 float y = 0.87f - i * 0.05f;
-                var d = Kit.Dot(st, legend[i].c, new Vector2(0.13f, y), 30);
-                Kit.Label(d.transform, legend[i].b, 18, Color.white, TextAnchor.MiddleCenter, Vector2.zero, Vector2.one, default, default, FontStyle.Bold);
+                var legendIcon = Art.MapIcon(legend[i].b);
+                if (legendIcon != null) Art.Icon(st, legendIcon, new Vector2(0.13f, y), 40);
+                else
+                {
+                    var d = Kit.Dot(st, legend[i].c, new Vector2(0.13f, y), 30);
+                    Kit.Label(d.transform, legend[i].b, 18, Color.white, TextAnchor.MiddleCenter, Vector2.zero, Vector2.one, default, default, FontStyle.Bold);
+                }
                 Kit.Label(st, legend[i].text, 19, Pal.Ink, TextAnchor.MiddleLeft, new Vector2(0.24f, y - 0.025f), new Vector2(1, y + 0.025f));
             }
             Kit.Label(st, "<i>Ojo: amenaza y aliado son sospechas, no verdades.</i>", 17, Pal.Red, TextAnchor.UpperCenter,
@@ -812,8 +830,13 @@ namespace ElDespacho
 
             if (!string.IsNullOrEmpty(badge))
             {
-                var bd = Kit.Dot(dot.transform, Kit.WithAlpha(badgeCol, alpha), new Vector2(0.88f, 0.88f), 30, "Badge");
-                Kit.Label(bd.transform, badge, 20, Color.white, TextAnchor.MiddleCenter, Vector2.zero, Vector2.one, default, default, FontStyle.Bold);
+                var icon = Art.MapIcon(badge);
+                if (icon != null) Art.Icon(dot.transform, icon, new Vector2(0.88f, 0.88f), 48, alpha, "Badge");
+                else
+                {
+                    var bd = Kit.Dot(dot.transform, Kit.WithAlpha(badgeCol, alpha), new Vector2(0.88f, 0.88f), 30, "Badge");
+                    Kit.Label(bd.transform, badge, 20, Color.white, TextAnchor.MiddleCenter, Vector2.zero, Vector2.one, default, default, FontStyle.Bold);
+                }
             }
 
             var lbl = Kit.Label(map, label, 20, Kit.WithAlpha(Pal.Ink, Mathf.Max(alpha, 0.6f)), TextAnchor.UpperCenter, pos, pos,
@@ -864,7 +887,9 @@ namespace ElDespacho
 
             var portrait = Kit.Panel(lt, Color.Lerp(c.color, Color.black, 0.25f), new Vector2(0.03f, 0.63f), new Vector2(0.28f, 0.97f), default, default, "Portrait");
             portrait.gameObject.AddComponent<RectMask2D>();
-            BuildPortrait(portrait.transform, c);
+            var portraitArt = Art.Portrait(c.id);
+            if (portraitArt != null) Art.Fill(portrait.transform, portraitArt, new Vector2(0.04f, 0f), new Vector2(0.96f, 0.96f), "PortraitArt");
+            else BuildPortrait(portrait.transform, c);
 
             Kit.Label(lt, $"<b>{c.leader}</b>\n<size=20>{c.name} · {c.government}</size>", 28, Pal.Cream, TextAnchor.UpperLeft,
                 new Vector2(0.31f, 0.78f), new Vector2(0.98f, 0.97f), default, default, FontStyle.Normal, true);
@@ -873,9 +898,23 @@ namespace ElDespacho
             Kit.Label(lt, remaining > 0 ? $"Puedes hacer <b>{remaining}</b> pregunta{(remaining == 1 ? "" : "s")} más." : "No te quedan preguntas. Revisa los documentos y decide.",
                 20, Pal.Gold, TextAnchor.MiddleLeft, new Vector2(0.31f, 0.64f), new Vector2(0.98f, 0.76f), default, default, FontStyle.Italic, true);
 
-            var log = Kit.Panel(lt, Pal.Paper, new Vector2(0.03f, 0.27f), new Vector2(0.97f, 0.61f), default, default, "Log");
-            Kit.Label(log.transform, string.Join("\n\n", dialogLog), 22, Pal.Ink, TextAnchor.UpperLeft, Vector2.zero, Vector2.one,
-                new Vector2(18, 12), new Vector2(-18, -12), FontStyle.Normal, true);
+            var dialogArt = Art.Get("UI/UI_CajaDialogo");
+            if (dialogArt != null)
+            {
+                // Caja de diálogo del pack: el nombre va en la pestaña roja de arriba a la izquierda
+                var box = Art.Sliced(lt, dialogArt, new Vector2(0.03f, 0.27f), new Vector2(0.97f, 0.62f), "Log");
+                float px = Art.PixelScale;
+                Kit.Label(box.transform, c.leader, 16, Pal.Cream, TextAnchor.MiddleLeft, new Vector2(0, 1), new Vector2(0, 1),
+                    new Vector2(12 * px, -8 * px), new Vector2(65 * px, -3 * px), FontStyle.Bold, true);
+                Kit.Label(box.transform, string.Join("\n\n", dialogLog), 22, Pal.Ink, TextAnchor.UpperLeft, Vector2.zero, Vector2.one,
+                    new Vector2(9 * px, 11 * px), new Vector2(-17 * px, -16 * px), FontStyle.Normal, true);
+            }
+            else
+            {
+                var log = Kit.Panel(lt, Pal.Paper, new Vector2(0.03f, 0.27f), new Vector2(0.97f, 0.61f), default, default, "Log");
+                Kit.Label(log.transform, string.Join("\n\n", dialogLog), 22, Pal.Ink, TextAnchor.UpperLeft, Vector2.zero, Vector2.one,
+                    new Vector2(18, 12), new Vector2(-18, -12), FontStyle.Normal, true);
+            }
 
             for (int i = 0; i < c.questions.Count; i++)
             {
@@ -883,8 +922,10 @@ namespace ElDespacho
                 int col = i % 2, row = i / 2;
                 var aMin = new Vector2(0.03f + col * 0.475f, 0.14f - row * 0.12f);
                 var aMax = new Vector2(0.495f + col * 0.475f, 0.25f - row * 0.12f);
-                var btn = Kit.MakeButton(lt, q.text, 20, q.asked ? Pal.Gray : Pal.WoodLight, Pal.Cream, () => Ask(q), aMin, aMax);
+                var btn = Art.OptionButton(lt, q.text, () => Ask(q), aMin, aMax);
+                if (btn == null) btn = Kit.MakeButton(lt, q.text, 20, q.asked ? Pal.Gray : Pal.WoodLight, Pal.Cream, () => Ask(q), aMin, aMax);
                 btn.interactable = !q.asked && remaining > 0;
+                Art.ApplyDisabledLook(btn);
             }
 
             // ── Documentos (derecha)

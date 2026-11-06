@@ -1,5 +1,23 @@
 # El Despacho - Registro de cambios
 
+## v0.7.2-prototipo - 2026-11-06 - Pixel art del pack «GoodbyeGovernor_Arte»
+
+### Implementado
+- Iconos de mapa del pack (tu país, visitado, sin visitar, amenaza, aliado) en los países y en la leyenda, en lugar de los círculos con letra.
+- Retrato de Korovia en su visita. El retrato «Valdoria» se asigna PROVISIONALMENTE a Selvana (Valdoria no existe en el juego): decidir con el equipo.
+- Caja de diálogo del pack para la conversación de las visitas, con el nombre del líder en su pestaña.
+- Botones de opción del pack para las preguntas (rojo con flecha al pasar el ratón; atenuado si ya se preguntó).
+- Dossier del pack como portada del expediente cerrado en la pila.
+- Si falta cualquier imagen, el juego vuelve al aspecto anterior generado por código.
+
+### Archivos
+- Nuevos: Assets/Scripts/ElDespacho/Art.cs; Assets/Editor/ElDespachoArtImporter.cs; Assets/Resources/Art/ (11 PNG + LEEME_Arte.md), con sus .meta.
+- Modificado: Assets/Scripts/ElDespacho/DespachoGame.cs (portada del expediente, nodos y leyenda del mapa, retrato, caja de diálogo y botones de pregunta).
+- Sin cambios en menús v0.7/v0.7.1, guardado, tutorial, balance, cartas ni países. Los nombres de objetos que usa el tutorial (DeskDocument, ClosedCover, CardArea...) se conservan.
+
+### Pruebas
+- Pendiente: compilar y revisar en Unity (el editor estaba cerrado al integrar). Comprobar mapa, una visita a Korovia y a Selvana, y el expediente en la pila.
+
 ## v0.7.1-prototipo - 2026-11-03 - Art pass / UI polish de menús
 
 - Nuevos fondos del pack suministrado (1672 x 941), proporción conservada mediante EnvelopeParent y recorte del excedente. Se mantienen rutas y GUID de los fondos.

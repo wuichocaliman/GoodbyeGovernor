@@ -1,0 +1,15 @@
+GoodbyeGovernor - Arte de El Despacho
+======================================
+
+Unity_1x/          -> los sprites a tamano real, para importar en Unity
+Vista_previa_x6/   -> los mismos ampliados x6, solo para verlos
+Paleta_ElDespacho.png -> todos los colores usados
+
+Ajustes de importacion en Unity (cada sprite):
+  Texture Type: Sprite (2D and UI)
+  Filter Mode: Point (no filter)
+  Compression: None
+  Pixels Per Unit: el mismo en todos (p. ej. 16)
+
+UI_IconosMapa.png es una tira de 5 iconos de 16x16: Sprite Mode Multiple,
+Sprite Editor > Slice > Grid By Cell Size 16x16. Tambien van sueltos en Iconos_sueltos/.
