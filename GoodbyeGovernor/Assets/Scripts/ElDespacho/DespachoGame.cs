@@ -909,14 +909,15 @@ namespace ElDespacho
                 float px = Art.PixelScale;
                 Kit.Label(box.transform, c.leader, 16, Pal.Cream, TextAnchor.MiddleLeft, new Vector2(0, 1), new Vector2(0, 1),
                     new Vector2(12 * px, -8 * px), new Vector2(65 * px, -3 * px), FontStyle.Bold, true);
-                Kit.Label(box.transform, string.Join("\n\n", dialogLog), 22, Pal.Ink, TextAnchor.UpperLeft, Vector2.zero, Vector2.one,
-                    new Vector2(9 * px, 11 * px), new Vector2(-17 * px, -16 * px), FontStyle.Normal, true);
+                // Tamaño fijo con scroll: el texto ya no se encoge al acumular preguntas
+                Kit.ScrollText(box.transform, string.Join("\n\n", dialogLog), 22, Pal.Ink,
+                    new Vector2(9 * px, 11 * px), new Vector2(-12 * px, -16 * px), true, "DialogScroll");
             }
             else
             {
                 var log = Kit.Panel(lt, Pal.Paper, new Vector2(0.03f, 0.27f), new Vector2(0.97f, 0.61f), default, default, "Log");
-                Kit.Label(log.transform, string.Join("\n\n", dialogLog), 22, Pal.Ink, TextAnchor.UpperLeft, Vector2.zero, Vector2.one,
-                    new Vector2(18, 12), new Vector2(-18, -12), FontStyle.Normal, true);
+                Kit.ScrollText(log.transform, string.Join("\n\n", dialogLog), 22, Pal.Ink,
+                    new Vector2(18, 12), new Vector2(-12, -12), true, "DialogScroll");
             }
 
             for (int i = 0; i < c.questions.Count; i++)

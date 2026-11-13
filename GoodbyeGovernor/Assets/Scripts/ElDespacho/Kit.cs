@@ -185,6 +185,70 @@ namespace ElDespacho
             Panel(bg.transform, fill, new Vector2(0, 0), new Vector2(v, 1), new Vector2(2, 2), new Vector2(v > 0 ? -2 : 0, -2), "Fill");
         }
 
+        /// <summary>
+        /// Texto largo con scroll vertical: tamaño de letra FIJO (no se encoge) y barra fina a la derecha
+        /// que solo aparece si el texto no cabe. Rueda del ratón o arrastrar la barra para desplazarse.
+        /// Si scrollToEnd es true, arranca mostrando el final (lo último que se ha dicho).
+        /// </summary>
+        public static ScrollRect ScrollText(Transform parent, string text, int size, Color color,
+            Vector2 offMin, Vector2 offMax, bool scrollToEnd = true, string name = "ScrollText")
+        {
+            const float barWidth = 10f, gap = 6f;
+
+            // Zona visible: recorta lo que sobresale y recibe la rueda del ratón
+            var viewport = Rect(parent, name, Vector2.zero, Vector2.one, offMin, offMax - new Vector2(barWidth + gap, 0));
+            var hit = viewport.gameObject.AddComponent<Image>();
+            hit.color = new Color(0, 0, 0, 0);
+            hit.raycastTarget = true;
+            viewport.gameObject.AddComponent<RectMask2D>();
+
+            // Contenido: crece hacia abajo según el texto
+            var content = Rect(viewport, "Content", new Vector2(0, 1), new Vector2(1, 1));
+            content.pivot = new Vector2(0.5f, 1f);
+            var label = content.gameObject.AddComponent<Text>();
+            label.font = Font;
+            label.text = text;
+            label.fontSize = size;
+            label.color = color;
+            label.alignment = TextAnchor.UpperLeft;
+            label.supportRichText = true;
+            label.horizontalOverflow = HorizontalWrapMode.Wrap;
+            label.verticalOverflow = VerticalWrapMode.Overflow;
+            label.lineSpacing = 1.1f;
+            label.raycastTarget = false;
+            var fitter = content.gameObject.AddComponent<ContentSizeFitter>();
+            fitter.horizontalFit = ContentSizeFitter.FitMode.Unconstrained;
+            fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+            // Barra de desplazamiento
+            var track = Panel(parent, WithAlpha(Pal.InkSoft, 0.18f), new Vector2(1, 0), new Vector2(1, 1),
+                new Vector2(offMax.x - barWidth, offMin.y), new Vector2(offMax.x, offMax.y), name + "Bar");
+            track.raycastTarget = true;
+            var area = Rect(track.transform, "SlidingArea", Vector2.zero, Vector2.one);
+            var handle = Panel(area, WithAlpha(Pal.InkSoft, 0.75f), Vector2.zero, Vector2.one, default, default, "Handle");
+            handle.raycastTarget = true;
+            var bar = track.gameObject.AddComponent<Scrollbar>();
+            bar.handleRect = handle.rectTransform;
+            bar.targetGraphic = handle;
+            bar.direction = Scrollbar.Direction.BottomToTop;
+
+            var scroll = viewport.gameObject.AddComponent<ScrollRect>();
+            scroll.content = content;
+            scroll.viewport = viewport;
+            scroll.horizontal = false;
+            scroll.vertical = true;
+            scroll.movementType = ScrollRect.MovementType.Clamped;
+            scroll.scrollSensitivity = 30f;
+            scroll.verticalScrollbar = bar;
+            scroll.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHide;
+
+            // Calcular el alto del texto ya, para poder colocar el scroll en el final
+            Canvas.ForceUpdateCanvases();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(content);
+            scroll.verticalNormalizedPosition = scrollToEnd ? 0f : 1f;
+            return scroll;
+        }
+
         public static Color IndicatorColor(int v)
         {
             if (v >= 60) return Hex("#5fae6e");
