@@ -10,7 +10,7 @@ namespace ElDespacho
     // Dedicated overlay: never deletes or reconstructs the live game to pause it.
     public sealed class DeskMenus : MonoBehaviour
     {
-        public const string Version="v0.9.1-prototipo";
+        public const string Version="v0.9.3-prototipo";
         DespachoGame game;
         Transform root, page;
         CanvasGroup gameInput;
@@ -32,6 +32,8 @@ namespace ElDespacho
         public bool IsVisible => visible;
         public string PageName => pageName;
         DeskPreferences prefs => DeskPreferences.Current;
+        // The illustrated title keeps native buttons and honours saved text size.
+        float MenuTextScale => pageName=="Principal" ? Mathf.Max(prefs.menuTextScale,AccessPreferences.Current.textScale*AccessPreferences.Current.interfaceScale) : prefs.menuTextScale;
         public void Initialize(DespachoGame owner, Transform gameRoot)
         {
             game=owner;
@@ -146,7 +148,7 @@ namespace ElDespacho
             group.alpha=1;
         }
         Text Label(string text,int size,Color color,float x,float y,float right,float top,TextAnchor anchor=TextAnchor.MiddleLeft)
-            => Kit.Label(page,text,Mathf.RoundToInt(size*prefs.menuTextScale),color,anchor,new Vector2(x,y),new Vector2(right,top),default,default,FontStyle.Normal,true);
+            => Kit.Label(page,text,Mathf.RoundToInt(size*MenuTextScale),color,anchor,new Vector2(x,y),new Vector2(right,top),default,default,FontStyle.Normal,true);
         void Paper(float x,float y,float right,float top)
         {
             Kit.Panel(page,Kit.WithAlpha(Kit.Hex("#131e1b"), prefs.highContrast ? .96f : pageName=="Principal" ? .76f : .72f),new Vector2(x,y),new Vector2(right,top));
@@ -154,7 +156,7 @@ namespace ElDespacho
         }
         Button Button(string label,UnityAction action,float x,float y,float right,float top,bool enabled=true)
         {
-            var b=Kit.MakeButton(page,label,Mathf.RoundToInt(23*prefs.menuTextScale),prefs.highContrast?Color.black:Kit.Hex("#25392f"),Pal.Cream,()=>{Sfx.Play(Sfx.Click);action?.Invoke();},new Vector2(x,y),new Vector2(right,top));
+            var b=Kit.MakeButton(page,label,Mathf.RoundToInt(23*MenuTextScale),prefs.highContrast?Color.black:Kit.Hex("#25392f"),Pal.Cream,()=>{Sfx.Play(Sfx.Click);action?.Invoke();},new Vector2(x,y),new Vector2(right,top));
             DeskMenuSkin.Apply(b);
             b.name=label; b.interactable=enabled; return b;
         }

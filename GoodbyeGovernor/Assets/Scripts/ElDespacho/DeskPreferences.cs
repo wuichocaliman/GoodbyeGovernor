@@ -16,6 +16,8 @@ namespace ElDespacho
         public static float AnimationDuration(float duration) => Current.reduceMotion ? Mathf.Min(duration,0.03f) : duration;
         #if UNITY_EDITOR
         public static string TestDirectory;
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void ClearTestSession(){TestDirectory=null;Paused=false;}
 #endif
         public static string FilePath {
             get {
@@ -28,6 +30,7 @@ namespace ElDespacho
         public static string Load()
         {
             string error=null;
+            Current=new DeskPreferences(); // Fresh load cannot inherit a previous editor session.
             try { if(File.Exists(FilePath)) Current=JsonUtility.FromJson<DeskPreferences>(File.ReadAllText(FilePath)) ?? new DeskPreferences(); }
             catch(Exception e) when(e is IOException || e is ArgumentException || e is UnauthorizedAccessException) { Current=new DeskPreferences(); error=e.Message; }
             Current.Clamp(); Current.Apply(false); return error;

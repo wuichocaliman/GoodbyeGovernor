@@ -12,6 +12,8 @@ namespace ElDespacho
         [Serializable] class Envelope { public int format = 1; public string payload, sha256; }
         #if UNITY_EDITOR
         public static string TestDirectory;
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void ClearTestSession(){TestDirectory=null;}
 #endif
         public static string DirectoryPath {
             get {

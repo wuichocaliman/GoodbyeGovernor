@@ -40,6 +40,7 @@ namespace ElDespacho {
   public bool IsSource(Transform t){if(t.IsChildOf(root))return false;var c=t.GetComponentInParent<Canvas>();if(c==null||!c.enabled||!c.gameObject.activeInHierarchy)return false;if(c.sortingOrder==100 && menus.IsVisible)return false;return c.sortingOrder==100||c.sortingOrder==400||c.sortingOrder==500||c.sortingOrder==300;}
   public List<Entry> Snapshot(){
    var list=new List<Entry>();
+   if(reader)list.Add(new Entry("[X] Volver al modo visual · F2 o ESC",()=>SetReadingView(false)));
    if(P.navigationHelp)list.Add(new Entry(menus.IsVisible?"[>] Elija una opción. ESC vuelve a la pantalla anterior.":game.ScreenName=="Despacho"?"[>] Abra el expediente, lea y elija un sello. Después, continúe. También puede abrir el mapa.":game.ScreenName=="Mapa"?"[>] Elija un país disponible. Las marcas de amenaza y aliado son sospechas.":"[>] Lea la información. Elija una pregunta, una pestaña o una decisión."));
    if(P.glossary||P.symbols)list.Add(new Entry("[?] Consultar símbolos y términos",()=>{page="Glosario";Refresh();}));
    if(!menus.IsVisible&&game.HasSession && (P.independentColor||P.symbols||P.narration)) foreach(var indicator in game.AccessIndicators().Split(new[]{". "},StringSplitOptions.RemoveEmptyEntries))list.Add(new Entry(indicator));
@@ -70,16 +71,16 @@ namespace ElDespacho {
   void Update(){
    if(SelectedStamp!=null&&!SelectedStamp.AccessAvailable)SelectedStamp=null;
    if(!P.narration&&lastNarration)Speech.Stop();lastNarration=P.narration;
-   if(EventSystem.current!=null && (P.keyboard || page!=""))EventSystem.current.sendNavigationEvents=false;
-   if(!P.keyboard&&page==""&&EventSystem.current!=null)EventSystem.current.sendNavigationEvents=true;
+   if(EventSystem.current!=null && (P.keyboard || page!="" || reader))EventSystem.current.sendNavigationEvents=false;
+   if(!P.keyboard&&page==""&&!reader&&EventSystem.current!=null)EventSystem.current.sendNavigationEvents=true;
 #if ENABLE_INPUT_SYSTEM
    var k=Keyboard.current;
    if(k!=null){
     if(Press("f1"))ShowReference();
-    if(Press("f2")){reader=!reader;force=true;}
+    if(Press("f2"))SetReadingView(!reader);
     if(Press("f3"))Speech.Say(string.Join(". ",Snapshot().Where(x=>x.action==null).Select(x=>x.text)),true);
     if(KeyPressed(P.repeatKey))Speech.Repeat();if(KeyPressed(P.stopKey))Speech.Stop();
-    if(P.keyboard || page!=""){if(Press("tab")||Press("downArrow"))MoveFocus(k.shiftKey.isPressed?-1:1);if(Press("upArrow"))MoveFocus(-1);if(Press("enter")||Press("space"))Activate();if(Press("leftArrow"))AdjustFocused(-1);if(Press("rightArrow"))AdjustFocused(1);}
+    if(P.keyboard || page!="" || reader){if(Press("tab")||Press("downArrow"))MoveFocus(k.shiftKey.isPressed?-1:1);if(Press("upArrow"))MoveFocus(-1);if(Press("enter")||Press("space"))Activate();if(Press("leftArrow"))AdjustFocused(-1);if(Press("rightArrow"))AdjustFocused(1);}
     if(canvas.enabled&&scroll!=null){if(Press("pageDown"))scroll.verticalNormalizedPosition-=.2f;if(Press("pageUp"))scroll.verticalNormalizedPosition+=.2f;}
    }
    if(P.simpleDocuments && !canvas.enabled && !menus.IsVisible && Mouse.current!=null && mouseClick){
@@ -97,7 +98,9 @@ namespace ElDespacho {
    if(SettingsPointerDrag)return;
    if(Time.unscaledTime<nextScan&&!force){DrawFocus();return;}nextScan=Time.unscaledTime+.15f;
    var list=page!=""?SettingsEntries():Snapshot();string sig=Speech.Ready+"|"+Speech.Error+"|"+Speech.Voice+"|"+page+"|"+JsonUtility.ToJson(P)+"|"+DeskPreferences.Current.highContrast+"|"+string.Join("|",list.Select(x=>x.text+":"+x.enabled));
-   bool show=page!=""||reader||P.Reflow;
+   // Presentation is session state, never inferred from assistive preferences.
+   // New/load/resume start visually; the player can explicitly open the reader.
+   bool show=page!=""||reader;
    if(sig!=signature||force||canvas.enabled!=show){
     bool changed=sig!=signature;signature=sig;source=list;force=false;
     canvas.enabled=show;
@@ -110,17 +113,20 @@ namespace ElDespacho {
   }
   public void Refresh(){signature="";force=true;}
   public void SelectStamp(StampTool stamp){SelectedStamp=stamp;stamp.AccessPreview();Notify("Sello seleccionado. Pulse el documento para confirmar; ESC cancela.");Refresh();}
-  public bool Escape(){if(SelectedStamp!=null){SelectedStamp=null;Notify("Sello cancelado");return true;}foreach(var d in game.GetComponentsInChildren<DeskDocument>())if(d.AccessSelected){d.AccessCancel();return true;}if(page!=""){if(page=="Inicio")page="";else page="Inicio";Refresh();return true;}return false;}
+  public bool Escape(){if(page==""&&reader){SetReadingView(false);return true;}if(SelectedStamp!=null){SelectedStamp=null;Notify("Sello cancelado");return true;}foreach(var d in game.GetComponentsInChildren<DeskDocument>())if(d.AccessSelected){d.AccessCancel();return true;}if(page!=""){if(page=="Inicio")page="";else page="Inicio";Refresh();return true;}return false;}
   public static bool CancelOrBack()=>Instance!=null&&Instance.Escape();
+  public bool IsReadingView=>reader&&page=="";
+  public void SetReadingView(bool enabled){page="";reader=enabled;focused=-1;SelectedStamp=null;Refresh();}
+  public void OpenReadingView(){if(menus.IsVisible){if(game.HasSession)menus.Resume();else menus.ShowMain();}SetReadingView(true);}
   public void ShowSettings(){Speech.Probe();page="Inicio";focused=-1;Refresh();}
-  public void ClosePanels(){page="";SelectedStamp=null;Refresh();}
+  public void ClosePanels(){page="";reader=false;focused=-1;SelectedStamp=null;Refresh();}
   public void ShowReference(){if(!menus.IsVisible&&game.HasSession)menus.ShowPause();page="Controles";Refresh();}
   public void Notify(string message){if(P.visualSounds||P.navigationHelp){if(notice!=null)notice.text=message;}Speech.Say(message);}
   public static void Cue(string message){Instance?.Notify(message);}
   public void MoveFocus(int direction){if(controls.Count==0)return;focused=(focused+direction+controls.Count)%controls.Count;var e=controls[focused];Speech.Say(e.text);if(canvas.enabled&&scroll!=null&&focused<rows.Count){Canvas.ForceUpdateCanvases();float y=-rows[focused].anchoredPosition.y;float travel=Mathf.Max(1,content.rect.height-scroll.viewport.rect.height);scroll.verticalNormalizedPosition=1-Mathf.Clamp01((y-80)/travel);}DrawFocus();}
   public void Activate(){if(focused<0||focused>=controls.Count)return;var action=controls[focused].action;action?.Invoke();force=true;}
   void DrawFocus(){
-   bool show=(P.keyboard||page!="")&&focused>=0&&focused<controls.Count;
+   bool show=(P.keyboard||page!=""||reader)&&focused>=0&&focused<controls.Count;
    if(focusCanvas==null){var go=new GameObject("KeyboardFocus",typeof(RectTransform),typeof(Canvas));go.transform.SetParent(transform,false);focusCanvas=go.GetComponent<Canvas>();focusCanvas.renderMode=RenderMode.ScreenSpaceOverlay;focusCanvas.sortingOrder=750;focusRect=Kit.Rect(go.transform,"Focus",Vector2.zero,Vector2.zero);focusRect.pivot=Vector2.zero;
     Kit.Panel(focusRect,Pal.Gold,new Vector2(0,0),new Vector2(1,0),new Vector2(0,-3),new Vector2(0,3));Kit.Panel(focusRect,Pal.Gold,new Vector2(0,1),new Vector2(1,1),new Vector2(0,-3),new Vector2(0,3));Kit.Panel(focusRect,Pal.Gold,new Vector2(0,0),new Vector2(0,1),new Vector2(-3,0),new Vector2(3,0));Kit.Panel(focusRect,Pal.Gold,new Vector2(1,0),new Vector2(1,1),new Vector2(-3,0),new Vector2(3,0));}
    focusCanvas.enabled=show;if(!show)return;var target=controls[focused].target as RectTransform;if(target==null){focusCanvas.enabled=false;return;}var corners=new Vector3[4];target.GetWorldCorners(corners);var min=RectTransformUtility.WorldToScreenPoint(null,corners[0]);var max=RectTransformUtility.WorldToScreenPoint(null,corners[2]);focusRect.anchoredPosition=min;focusRect.sizeDelta=max-min;
@@ -129,7 +135,7 @@ namespace ElDespacho {
    if(page!=""){RenderSettings(entries);return;}
    string context=page+"|"+menus.PageName+"|"+game.ScreenName;float previousScroll=scroll!=null&&context==layoutContext?scroll.verticalNormalizedPosition:1;layoutContext=context;
    foreach(Transform child in root){child.gameObject.SetActive(false);Destroy(child.gameObject);}rows.Clear();controls.Clear();
-   var dark=DeskPreferences.Current.highContrast;var bg=Kit.Panel(root,dark?Color.black:Pal.Wood,Vector2.zero,Vector2.one);
+   var dark=DeskPreferences.Current.highContrast;var bg=Kit.Panel(root,dark?Color.black:Pal.Wood,Vector2.zero,Vector2.one);bg.raycastTarget=true;
    var head=Kit.Label(bg.transform,"EL DESPACHO · "+(page!=""?"ACCESIBILIDAD / "+page:"VISTA DE LECTURA"),Mathf.RoundToInt(24*P.textScale),Pal.Cream,TextAnchor.MiddleLeft,new Vector2(.035f,.92f),new Vector2(.96f,.99f));
    notice=Kit.Label(bg.transform,"TAB: elegir · INTRO: activar · RePág/AvPág: desplazar · ESC: volver · F1: ayuda",Mathf.RoundToInt(16*P.textScale),Pal.Cream,TextAnchor.MiddleLeft,new Vector2(.035f,.01f),new Vector2(.96f,.065f));
    var viewport=Kit.Panel(bg.transform,dark?Color.black:Pal.Paper,new Vector2(.035f,.075f),new Vector2(.965f,.915f));viewport.raycastTarget=true;viewport.gameObject.AddComponent<RectMask2D>();

@@ -1,3 +1,24 @@
+## v0.9.3-prototipo — Vista de lectura explícita durante la campaña (2026-11-13)
+
+- Eliminada la activación automática del lector mediante Reflow. Texto ampliado, teclado, símbolos, ayudas y perfiles ya no sustituyen el juego ilustrado.
+- Lectura alternativa disponible mediante F2 o Accesibilidad > Visión > Abrir ahora; salida con F2, ESC o Volver al modo visual. La preferencia guardada se conserva y se explica como apertura manual.
+- Preservados recursos gráficos, lógica de campaña, documentos, diplomacia, tutorial y archivos personales de preferencias.
+- Recorrido completo verificado en Unity Play Mode con cuatro configuraciones: 141 comprobaciones, incluidos nueva partida/confirmación, documentos, mapa, visita, regreso, lectura manual, salida, carga y eventos F2.
+- Regresiones reejecutadas: accesibilidad 588 (563 previas más la nueva fila de salida en 25 combinaciones), UX 57, arranque/reinicio 37, tutorial 54, menús/guardados 58 y arte/importación 21; persistencia entre procesos correcta.
+- Revisión visual mediante ratón: menú, campaña, expediente, mapa, diplomacia y regreso; apertura del lector desde ajustes y restauración del mismo expediente ilustrado.
+- Pendientes: teclado físico y build de distribución. F2 pasó mediante Input System, pero no produjo cambios observables con la herramienta visual. La maquetación ampliada propia del lector continúa disponible al abrirlo manualmente.
+- Informe: Documentation/El_Despacho_Reading_View_Gameplay_Fix_v0.9.3-prototipo.pdf.
+
+## v0.9.2-prototipo — Arranque y preferencias de accesibilidad (2026-11-13)
+
+- Corregida la vista de lectura opaca que ocultaba el menú principal cuando había preferencias de accesibilidad guardadas. Principal conserva fondo original, título y botones; F2 permite solicitar la lectura explícitamente.
+- Conservados perfiles y preferencias personales sin reset ni migración destructiva. Las etiquetas nativas del menú respetan el tamaño de texto guardado.
+- Limpieza de estado transitorio al navegar; carga de preferencias generales desde valores iniciales cuando falta el archivo. Rutas temporales del editor aisladas entre sesiones y pruebas visuales limitadas a lanzamiento explícito.
+- Verificación real en Unity Play Mode del arranque normal con las preferencias personales intactas. Sus archivos permanecen idénticos byte a byte.
+- Pruebas: 22 comprobaciones nuevas de arranque y 15 de reinicio; regresiones reejecutadas: accesibilidad 563, UX 57, tutorial 54, menús/guardados 58, arte/importación 21 y persistencia entre procesos. Sin errores de compilación ni excepciones de ejecución detectados en las suites.
+- Pendientes: evaluación con teclado físico, tamaños extremos y ejecutable de distribución. No se atribuye intención histórica a preferencias guardadas sin evidencia.
+- Informe: Documentation/El_Despacho_Startup_and_Accessibility_Fix_v0.9.2-prototipo.pdf.
+
 ## v0.9.1-prototipo — Centro de accesibilidad (2026-11-13)
 
 - Rediseño de la portada con cuatro perfiles combinables y cinco categorías explicadas; tarjetas de pergamino, iconos, alto contraste y desplazamiento visible.
