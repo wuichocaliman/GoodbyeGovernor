@@ -1,3 +1,13 @@
+## v0.9.1-prototipo — Centro de accesibilidad (2026-11-13)
+
+- Rediseño de la portada con cuatro perfiles combinables y cinco categorías explicadas; tarjetas de pergamino, iconos, alto contraste y desplazamiento visible.
+- Ajustes con descripciones y estados claros, seis barras de volumen, disponibilidad real de voz y controles de música/ambiente desactivados por falta de pistas.
+- Vistas previas de texto/contraste, indicadores, documento de demostración y avisos visuales, aisladas de la campaña.
+- Preferencias persistentes y estado recomendado/personalizado; confirmación de restauración. Sin cambios en narrativa, motores de juego, tutorial o esquema de partidas.
+- Validación: 563 comprobaciones de regresión de accesibilidad reejecutadas, 57 nuevas de UX, reinicio en otro proceso, 54 del tutorial, 58 de menús y 21 de importación/diseño; regresión de documentos ejecutada desde la suite de menús.
+- Revisión visual real en Play Mode de portada, categorías, desplazamiento y arrastre de volumen. Pendientes teclado físico, escucha humana y evaluación con usuarios. Voz detectada: Microsoft Helena Desktop (es-ES).
+- Informe: Documentation/El_Despacho_Accesibilidad_UX_Redesign_v0.9.1-prototipo.pdf.
+
 # El Despacho - Registro de cambios
 
 ## v0.9-prototipo - 2026-11-13 - Accesibilidad

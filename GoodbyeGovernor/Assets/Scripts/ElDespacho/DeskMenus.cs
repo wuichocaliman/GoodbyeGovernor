@@ -10,7 +10,7 @@ namespace ElDespacho
     // Dedicated overlay: never deletes or reconstructs the live game to pause it.
     public sealed class DeskMenus : MonoBehaviour
     {
-        public const string Version="v0.9-prototipo";
+        public const string Version="v0.9.1-prototipo";
         DespachoGame game;
         Transform root, page;
         CanvasGroup gameInput;

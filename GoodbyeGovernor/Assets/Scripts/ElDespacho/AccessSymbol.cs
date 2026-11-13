@@ -7,6 +7,15 @@ namespace ElDespacho {
    void Poly(params Vector2[] pts){int n=v.currentVertCount;foreach(var p in pts)v.AddVert(new Vector3(r.xMin+p.x*r.width,r.yMin+p.y*r.height),color,Vector2.zero);for(int i=1;i<pts.Length-1;i++)v.AddTriangle(n,n+i,n+i+1);}
    void Box(float x,float y,float w,float h)=>Poly(new Vector2(x,y),new Vector2(x+w,y),new Vector2(x+w,y+h),new Vector2(x,y+h));
    switch(symbol){
+    case "eye":
+     Poly(new Vector2(.03f,.5f),new Vector2(.3f,.8f),new Vector2(.7f,.8f),new Vector2(.97f,.5f),new Vector2(.7f,.68f),new Vector2(.3f,.68f));
+     Poly(new Vector2(.03f,.5f),new Vector2(.3f,.2f),new Vector2(.7f,.2f),new Vector2(.97f,.5f),new Vector2(.7f,.32f),new Vector2(.3f,.32f));
+     Box(.4f,.37f,.2f,.26f);break;
+    case "cursor":Poly(new Vector2(.15f,.95f),new Vector2(.8f,.4f),new Vector2(.5f,.4f),new Vector2(.7f,.1f),new Vector2(.55f,.03f),new Vector2(.35f,.35f),new Vector2(.15f,.15f));break;
+    case "audio":Box(.05f,.35f,.25f,.3f);Poly(new Vector2(.3f,.35f),new Vector2(.6f,.1f),new Vector2(.6f,.9f),new Vector2(.3f,.65f));Box(.72f,.25f,.08f,.5f);Box(.9f,.1f,.08f,.8f);break;
+    case "book":Box(.08f,.1f,.36f,.75f);Box(.55f,.1f,.36f,.75f);Box(.45f,.05f,.08f,.85f);break;
+    case "gear":Box(.2f,.2f,.6f,.6f);Box(.4f,0,.2f,1);Box(0,.4f,1,.2f);break;
+    case "access":Box(.4f,.75f,.2f,.2f);Box(.1f,.6f,.8f,.1f);Box(.4f,.3f,.2f,.4f);Poly(new Vector2(.4f,.35f),new Vector2(.5f,.3f),new Vector2(.3f,0),new Vector2(.15f,0));Poly(new Vector2(.5f,.3f),new Vector2(.6f,.35f),new Vector2(.85f,0),new Vector2(.7f,0));break;
     case "S":Poly(new Vector2(.15f,.9f),new Vector2(.85f,.9f),new Vector2(.8f,.35f),new Vector2(.5f,.05f),new Vector2(.2f,.35f));break;
     case "=":Box(.45f,.1f,.1f,.8f);Box(.15f,.75f,.7f,.08f);Box(.1f,.35f,.35f,.1f);Box(.55f,.35f,.35f,.1f);Box(.23f,.42f,.06f,.38f);Box(.71f,.42f,.06f,.38f);Box(.2f,.08f,.6f,.08f);break;
     case "$":Box(.1f,.15f,.8f,.18f);Box(.1f,.4f,.8f,.18f);Box(.1f,.65f,.8f,.18f);break;

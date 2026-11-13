@@ -9,13 +9,13 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 #endif
 namespace ElDespacho {
- [DefaultExecutionOrder(500)] public sealed class AccessController:MonoBehaviour {
+ [DefaultExecutionOrder(500)] public sealed partial class AccessController:MonoBehaviour {
   public static AccessController Instance {get;private set;}
-  public sealed class Entry {public string text; public Action action;public Transform target;public bool enabled=true;public Entry(string t,Action a=null,Transform o=null,bool e=true){text=t;action=a;target=o;enabled=e;}}
+  public sealed class Entry {public string description,icon,value;public bool card;public float sliderValue;public Action<float> sliderChange;public string text; public Action action;public Transform target;public bool enabled=true;public Entry(string t,Action a=null,Transform o=null,bool e=true){text=t;action=a;target=o;enabled=e;}}
 #if ENABLE_INPUT_SYSTEM
   InputActionMap keys; readonly HashSet<string> pressed=new HashSet<string>(); bool mouseClick;
   bool Press(string key)=>pressed.Remove(key);
-  void BindKeys(){keys=new InputActionMap("Accessibility09");foreach(var name in new[]{"f1","f2","f3","f6","f7","f8","tab","upArrow","downArrow","enter","space","pageDown","pageUp"}){string id=name;keys.AddAction(id,InputActionType.Button,"<Keyboard>/"+id).performed+=_=>pressed.Add(id);}keys.AddAction("place",InputActionType.Button,"<Mouse>/leftButton").performed+=_=>mouseClick=true;keys.Enable();}
+  void BindKeys(){keys=new InputActionMap("Accessibility09");foreach(var name in new[]{"f1","f2","f3","f6","f7","f8","tab","upArrow","downArrow","enter","space","pageDown","pageUp","leftArrow","rightArrow"}){string id=name;keys.AddAction(id,InputActionType.Button,"<Keyboard>/"+id).performed+=_=>pressed.Add(id);}keys.AddAction("place",InputActionType.Button,"<Mouse>/leftButton").performed+=_=>mouseClick=true;keys.Enable();}
 #endif
   DespachoGame game;DeskMenus menus; Canvas canvas,focusCanvas;RectTransform root,content,focusRect;ScrollRect scroll;Image focus;Text notice;
   List<Entry> source=new List<Entry>(), controls=new List<Entry>();List<RectTransform> rows=new List<RectTransform>();
@@ -69,7 +69,7 @@ namespace ElDespacho {
   }
   void Update(){
    if(SelectedStamp!=null&&!SelectedStamp.AccessAvailable)SelectedStamp=null;
-   if(!P.narration&&lastNarration)Speech.Dispose();lastNarration=P.narration;
+   if(!P.narration&&lastNarration)Speech.Stop();lastNarration=P.narration;
    if(EventSystem.current!=null && (P.keyboard || page!=""))EventSystem.current.sendNavigationEvents=false;
    if(!P.keyboard&&page==""&&EventSystem.current!=null)EventSystem.current.sendNavigationEvents=true;
 #if ENABLE_INPUT_SYSTEM
@@ -79,7 +79,7 @@ namespace ElDespacho {
     if(Press("f2")){reader=!reader;force=true;}
     if(Press("f3"))Speech.Say(string.Join(". ",Snapshot().Where(x=>x.action==null).Select(x=>x.text)),true);
     if(KeyPressed(P.repeatKey))Speech.Repeat();if(KeyPressed(P.stopKey))Speech.Stop();
-    if(P.keyboard || page!=""){if(Press("tab")||Press("downArrow"))MoveFocus(k.shiftKey.isPressed?-1:1);if(Press("upArrow"))MoveFocus(-1);if(Press("enter")||Press("space"))Activate();}
+    if(P.keyboard || page!=""){if(Press("tab")||Press("downArrow"))MoveFocus(k.shiftKey.isPressed?-1:1);if(Press("upArrow"))MoveFocus(-1);if(Press("enter")||Press("space"))Activate();if(Press("leftArrow"))AdjustFocused(-1);if(Press("rightArrow"))AdjustFocused(1);}
     if(canvas.enabled&&scroll!=null){if(Press("pageDown"))scroll.verticalNormalizedPosition-=.2f;if(Press("pageUp"))scroll.verticalNormalizedPosition+=.2f;}
    }
    if(P.simpleDocuments && !canvas.enabled && !menus.IsVisible && Mouse.current!=null && mouseClick){
@@ -94,8 +94,9 @@ namespace ElDespacho {
   bool KeyPressed(int n)=>Press("f"+n);
 #endif
   void LateUpdate(){
+   if(SettingsPointerDrag)return;
    if(Time.unscaledTime<nextScan&&!force){DrawFocus();return;}nextScan=Time.unscaledTime+.15f;
-   var list=page!=""?SettingsEntries():Snapshot();string sig=page+"|"+JsonUtility.ToJson(P)+"|"+DeskPreferences.Current.highContrast+"|"+string.Join("|",list.Select(x=>x.text+":"+x.enabled));
+   var list=page!=""?SettingsEntries():Snapshot();string sig=Speech.Ready+"|"+Speech.Error+"|"+Speech.Voice+"|"+page+"|"+JsonUtility.ToJson(P)+"|"+DeskPreferences.Current.highContrast+"|"+string.Join("|",list.Select(x=>x.text+":"+x.enabled));
    bool show=page!=""||reader||P.Reflow;
    if(sig!=signature||force||canvas.enabled!=show){
     bool changed=sig!=signature;signature=sig;source=list;force=false;
@@ -111,7 +112,7 @@ namespace ElDespacho {
   public void SelectStamp(StampTool stamp){SelectedStamp=stamp;stamp.AccessPreview();Notify("Sello seleccionado. Pulse el documento para confirmar; ESC cancela.");Refresh();}
   public bool Escape(){if(SelectedStamp!=null){SelectedStamp=null;Notify("Sello cancelado");return true;}foreach(var d in game.GetComponentsInChildren<DeskDocument>())if(d.AccessSelected){d.AccessCancel();return true;}if(page!=""){if(page=="Inicio")page="";else page="Inicio";Refresh();return true;}return false;}
   public static bool CancelOrBack()=>Instance!=null&&Instance.Escape();
-  public void ShowSettings(){page="Inicio";focused=-1;Refresh();}
+  public void ShowSettings(){Speech.Probe();page="Inicio";focused=-1;Refresh();}
   public void ClosePanels(){page="";SelectedStamp=null;Refresh();}
   public void ShowReference(){if(!menus.IsVisible&&game.HasSession)menus.ShowPause();page="Controles";Refresh();}
   public void Notify(string message){if(P.visualSounds||P.navigationHelp){if(notice!=null)notice.text=message;}Speech.Say(message);}
@@ -125,6 +126,7 @@ namespace ElDespacho {
    focusCanvas.enabled=show;if(!show)return;var target=controls[focused].target as RectTransform;if(target==null){focusCanvas.enabled=false;return;}var corners=new Vector3[4];target.GetWorldCorners(corners);var min=RectTransformUtility.WorldToScreenPoint(null,corners[0]);var max=RectTransformUtility.WorldToScreenPoint(null,corners[2]);focusRect.anchoredPosition=min;focusRect.sizeDelta=max-min;
   }
   void Render(List<Entry> entries){
+   if(page!=""){RenderSettings(entries);return;}
    string context=page+"|"+menus.PageName+"|"+game.ScreenName;float previousScroll=scroll!=null&&context==layoutContext?scroll.verticalNormalizedPosition:1;layoutContext=context;
    foreach(Transform child in root){child.gameObject.SetActive(false);Destroy(child.gameObject);}rows.Clear();controls.Clear();
    var dark=DeskPreferences.Current.highContrast;var bg=Kit.Panel(root,dark?Color.black:Pal.Wood,Vector2.zero,Vector2.one);
@@ -145,9 +147,9 @@ namespace ElDespacho {
    }
    content.sizeDelta=new Vector2(0,y+15);scroll.verticalNormalizedPosition=previousScroll;if(focused>=controls.Count)focused=-1;
   }
-  void Set(Action a){a();P.Clamp();P.Save();DeskPreferences.Current.Apply(false);try{DeskPreferences.Current.Save();}catch(Exception e){Notify(e.Message);}Refresh();}
+  void Set(Action a){a();P.Clamp();bool saved=P.Save();applied=saved?"Cambios aplicados y guardados.":AccessPreferences.Error;DeskPreferences.Current.Apply(false);try{DeskPreferences.Current.Save();}catch(Exception e){applied="No se guardaron todos los ajustes: "+e.Message;Notify(applied);}Refresh();}
   static float Cycle(float v,float[] values){int i=Array.FindIndex(values,x=>Mathf.Abs(x-v)<.01f);return values[(i+1)%values.Length];}
-  List<Entry> SettingsEntries(){var a=new List<Entry>();void Text(string t)=>a.Add(new Entry(t));void Button(string t,Action f)=>a.Add(new Entry(t,f));void Toggle(string t,bool v,Action f)=>Button(t+": "+(v?"SÍ":"NO"),()=>Set(f));void Volume(string t,float v,Action<float> f){Button(t+": "+Mathf.RoundToInt(v*100)+" % - reducir",()=>Set(()=>f(Mathf.Max(0,v-.1f))));Button(t+" - aumentar",()=>Set(()=>f(Mathf.Min(1,v+.1f))));}
+  List<Entry> LegacySettingsEntries(){var a=new List<Entry>();void Text(string t)=>a.Add(new Entry(t));void Button(string t,Action f)=>a.Add(new Entry(t,f));void Toggle(string t,bool v,Action f)=>Button(t+": "+(v?"SÍ":"NO"),()=>Set(f));void Volume(string t,float v,Action<float> f){Button(t+": "+Mathf.RoundToInt(v*100)+" % - reducir",()=>Set(()=>f(Mathf.Max(0,v-.1f))));Button(t+" - aumentar",()=>Set(()=>f(Mathf.Min(1,v+.1f))));}
    if(page=="Inicio"){
     Text("Preferencias personales. Se aplican al cambiar y se guardan fuera de la campaña. Texto grande, escala, contraste y áreas grandes utilizan una vista con desplazamiento en todas las pantallas. F2 permite abrir también esa vista.");
     foreach(string name in new[]{"Visual","Motor","Cognitiva","Audio","General"}){string n=name;Button(n,()=>{page=n;focused=-1;Refresh();});}
