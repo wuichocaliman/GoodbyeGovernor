@@ -44,6 +44,7 @@ namespace ElDespacho
         {
             if (DeskPreferences.Paused) return;
             if (used || dragging || e.button != PointerEventData.InputButton.Left) return;
+            if(AccessPreferences.Current.simpleDocuments){AccessController.Instance?.SelectStamp(this);return;}
             if (!Local(area, e, out var local)) return;
             StopAllCoroutines();
             dragging = true;
@@ -91,6 +92,10 @@ namespace ElDespacho
             StartCoroutine(GoHome());
         }
 
+        public bool AccessAvailable=>!used && !dragging && isActiveAndEnabled;
+        public bool AccessContains(Vector2 p)=>RectTransformUtility.RectangleContainsScreenPoint(target,p);
+        public void AccessPreview(){if(AccessAvailable)onHover?.Invoke(true);}
+        public void AccessApply(){if(!AccessAvailable||DeskPreferences.Paused)return;used=true;onStamped?.Invoke(Vector2.zero);}
         IEnumerator GoHome()
         {
             Vector2 start = self.anchoredPosition;

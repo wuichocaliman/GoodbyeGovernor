@@ -1,0 +1,76 @@
+EL DESPACHO - LISTA DE ACEPTACIÓN DE ACCESIBILIDAD v0.9-prototipo
+Fecha: 13/11/2026. Completar con personas del equipo; no presupone pruebas realizadas.
+Responsable: __________  Equipo/resolución: __________  Fecha: __________
+Configuración: __________  Voz instalada/idioma: __________
+Marcar cada caso: OK / incidencia / no probado. Adjuntar pasos y pantalla a cada incidencia.
+
+ANTES DE EMPEZAR
+[ ] Copiar los guardados personales antes de usar una campaña de prueba.
+[ ] Abrir Ajustes > Accesibilidad. Localizar Visual, Motor, Cognitiva, Audio y General.
+[ ] Probar los valores por defecto: la presentación y las reglas originales siguen funcionando.
+[ ] Activar solo una opción; después combinar varias. Reiniciar y comprobar preferencias.
+
+VISIÓN Y LECTURA
+[ ] Probar texto 75 / 100 / 125 / 150 / 175 % y escala 80 / 90 / 100 / 110 / 120 %.
+[ ] Probar especialmente 175 % + 120 % a 1280x720, 1920x1080 y una proporción diferente.
+[ ] Recorrer principal, ajustes, pausa, slots, introducción, despacho, mapa, visita, resultados, cierre anual y finales.
+[ ] En vista de lectura, desplazar hasta el final; comprobar que ningún botón o texto queda inaccesible.
+[ ] Contraste: leer textos, controles desactivados, tutorial y documentos; no depender del color.
+[ ] Identificar Estabilidad, Seguridad y Prosperidad mediante nombre, símbolo, valor y estado.
+[ ] Identificar sospechas, aliados, pendientes y países visitados; no confundir sospecha con certeza.
+[ ] Revisar pictogramas con una persona que no los conozca y consultar su explicación.
+[ ] Activar reducción de movimiento/destellos: abrir, archivar, mapa y resaltados sin pulso intenso.
+
+RATÓN Y DOCUMENTOS
+[ ] Modo estándar: agarrar, arrastrar, soltar fuera y dentro. Probar ambos sellos.
+[ ] Modo simplificado: un clic selecciona; otro en zona de lectura abre.
+[ ] Clic fuera o ESC cancela la selección sin pausar ni resolver el expediente.
+[ ] Seleccionar un sello no decide; confirmar sobre el papel sí decide una sola vez.
+[ ] Cancelar el sello, cambiar de sello, hacer doble clic y repetir tras carga/pausa.
+[ ] CONTINUAR archiva y aparece el siguiente expediente, incluidas cadenas.
+[ ] Áreas amplias: operar mapa, informes, preguntas y slots en la vista por filas.
+
+SOLO TECLADO
+[ ] F1 abre referencia; activar teclado. TAB/Mayús+TAB y flechas recorren controles.
+[ ] El marco dorado identifica el control y se desplaza a una posición visible.
+[ ] INTRO/Espacio activan una sola vez; ninguna tecla ejecuta dos decisiones.
+[ ] Abrir expediente con seleccionar/colocar; elegir sello y aplicar sin ratón.
+[ ] ESC cancela selección, vuelve de pantallas o abre/cierra pausa según contexto.
+[ ] RePág/AvPág desplazan la lectura. F2 permite consultar la vista de lectura.
+[ ] Recorrer ajustes, cada slot, mapa, preguntas, pestañas y decisiones sin ratón.
+[ ] Reasignar repetir/detener entre F6-F8 y comprobar que no quedan iguales.
+
+COMPRENSIÓN Y TUTORIAL
+[ ] Comparar instrucciones normales/simplificadas: significado conservado y frases claras.
+[ ] La narrativa y las decisiones no cambian al simplificar instrucciones.
+[ ] Consultar sanciones, relaciones, pacto militar, comercio, gobierno autoritario, recesión e inteligencia.
+[ ] Revisar las 12 lecciones, saltar, cargar a mitad y desactivar/reactivar guía.
+[ ] Las instrucciones de documento/sello corresponden al modo de interacción activo.
+[ ] Nunca se leen perfiles ocultos, texto de expedientes cerrados ni nombres de países futuros.
+[ ] Evaluar si la cantidad de información por pantalla y el orden de acciones resultan comprensibles.
+
+AUDIO Y VOZ (PRUEBA AUDITIVA PENDIENTE)
+[ ] Instalar/seleccionar una voz española compatible con System.Speech si solo hay voz inglesa.
+[ ] Activar voz: leer menús, control enfocado, expediente, personaje, indicadores, mapa, diálogo, guía y confirmaciones.
+[ ] F3 lee pantalla; repetir vuelve a leer; detener corta inmediatamente; desactivar cierra el servicio.
+[ ] Mover foco rápidamente: no deben superponerse voces ni quedar una cola interminable.
+[ ] Probar maestro, efectos, interfaz, narración y velocidad, incluidos volumen 0 y máximo.
+[ ] Música/ambiente: no hay pistas actuales; probar los canales cuando el equipo añada fuentes etiquetadas.
+[ ] Probar auricular único/mono y comodidad de agudos en sonidos del juego.
+[ ] La voz externa de Windows no pasa por el filtro Unity: comprobar salida y comodidad del sistema aparte.
+[ ] Silenciar todo y completar decisiones: la información importante debe seguir visible.
+[ ] No interpretar la narración propia como compatibilidad certificada con NVDA/JAWS u otro lector.
+
+PERSISTENCIA Y REGRESIÓN
+[ ] Cambiar accesibilidad sin modificar indicadores, preguntas, flags o progreso de campaña.
+[ ] Guardar/cargar los 3 slots y el automático; las preferencias globales no cambian.
+[ ] Cargar un guardado previo a v0.9 y otro sin progreso de tutorial.
+[ ] Cerrar el ejecutable, abrirlo de nuevo y comprobar preferencias.
+[ ] Completar primer año, una cadena, un evento retrasado y un final sin duplicaciones.
+[ ] Revisar Console y el log del ejecutable: errores, advertencias y mensajes de voz.
+
+ACEPTACIÓN
+Incidencias abiertas: _________________________________________________
+Pruebas con participantes con necesidades de accesibilidad: ______________
+No declarar validación del torneo hasta cerrar problemas de interacción,
+pronunciación española, comprensión de símbolos y pruebas en el ejecutable.

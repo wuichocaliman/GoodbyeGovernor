@@ -265,8 +265,10 @@ namespace ElDespacho
 
         public static void Init(GameObject host)
         {
-            _src = host.AddComponent<AudioSource>();
+            var audioHost=new GameObject("DeskAudio"); audioHost.transform.SetParent(host.transform,false);
+            _src = audioHost.AddComponent<AudioSource>();
             _src.playOnAwake = false;
+            audioHost.AddComponent<AccessAudioFilter>();
             _src.spatialBlend = 0f;
 
             Click = Make("click", 0.05f, (t, r) => r * Mathf.Exp(-t * 120f) * 0.4f);
@@ -294,6 +296,7 @@ namespace ElDespacho
 
         public static void Play(AudioClip clip, float volume = 1f)
         {
+            if(AccessPreferences.Current.visualSounds && clip!=null && clip!=Click) AccessController.Cue(clip==Paper?"[D] Documento manipulado":clip==Thunk?"[V] Acción registrada":"[!] Aviso importante; revise el resultado visible");
             if (_src != null && clip != null) _src.PlayOneShot(clip, volume * (clip == Click ? DeskPreferences.Current.ui : DeskPreferences.Current.effects));
         }
     }
@@ -324,7 +327,7 @@ namespace ElDespacho
 
         void Update()
         {
-            if (DeskPreferences.Paused || DeskPreferences.Current.reduceMotion) { rt.localRotation = baseRotation; rt.localScale = baseScale; return; }
+            if (DeskPreferences.Paused || (DeskPreferences.Current.reduceMotion || AccessPreferences.Current.reduceFlashes)) { rt.localRotation = baseRotation; rt.localScale = baseScale; return; }
             timer += DeskPreferences.GameDelta;
             float cycle = interval + duration;
             if (timer >= cycle) timer -= cycle;

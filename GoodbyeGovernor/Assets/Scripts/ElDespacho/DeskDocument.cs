@@ -56,6 +56,7 @@ namespace ElDespacho
         {
             if (DeskPreferences.Paused) return;
             if (e.button != PointerEventData.InputButton.Left || phase != Phase.Pile) return;
+            if(AccessPreferences.Current.simpleDocuments){AccessSelect();return;}
             if (!LocalPointer(e, out var local)) return;
             phase = Phase.Dragging;
             pointerId = e.pointerId;
@@ -83,6 +84,10 @@ namespace ElDespacho
             if (phase != Phase.Dragging || e.pointerId != pointerId ||
                 e.button != PointerEventData.InputButton.Left) return;
             bool accepted = IsOverTray(e);
+            AnimatePlacement(accepted);
+        }
+        void AnimatePlacement(bool accepted) {
+            accessSelected=false;
             Highlight(false);
             phase = accepted ? Phase.Opening : Phase.Returning;
             Sfx.Play(Sfx.Paper, 0.3f);
@@ -101,6 +106,14 @@ namespace ElDespacho
                     else phase = Phase.Pile;
                 }));
         }
+        bool accessSelected;
+        public bool AccessSelected=>accessSelected;
+        public bool AccessAvailable=>phase==Phase.Pile;
+        public bool AccessOnSheet(Vector2 p)=>RectTransformUtility.RectangleContainsScreenPoint(sheet,p);
+        public bool AccessOnTray(Vector2 p)=>RectTransformUtility.RectangleContainsScreenPoint(readingZone,p);
+        public void AccessSelect(){if(DeskPreferences.Paused||phase!=Phase.Pile)return;accessSelected=true;Highlight(true);hint.text="[D] EXPEDIENTE SELECCIONADO\nPulse aquí para abrir. ESC cancela.";Grabbed?.Invoke();AccessController.Cue("Expediente seleccionado. Pulse la zona de lectura.");}
+        public void AccessPlace(){if(!accessSelected||DeskPreferences.Paused||phase!=Phase.Pile)return;AnimatePlacement(true);}
+        public void AccessCancel(){if(!accessSelected)return;accessSelected=false;Highlight(false);AccessController.Cue("Selección cancelada");}
         public void Dismiss(Action finished)
         {
             if (phase != Phase.Open) return;
@@ -147,7 +160,7 @@ namespace ElDespacho
         {
             if (phase == Phase.Pile) paper.color = Pal.Paper;
         }
-        public void CancelDrag() => OnApplicationFocus(false);
+        public void CancelDrag() {AccessCancel();OnApplicationFocus(false);}
 
         void OnApplicationFocus(bool focused)
         {

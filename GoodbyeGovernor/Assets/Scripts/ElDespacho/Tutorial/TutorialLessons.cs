@@ -35,6 +35,6 @@ namespace ElDespacho
                 S("load",11,"Pausa","","El autoguardado funciona por tiempo fuera de los menús: revise su intervalo en Ajustes. CONTINUAR carga el slot válido más reciente; CARGAR permite elegir. La guía se guarda con la campaña.")
             };
         }
-        public static string Text(TutorialStepData step,int questions) => step.instructionText.Replace("{questions}",questions.ToString());
+        public static string Text(TutorialStepData step,int questions) => AccessLanguage.Tutorial(step,questions);
     }
 }

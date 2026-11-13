@@ -1,0 +1,59 @@
+EL DESPACHO - Integración accesibilidad v0.9-prototipo (13/11/2026)
+
+Proyecto: C:\Users\User\GoodbyeGovernor\GoodbyeGovernor
+No reemplazar carpetas del equipo. Integrar diffs y conservar .meta/GUID.
+Backup previo verificado: C:\Users\User\Documents\Codex\work\accessibility-v09\Backup_antes_v09.zip
+
+COMPONENTES
+AccessPreferences: accessibility.json junto a settings.json, fuera de los slots.
+AccessController: menú de cinco categorías, vista de lectura con filas ajustadas y scroll,
+acciones originales, foco y atajos. Se añade una vez en DespachoGame.Start.
+AccessLanguage: versiones revisadas de instrucciones, valores públicos de indicadores,
+adaptador AccessAudioChannelVolume para futuras fuentes Music/Ambient.
+AccessSpeech: proceso persistente de Windows PowerShell + System.Speech, texto por JSON
+en entrada estándar (nunca interpolar texto del juego en comandos). Un sintetizador,
+cancelación antes de cada mensaje, volumen/velocidad, repetir/detener, proceso sin ventana.
+AccessAudioFilter: promedio mono/filtro suave en fuentes Unity, fuera del AudioListener.
+AccessSymbol: pictogramas uGUI con CanvasRenderer; mantener etiquetas textuales.
+
+PUNTOS COMPARTIDOS
+DeskMenus: versión, acceso a accesibilidad, cierre de panel al cambiar/reanudar,
+ESC primero cancela selección/panel. No eliminar esa prioridad.
+DeskDocument: AccessSelect/AccessPlace/AccessCancel reutilizan AnimatePlacement,
+compartida con arrastre. No invocar callback dos veces.
+StampTool: AccessPreview/AccessApply conservan used y el callback original.
+Kit/Sfx: fuente de efectos en hijo DeskAudio para separar receptor y filtro.
+DespachoGame: inicio de controlador y etiquetas semánticas de nodos disponibles.
+TutorialLessons/Text: AccessLanguage; TutorialManager respeta reducción de destellos
+y actualiza el texto al cambiar preferencias. IDs/progreso/SaveData no cambian.
+
+VISTA ACCESIBLE
+Reflujo automático al usar texto/escala no predeterminados, alto contraste, teclado,
+áreas grandes, ayudas, símbolos, términos, instrucciones simples o avisos visuales.
+F2 también la abre. No modifica assets artísticos ni reduce el contenido narrativo.
+Extrae únicamente textos activos en canvases del juego/menús/guía; no leer datos
+internos ocultos para narrar. Conserva callback/interactabilidad de botones.
+Al añadir un control sin Text, asignar AccessName. Al añadir un nuevo canvas/pantalla,
+revisar IsSource y probar que todas sus acciones y textos se exponen.
+No asumir que futuros controles personalizados quedarán cubiertos automáticamente.
+
+TECLADO Y VOZ
+InputActionMap independiente; navegación EventSystem se desactiva solo cuando la
+navegación propia está activa. No duplicar submit ni reusar ESC en otro gestor.
+F1 controles, F2 lectura, F3 leer pantalla, F6/F7 repetir/detener (configurables F6-F8).
+TAB/flechas, INTRO/Espacio y RePág/AvPág. No reasignación completa de teclas.
+Requiere Windows PowerShell y voz de escritorio compatible con System.Speech.
+Este PC solo expuso Microsoft Zira Desktop en-US; instalar una voz española compatible
+y validar pronunciación. No se instala software ni se cambia configuración del sistema.
+Voz externa: mono/filtro de agudos Unity no la procesa. Sin integración NVDA/JAWS.
+
+PRUEBAS
+Unity 6000.3.24f1, proyecto local, runtimes editor-only:
+AccessibilityValidationRunner.Run (Play Mode; datos temporales).
+AccessibilityValidationRunner.Persistence (segundo proceso; lee ruta temporal del log).
+TutorialValidationRunner.Run y MenuValidationRunner.Run (regresión existente).
+AccessibilityVisualRunner.Run (sesión visual aislada, autosave desactivado,
+contraste/texto175/escala120/teclado/símbolos/simplificado).
+No usar el runner visual como escena de producción. No compartir Library/Temp/slots.
+Informe PDF y checklist describen pruebas reales y límites; no certificar accesibilidad
+completa ni aceptación del torneo solo por pasar asserts automatizados.

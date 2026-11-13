@@ -1,5 +1,19 @@
 # El Despacho - Registro de cambios
 
+## v0.9-prototipo - 2026-11-13 - Accesibilidad
+
+- Sección Accesibilidad dentro de Ajustes, organizada en Visual, Motor, Cognitiva, Audio y General; preferencias independientes en accessibility.json, aplicación inmediata y restauración confirmada.
+- Vista accesible de todo el juego con texto de tamaño fijo, filas ajustadas y scroll. Texto 75/100/125/150/175 %, escala 80/90/100/110/120 %, contraste, foco y áreas amplias. Varias ayudas activan esta presentación alternativa; no modifica los assets originales.
+- Selección/colocación simplificada de expedientes y selección/confirmación de sellos, con cancelación y callbacks originales. Navegación propia mediante Input System, referencia de controles y repetir/detener configurables F6-F8.
+- Indicadores con símbolos, valores y estado; etiquetas semánticas del mapa, glosario y versiones simplificadas revisadas de las 18 notas del tutorial. Se conservan las 12 lecciones y el progreso v0.8.
+- Narración local Windows mediante System.Speech y proceso sin ventana: volumen, velocidad, repetir, detener y cancelación de voz anterior. Mono y filtro suave para fuentes Unity; avisos visuales opcionales. Música/ambiente preparados para fuentes futuras; no hay pistas actuales.
+- Conservados formato de campaña, cartas, países, perfiles, reglas, equilibrio, efectos, cadenas y finales. Backup previo verificado de 193 archivos.
+- Validación de accesibilidad: 563 aserciones Play Mode, incluidas las 25 combinaciones de tamaño/escala; pruebas de teclado por eventos y voz con confirmación de recepción. Persistencia probada en otro proceso Unity. Regresiones del tutorial y de menús/guardado/documentos descritas en el informe.
+- Revisión visual de lectura, símbolos y selección/apertura de documento. Pendiente recorrido físico completo de teclado/ratón, evaluación auditiva española, participantes y ejecutable final. Este PC solo expuso Microsoft Zira en-US. La voz externa no pasa por mono/filtro Unity. Sin soporte certificado de lector de pantalla ni reasignación completa.
+- Incidencia de prueba: aserción del InputManager al salir del fixture visual; añadida restauración de sus ajustes temporales, pendiente confirmar cierre manual. No declarar accesibilidad completa ni aceptación del torneo solo por las pruebas automatizadas.
+- Documentación: informe PDF, checklist manual e instrucciones de integración v0.9 en Documentation.
+
+
 ## v0.8-prototipo - 2026-11-06 - Tutorial Presidencial
 
 - Ampliación del tutorial existente a 12 lecciones / 18 notas de Julián Paz, con activación por pantalla, pestaña y acciones reales. Guía de expedientes, indicadores, diplomacia, cadenas, cierre anual y guardado.

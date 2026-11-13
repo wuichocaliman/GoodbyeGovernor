@@ -10,7 +10,7 @@ namespace ElDespacho
     // Dedicated overlay: never deletes or reconstructs the live game to pause it.
     public sealed class DeskMenus : MonoBehaviour
     {
-        public const string Version="v0.8-prototipo";
+        public const string Version="v0.9-prototipo";
         DespachoGame game;
         Transform root, page;
         CanvasGroup gameInput;
@@ -71,7 +71,7 @@ namespace ElDespacho
 #elif ENABLE_LEGACY_INPUT_MANAGER
             escape=Input.GetKeyDown(KeyCode.Escape);
 #endif
-            if(escape) { if(!visible && game.HasSession) ShowPause(); else if(visible && back!=null) back(); }
+            if(escape && !AccessController.CancelOrBack()) { if(!visible && game.HasSession) ShowPause(); else if(visible && back!=null) back(); }
             if(!visible && game.HasSession && prefs.autosave)
             {
                 autosaveElapsed+=Time.unscaledDeltaTime;
@@ -106,12 +106,14 @@ namespace ElDespacho
         }
         public void Resume()
         {
+            AccessController.Instance?.ClosePanels();
             visible=false; DeskPreferences.Paused=false; Time.timeScale=oldTimeScale;
             gameInput.interactable=gameInput.blocksRaycasts=true;
             canvas.gameObject.SetActive(false); back=null;
         }
         void NewPage(string title, bool settings=false)
         {
+            AccessController.Instance?.ClosePanels();
             Open(); pageName=title;
             if(fade!=null) StopCoroutine(fade);
             if(page!=null) { page.gameObject.SetActive(false); Destroy(page.gameObject); }
@@ -282,6 +284,7 @@ namespace ElDespacho
         }
         public void ShowSettings(int category)
         {
+            if(category==4){AccessController.Instance.ShowSettings();return;}
             NewPage("Ajustes",true); back=()=>{Persist();ReturnContext();};
             Paper(.045f,.07f,.95f,.9f); Heading("AJUSTES DEL DESPACHO","Preferencias personales · Se guardan al cambiar cada opción");
             string[] tabs={"AUDIO","PANTALLA","JUGABILIDAD","CONTROLES","ACCESIBILIDAD"};

@@ -78,9 +78,10 @@ namespace ElDespacho
             if(index<0)index=System.Array.FindIndex(steps,s=>!Progress.Resolved(s.persistentId) && Eligible(s));
             if(index<0){current=-1;canvas.enabled=false;return;}
             if(index!=current || Progress.active!=steps[index].persistentId)ShowStep(index);
+            body.text=TutorialLessons.Text(steps[index],game.TutorialQuestions);
             Canvas.ForceUpdateCanvases();Layout();
-            noteAlpha.alpha=DeskPreferences.Current.reduceMotion?1:Mathf.Lerp(.65f,1,(Time.unscaledTime-noteShownAt)/.18f);
-            float alpha=DeskPreferences.Current.reduceMotion?1:.7f+.3f*Mathf.Abs(Mathf.Sin(Time.unscaledTime*2));
+            noteAlpha.alpha=(DeskPreferences.Current.reduceMotion || AccessPreferences.Current.reduceFlashes)?1:Mathf.Lerp(.65f,1,(Time.unscaledTime-noteShownAt)/.18f);
+            float alpha=(DeskPreferences.Current.reduceMotion || AccessPreferences.Current.reduceFlashes)?1:.7f+.3f*Mathf.Abs(Mathf.Sin(Time.unscaledTime*2));
             foreach(var f in frame)f.color=Kit.WithAlpha(Kit.Hex("#C6A24F"),alpha);
         }
         public bool ExplainDiplomacy() {

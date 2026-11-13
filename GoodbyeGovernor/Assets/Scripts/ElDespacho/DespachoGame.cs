@@ -87,6 +87,7 @@ namespace ElDespacho
 
             menus = gameObject.AddComponent<DeskMenus>();
             menus.Initialize(this, root);
+            gameObject.AddComponent<AccessController>();
             NewGame();
             ShowTitle();
         }
@@ -822,6 +823,7 @@ namespace ElDespacho
             {
                 dot.raycastTarget = true;
                 var b = dot.gameObject.AddComponent<Button>();
+                dot.gameObject.AddComponent<AccessName>().label=AccessController.Plain(label)+" - "+(badge=="!"?"[!] Posible amenaza":badge=="+"?"[+] Posible aliado":badge=="B"?"[A] Tu bloque":badge=="i"?"[V] Visitado":"[?] Sin visitar");
                 var cb = b.colors;
                 cb.highlightedColor = new Color(1f, 1f, 1f, 0.75f);
                 cb.pressedColor = new Color(0.7f, 0.7f, 0.7f, 1f);
