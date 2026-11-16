@@ -118,6 +118,7 @@ namespace ElDespacho
             stampPlaced = false;
             cardsThisYear = 0;
             mapOpenedThisYear = false;
+            newsSeen = 0;
             current = null;
             news.Insert(0, "<b>Nuevo líder en Aurelia</b>\nTomas posesión del cargo. El mundo observa qué tipo de líder serás.");
             news.Insert(0, "<b>Tres países piden audiencia</b>\nLindmark, Pavonia y Tarvessa esperan tu visita este año.");
@@ -246,6 +247,8 @@ namespace ElDespacho
         {
             ScreenName = "Despacho";
             if (currentCard == null) DrawCard();
+            // Despacho ilustrado con el pixel art (DespachoGame.Office.cs); sin el fondo, el de siempre
+            if (IllustratedOffice) { ShowIllustratedOffice(); return; }
 
             Clear();
             Background(Pal.Wood);
@@ -563,6 +566,7 @@ namespace ElDespacho
 
         void BuildStampMark(Transform card)
         {
+            if (TryArtStampMark(card)) return; // marca del pack de arte (APROBADO / DENEGADO)
             Color ink = stampYes ? Kit.Hex("#2f7a3a") : Kit.Hex("#a8322d");
             ink.a = 0.78f;
             var mark = Kit.Rect(card, "StampMark", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));

@@ -115,7 +115,7 @@ namespace ElDespacho
             stampPlaced=s.stampPlaced; stampYes=s.stampYes; stampText=s.stampText; stampPos=s.stampPos; stampAngle=s.stampAngle;
             cardResultText=s.cardResultText; cardResultEffect=s.cardResultEffect; mapOpenedThisYear=s.mapOpened; mandateFinished=s.mandateFinished;
             usedCards.UnionWith(s.usedCards); flags.UnionWith(s.flags); cardQueue.AddRange(s.queue);
-            news.Clear(); news.AddRange(s.news); dialogLog.Clear(); dialogLog.AddRange(s.dialog);
+            news.Clear(); news.AddRange(s.news); newsSeen = news.Count; dialogLog.Clear(); dialogLog.AddRange(s.dialog);
             foreach(var saved in s.countries) {
                 var c=Find(saved.id); c.visited=saved.visited; c.annoyed=saved.annoyed; c.grateful=saved.grateful;
                 c.attacked=saved.attacked; c.decision=saved.decision; c.questionsAsked=saved.questionsAsked;

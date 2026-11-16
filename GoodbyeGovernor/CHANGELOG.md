@@ -1,3 +1,17 @@
+## v0.10-prototipo — Despacho ilustrado con el nuevo pixel art (2026-11-14)
+
+- La pantalla principal se monta sobre `Art/Despacho/Fondo_Despacho` (320x180 a x6) siguiendo el doc de diseño de la pantalla principal (opción B). Nuevo archivo `DespachoGame.Office.cs`; si el fondo no está, `ShowOffice` usa el despacho anterior sin cambios.
+- Pared: ventana con el estado del país en el alféizar (se oscurece y echa humo en crisis); corcho con Estabilidad/Seguridad/Prosperidad clavados (contenedor `HUD`), recorte con el último titular, informe CONFIDENCIAL con los países que esperan audiencia, hilos rojos y mapa del mundo clavado que abre el mapa (con «N visitas» y el mismo temblor de antes); reloj del mandato con 4 cuartos y botón `YearEndButton` debajo.
+- Mesa: nota del asesor con scroll y placa «Presidencia de Aurelia» (izquierda); vade como zona de lectura con el expediente en el centro y los sellos `Sello_*` sobre sus tampones a los lados (izquierda no, derecha sí); La Gaceta (`UI_IconoGaceta`) con aviso rojo de noticias sin leer que abre el periódico con scroll; bandeja `Bandeja_Expedientes` con el número de expedientes pendientes.
+- El expediente cerrado descansa en la bandeja y se arrastra al vade. Los sellos solo se pueden usar con el expediente abierto. La marca usa `Marca_Aprobado/Denegado` con giro aleatorio cuando la etiqueta es APROBADO/DENEGADO.
+- `DeskDocument`: ajustes opcionales antes de `Initialize` (`pileAnchor`, `closedScale`, `pileAngle`, `openSize`, colores y textos de la zona). Valores por defecto = comportamiento anterior.
+- Escenario fijo de 1920x1080 escalado entero (`StageFitter`): en pantallas que no son 16:9 salen bandas, sin deformar el pixel art.
+- Se conservan los nombres que usan tutorial, accesibilidad y pruebas: HUD, CardArea, ReadingZone, DeskDocument, OpenedContent, Card, StampRack, StampYes, StampNo, YearEndButton.
+- Probado en Unity Play Mode: carga de partida, sellado (sí y no), continuar, mesa despejada, La Gaceta, mapa, visita, cierre del año 1 y expediente nuevo arrastrado desde la bandeja. Consola sin errores. Las pruebas automáticas (Assets/Tests) no se han reejecutado.
+- Rediseño del arte integrado el mismo día: sellos (24x34), tampones (28x9), marcas (40x15), bandeja y La Gaceta nuevos. Los tamaños ya no están fijos en el código: se leen del propio sprite (x6), así que el artista puede cambiar las medidas sin tocar código. Con los sellos más estrechos, el expediente abierto gana algo de ancho.
+- Pendiente de arte: expediente abierto, tarjetas de indicadores, mapa clavado, recorte, informe, reloj, nota y placa siguen generados por código.
+- Informe: Documentacion/El_Despacho_Informe_Despacho_Ilustrado_v0.10.pdf.
+
 ## v0.9.3-prototipo — Vista de lectura explícita durante la campaña (2026-11-13)
 
 - Eliminada la activación automática del lector mediante Reflow. Texto ampliado, teclado, símbolos, ayudas y perfiles ya no sustituyen el juego ilustrado.

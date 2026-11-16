@@ -20,12 +20,31 @@ namespace ElDespacho
         Action onOpened;
         Vector2 pointerOffset;
         int pointerId;
-        const float ClosedScale = 0.28f;
-        static readonly Color ZoneIdle = new Color(0.38f, 0.30f, 0.18f, 0.85f);
+        // Ajustes de presentación: se pueden cambiar ANTES de Initialize (el despacho ilustrado los usa).
+        /// <summary>Tamaño del expediente cerrado respecto al abierto.</summary>
+        public float closedScale = 0.28f;
+        /// <summary>Giro del expediente cuando está en la pila.</summary>
+        public float pileAngle = -5f;
+        /// <summary>Si se indica, el expediente cerrado descansa sobre este objeto (p. ej. la bandeja).</summary>
+        public RectTransform pileAnchor;
+        /// <summary>Tamaño del expediente abierto respecto a la zona de la mesa.</summary>
+        public Vector2 openSize = new Vector2(0.96f, 0.96f);
+        public Color zoneIdle = new Color(0.38f, 0.30f, 0.18f, 0.85f);
+        public Color zoneActive = new Color(0.53f, 0.45f, 0.24f, 1f);
+        public string hintIdle = "ZONA DE LECTURA\nArrastra aquí el documento de la pila";
+        public string hintActive = "SUELTA PARA ABRIR EL EXPEDIENTE";
         public bool CanDecide => phase == Phase.Open;
         /// <summary>Se lanza cuando el jugador coge un expediente de la pila (lo usa el tutorial).</summary>
         public static event Action Grabbed;
-        Vector2 PilePosition => new Vector2(-desk.rect.width * 0.27f, -desk.rect.height * 0.34f);
+        Vector2 PilePosition
+        {
+            get
+            {
+                if (pileAnchor == null) return new Vector2(-desk.rect.width * 0.27f, -desk.rect.height * 0.34f);
+                var world = pileAnchor.TransformPoint(pileAnchor.rect.center);
+                return (Vector2)desk.InverseTransformPoint(world) - desk.rect.center;
+            }
+        }
 
         public void Initialize(RectTransform area, Image tray, Text trayHint, GameObject closedCover,
             GameObject openedContent, Image paperShadow, bool alreadyOpen, Action opened)
@@ -42,11 +61,11 @@ namespace ElDespacho
             onOpened = opened;
             contentInput = content.AddComponent<CanvasGroup>();
             Canvas.ForceUpdateCanvases();
-            sheet.sizeDelta = Vector2.Scale(desk.rect.size, new Vector2(0.96f, 0.96f));
+            sheet.sizeDelta = Vector2.Scale(desk.rect.size, openSize);
             phase = alreadyOpen ? Phase.Open : Phase.Pile;
             sheet.anchoredPosition = alreadyOpen ? Vector2.zero : PilePosition;
-            sheet.localScale = Vector3.one * (alreadyOpen ? 1f : ClosedScale);
-            sheet.localRotation = Quaternion.Euler(0, 0, alreadyOpen ? 0 : -5);
+            sheet.localScale = Vector3.one * (alreadyOpen ? 1f : closedScale);
+            sheet.localRotation = Quaternion.Euler(0, 0, alreadyOpen ? 0 : pileAngle);
             cover.SetActive(!alreadyOpen);
             content.SetActive(alreadyOpen);
             contentInput.interactable = contentInput.blocksRaycasts = alreadyOpen;
@@ -92,7 +111,7 @@ namespace ElDespacho
             phase = accepted ? Phase.Opening : Phase.Returning;
             Sfx.Play(Sfx.Paper, 0.3f);
             StartCoroutine(Move(accepted ? Vector2.zero : PilePosition,
-                accepted ? 1f : ClosedScale, accepted ? 0 : -5, 0.22f, () =>
+                accepted ? 1f : closedScale, accepted ? 0 : pileAngle, 0.22f, () =>
                 {
                     shadow.color = new Color(0, 0, 0, 0.28f);
                     if (accepted)
@@ -149,8 +168,8 @@ namespace ElDespacho
             RectTransformUtility.RectangleContainsScreenPoint(readingZone, e.position, e.pressEventCamera);
         void Highlight(bool active)
         {
-            zone.color = active ? new Color(0.53f, 0.45f, 0.24f, 1f) : ZoneIdle;
-            hint.text = active ? "SUELTA PARA ABRIR EL EXPEDIENTE" : "ZONA DE LECTURA\nArrastra aquí el documento de la pila";
+            zone.color = active ? zoneActive : zoneIdle;
+            hint.text = active ? hintActive : hintIdle;
         }
         public void OnPointerEnter(PointerEventData e)
         {
@@ -167,7 +186,7 @@ namespace ElDespacho
             if (focused || phase != Phase.Dragging) return;
             phase = Phase.Returning;
             Highlight(false);
-            StartCoroutine(Move(PilePosition, ClosedScale, -5, 0.18f, () =>
+            StartCoroutine(Move(PilePosition, closedScale, pileAngle, 0.18f, () =>
             {
                 paper.color = Pal.Paper;
                 shadow.color = new Color(0, 0, 0, 0.28f);
