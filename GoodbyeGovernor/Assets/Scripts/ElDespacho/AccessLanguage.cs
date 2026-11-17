@@ -28,6 +28,11 @@ namespace ElDespacho {
     if(AccessPreferences.Current.keyboard)t+=" Con teclado: seleccione el expediente con TAB y pulse INTRO; vuelva a pulsar INTRO para colocarlo.";
    }
    if(s.persistentId=="decision"&&(AccessPreferences.Current.simpleDocuments||AccessPreferences.Current.keyboard))t+=" Seleccione un sello y confirme sobre el expediente o con la acción Aplicar sello seleccionado.";
+   if(AccessPreferences.Current.simpleDocuments){
+    if(s.persistentId=="grab")t="Pulse el expediente de la bandeja derecha. Quedará seleccionado. No necesita arrastrarlo.";
+    if(s.persistentId=="open")t="Pulse la zona de lectura iluminada para abrirlo. ESC cancela la selección.";
+    if(s.persistentId=="decision")t="Lea la petición. Pulse un sello para ver sus consecuencias. Pulse el papel para confirmar. ESC cancela.";
+   }
    return (AccessPreferences.Current.symbols?"[D] ":"")+t;
   }
  }

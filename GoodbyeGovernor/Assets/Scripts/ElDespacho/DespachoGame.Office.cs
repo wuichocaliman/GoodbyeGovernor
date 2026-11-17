@@ -244,7 +244,8 @@ namespace ElDespacho
             Kit.Panel(noteRt, Kit.Hex("#efe3a8"), Vector2.zero, Vector2.one, default, default, "Paper");
             Kit.Label(noteRt, "NOTA DEL ASESOR", 19, Pal.Red, TextAnchor.UpperLeft, Vector2.zero, Vector2.one,
                 new Vector2(18, 0), new Vector2(-18, -26), FontStyle.Bold);
-            Kit.ScrollText(noteRt, AdvisorText(), 18, Pal.Ink, new Vector2(18, 14), new Vector2(-10, -56), false, "AdvisorText");
+            var advisorScroll = Kit.ScrollText(noteRt, AdvisorText(), 18, Pal.Ink, new Vector2(18, 14), new Vector2(-10, -56), false, "AdvisorText");
+            noteRt.gameObject.AddComponent<OfficeAccessGuidance>().Initialize(this, advisorScroll);
             Pin(noteRt);
 
             var plate = At(stage, "NamePlate", 9, 153, 56, 13);
@@ -511,6 +512,7 @@ namespace ElDespacho
                 return null;
             }
             img.raycastTarget = true;
+            rt.gameObject.AddComponent<AccessName>().label=label;
             return rt.gameObject.AddComponent<StampTool>();
         }
 

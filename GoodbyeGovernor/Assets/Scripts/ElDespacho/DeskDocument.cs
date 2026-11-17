@@ -70,6 +70,7 @@ namespace ElDespacho
             content.SetActive(alreadyOpen);
             contentInput.interactable = contentInput.blocksRaycasts = alreadyOpen;
             Highlight(false);
+            gameObject.AddComponent<AccessHitPadding>();
         }
         public void OnPointerDown(PointerEventData e)
         {
@@ -128,7 +129,7 @@ namespace ElDespacho
         bool accessSelected;
         public bool AccessSelected=>accessSelected;
         public bool AccessAvailable=>phase==Phase.Pile;
-        public bool AccessOnSheet(Vector2 p)=>RectTransformUtility.RectangleContainsScreenPoint(sheet,p);
+        public bool AccessOnSheet(Vector2 p)=>RectTransformUtility.RectangleContainsScreenPoint(sheet,p) || (GetComponent<AccessHitPadding>()?.Contains(p) ?? false);
         public bool AccessOnTray(Vector2 p)=>RectTransformUtility.RectangleContainsScreenPoint(readingZone,p);
         public void AccessSelect(){if(DeskPreferences.Paused||phase!=Phase.Pile)return;accessSelected=true;Highlight(true);hint.text="[D] EXPEDIENTE SELECCIONADO\nPulse aquí para abrir. ESC cancela.";Grabbed?.Invoke();AccessController.Cue("Expediente seleccionado. Pulse la zona de lectura.");}
         public void AccessPlace(){if(!accessSelected||DeskPreferences.Paused||phase!=Phase.Pile)return;AnimatePlacement(true);}
@@ -170,6 +171,14 @@ namespace ElDespacho
         {
             zone.color = active ? zoneActive : zoneIdle;
             hint.text = active ? hintActive : hintIdle;
+            UpdateHint();
+        }
+        void LateUpdate() { UpdateHint(); }
+        void UpdateHint() {
+            if(hint==null || phase==Phase.Open || phase==Phase.Opening || phase==Phase.Dismissing)return;
+            if(AccessPreferences.Current.simpleDocuments)
+                hint.text=accessSelected?"2. PULSA AQUÍ PARA ABRIR\nESC cancela la selección":"1. PULSA EL EXPEDIENTE\nEstá en la bandeja de la derecha";
+            else if(phase==Phase.Pile)hint.text=hintIdle;
         }
         public void OnPointerEnter(PointerEventData e)
         {

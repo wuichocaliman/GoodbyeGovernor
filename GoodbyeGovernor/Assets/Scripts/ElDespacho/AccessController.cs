@@ -22,6 +22,7 @@ namespace ElDespacho {
   public readonly AccessSpeech Speech=new AccessSpeech();
   string layoutContext=""; int focused=-1;string signature="",page="";float nextScan;bool force=true;bool reader;bool lastNarration;string lastTutorial="";
   public StampTool SelectedStamp {get;private set;}
+  Canvas alertCanvas;Text alertText;float alertUntil;
   public string CustomPage=>page;
   AccessPreferences P=>AccessPreferences.Current;
   public static string Plain(string t)=>Regex.Replace(t??"","<[^>]*>","");
@@ -42,7 +43,7 @@ namespace ElDespacho {
    var list=new List<Entry>();
    if(reader)list.Add(new Entry("[X] Volver al modo visual · F2 o ESC",()=>SetReadingView(false)));
    if(P.navigationHelp)list.Add(new Entry(menus.IsVisible?"[>] Elija una opción. ESC vuelve a la pantalla anterior.":game.ScreenName=="Despacho"?"[>] Abra el expediente, lea y elija un sello. Después, continúe. También puede abrir el mapa.":game.ScreenName=="Mapa"?"[>] Elija un país disponible. Las marcas de amenaza y aliado son sospechas.":"[>] Lea la información. Elija una pregunta, una pestaña o una decisión."));
-   if(P.glossary||P.symbols)list.Add(new Entry("[?] Consultar símbolos y términos",()=>{page="Glosario";Refresh();}));
+   if(P.glossary)list.Add(new Entry("[?] Consultar símbolos y términos",()=>{page="Glosario";Refresh();}));
    if(!menus.IsVisible&&game.HasSession && (P.independentColor||P.symbols||P.narration)) foreach(var indicator in game.AccessIndicators().Split(new[]{". "},StringSplitOptions.RemoveEmptyEntries))list.Add(new Entry(indicator));
    foreach(var t in game.GetComponentsInChildren<Text>(false)){
     if(!IsSource(t.transform)||!t.enabled||t.GetComponentInParent<Button>()!=null||string.IsNullOrWhiteSpace(t.text))continue;
@@ -63,12 +64,13 @@ namespace ElDespacho {
    }
    if(!menus.IsVisible){
     foreach(var d in game.GetComponentsInChildren<DeskDocument>())if(!d.CanDecide&&d.AccessAvailable){var doc=d;list.Add(new Entry(doc.AccessSelected?"[>] Colocar expediente en zona de lectura":"[D] Seleccionar expediente",()=>{if(doc.AccessSelected)doc.AccessPlace();else doc.AccessSelect();},d.transform));}
-    foreach(var s in game.GetComponentsInChildren<StampTool>())if(s.AccessAvailable){var stamp=s;list.Add(new Entry("[S] Seleccionar sello: "+Plain(string.Join(" ",s.GetComponentsInChildren<Text>().Select(t=>t.text))),()=>SelectStamp(stamp),s.transform));}
+    foreach(var s in game.GetComponentsInChildren<StampTool>())if(s.AccessAvailable){var stamp=s;list.Add(new Entry("[S] Seleccionar sello: "+Plain(s.GetComponent<AccessName>()!=null?s.GetComponent<AccessName>().label:string.Join(" ",s.GetComponentsInChildren<Text>().Select(t=>t.text))),()=>SelectStamp(stamp),s.transform));}
     if(SelectedStamp!=null)list.Add(new Entry("[V] Aplicar sello seleccionado al expediente",()=>{var s=SelectedStamp;SelectedStamp=null;s.AccessApply();}));
    }
    return list;
   }
   void Update(){
+   if(alertCanvas!=null)alertCanvas.enabled=P.visualSounds&&!canvas.enabled&&Time.unscaledTime<alertUntil;
    if(SelectedStamp!=null&&!SelectedStamp.AccessAvailable)SelectedStamp=null;
    if(!P.narration&&lastNarration)Speech.Stop();lastNarration=P.narration;
    if(EventSystem.current!=null && (P.keyboard || page!="" || reader))EventSystem.current.sendNavigationEvents=false;
@@ -85,7 +87,7 @@ namespace ElDespacho {
    }
    if(P.simpleDocuments && !canvas.enabled && !menus.IsVisible && Mouse.current!=null && mouseClick){
     var pos=Mouse.current.position.ReadValue();
-    if(SelectedStamp!=null){var s=SelectedStamp;if(s.AccessContains(pos)){SelectedStamp=null;s.AccessApply();}else if(!RectTransformUtility.RectangleContainsScreenPoint((RectTransform)s.transform,pos)){SelectedStamp=null;Notify("Selección cancelada");}}
+    if(SelectedStamp!=null){var s=SelectedStamp;if(s.AccessContains(pos)){SelectedStamp=null;s.AccessApply();}else if(!s.AccessOnTool(pos)){SelectedStamp=null;Notify("Selección cancelada");}}
     foreach(var doc in game.GetComponentsInChildren<DeskDocument>())if(doc.AccessSelected&&!doc.AccessOnSheet(pos)){if(doc.AccessOnTray(pos))doc.AccessPlace();else doc.AccessCancel();}
    }
    pressed.Clear();mouseClick=false;
@@ -111,20 +113,48 @@ namespace ElDespacho {
    if(tutorial!=null && tutorial.IsActive && tutorial.ActiveId!=lastTutorial){lastTutorial=tutorial.ActiveId;if(P.narration){var s=tutorial.Steps.First(x=>x.persistentId==lastTutorial);Speech.Say(TutorialLessons.Text(s,game.TutorialQuestions));}}
    DrawFocus();
   }
-  public void Refresh(){signature="";force=true;}
+  public void Refresh(){force=true;}
   public void SelectStamp(StampTool stamp){SelectedStamp=stamp;stamp.AccessPreview();Notify("Sello seleccionado. Pulse el documento para confirmar; ESC cancela.");Refresh();}
-  public bool Escape(){if(page==""&&reader){SetReadingView(false);return true;}if(SelectedStamp!=null){SelectedStamp=null;Notify("Sello cancelado");return true;}foreach(var d in game.GetComponentsInChildren<DeskDocument>())if(d.AccessSelected){d.AccessCancel();return true;}if(page!=""){if(page=="Inicio")page="";else page="Inicio";Refresh();return true;}return false;}
+  public void ReturnSettingsLevel(){if(page=="Inicio"&&reader&&!generalAudio){SetReadingView(true);return;}if(generalAudio||page=="Inicio"){menus.ShowSettings(-1);return;}page="Inicio";focused=-1;Refresh();}
+  public void ShowGeneralAudio(){Speech.Probe();page="Audio";generalAudio=true;focused=-1;Refresh();}
+  public bool Escape(){if(page==""&&reader){SetReadingView(false);return true;}if(SelectedStamp!=null){SelectedStamp=null;Notify("Sello cancelado");return true;}foreach(var d in game.GetComponentsInChildren<DeskDocument>())if(d.AccessSelected){d.AccessCancel();return true;}if(page!=""){ReturnSettingsLevel();return true;}return false;}
   public static bool CancelOrBack()=>Instance!=null&&Instance.Escape();
   public bool IsReadingView=>reader&&page=="";
   public void SetReadingView(bool enabled){page="";reader=enabled;focused=-1;SelectedStamp=null;Refresh();}
   public void OpenReadingView(){if(menus.IsVisible){if(game.HasSession)menus.Resume();else menus.ShowMain();}SetReadingView(true);}
-  public void ShowSettings(){Speech.Probe();page="Inicio";focused=-1;Refresh();}
-  public void ClosePanels(){page="";reader=false;focused=-1;SelectedStamp=null;Refresh();}
+  public void ShowSettings(){generalAudio=false;Speech.Probe();page="Inicio";focused=-1;Refresh();}
+  public void ClosePanels(){generalAudio=false;page="";reader=false;focused=-1;SelectedStamp=null;Refresh();}
   public void ShowReference(){if(!menus.IsVisible&&game.HasSession)menus.ShowPause();page="Controles";Refresh();}
-  public void Notify(string message){if(P.visualSounds||P.navigationHelp){if(notice!=null)notice.text=message;}Speech.Say(message);}
+  public void Notify(string message){
+   if(P.visualSounds||P.navigationHelp){if(notice!=null)notice.text=message;}
+   if(P.visualSounds&&!canvas.enabled){
+    if(alertCanvas==null){var go=new GameObject("AccessibilityNotice",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler));go.transform.SetParent(transform,false);alertCanvas=go.GetComponent<Canvas>();alertCanvas.renderMode=RenderMode.ScreenSpaceOverlay;alertCanvas.sortingOrder=740;var scaler=go.GetComponent<CanvasScaler>();scaler.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;scaler.referenceResolution=new Vector2(1920,1080);scaler.matchWidthOrHeight=.5f;
+     var panel=Kit.Panel(go.transform,Color.black,new Vector2(.2f,.02f),new Vector2(.8f,.02f));panel.raycastTarget=false;panel.rectTransform.pivot=new Vector2(.5f,0);
+     alertText=Kit.Label(panel.transform,"",24,Color.white,TextAnchor.MiddleCenter,Vector2.zero,Vector2.one,new Vector2(20,12),new Vector2(-20,-12));alertText.raycastTarget=false;
+    }
+    alertText.text=message;alertText.fontSize=Mathf.RoundToInt(24*P.textScale);Canvas.ForceUpdateCanvases();((RectTransform)alertText.transform.parent).sizeDelta=new Vector2(0,alertText.preferredHeight+28);alertUntil=Time.unscaledTime+6;alertCanvas.enabled=true;
+   }
+   Speech.Say(message);
+  }
   public static void Cue(string message){Instance?.Notify(message);}
-  public void MoveFocus(int direction){if(controls.Count==0)return;focused=(focused+direction+controls.Count)%controls.Count;var e=controls[focused];Speech.Say(e.text);if(canvas.enabled&&scroll!=null&&focused<rows.Count){Canvas.ForceUpdateCanvases();float y=-rows[focused].anchoredPosition.y;float travel=Mathf.Max(1,content.rect.height-scroll.viewport.rect.height);scroll.verticalNormalizedPosition=1-Mathf.Clamp01((y-80)/travel);}DrawFocus();}
-  public void Activate(){if(focused<0||focused>=controls.Count)return;var action=controls[focused].action;action?.Invoke();force=true;}
+  public void MoveFocus(int direction){if(controls.Count==0)return;focused=(focused+direction+controls.Count)%controls.Count;var e=controls[focused];Speech.Say(e.text);RevealFocused();DrawFocus();}
+  void RevealFocused(){
+   if(!canvas.enabled||focused<0||focused>=controls.Count)return;
+   var target=controls[focused].target as RectTransform;if(target==null)return;
+   var container=target.GetComponentInParent<ScrollRect>();if(container==null)return;
+   Canvas.ForceUpdateCanvases();
+   var extent=target;var card=target.parent as RectTransform;
+   if(card!=null&&card.name.StartsWith("Setting: ")&&card.rect.height<=container.viewport.rect.height-24)extent=card;
+   var bounds=RectTransformUtility.CalculateRelativeRectTransformBounds(container.viewport,extent);
+   if(container is AccessScrollRect smooth) smooth.CancelWheel();
+   var view=container.viewport.rect;float delta=0;
+   if(bounds.min.y<view.yMin+12)delta=view.yMin+12-bounds.min.y;
+   if(bounds.max.y+delta>view.yMax-12)delta=view.yMax-12-bounds.max.y;
+   var pos=container.content.anchoredPosition;
+   pos.y=Mathf.Clamp(pos.y+delta,0,Mathf.Max(0,container.content.rect.height-view.height));
+   container.content.anchoredPosition=pos;container.StopMovement();
+  }
+  public void Activate(){if(focused<0||focused>=controls.Count)return;var action=controls[focused].action;if(page!="")revealSetting=controls[focused].text.Split('.')[0];action?.Invoke();force=true;}
   void DrawFocus(){
    bool show=(P.keyboard||page!=""||reader)&&focused>=0&&focused<controls.Count;
    if(focusCanvas==null){var go=new GameObject("KeyboardFocus",typeof(RectTransform),typeof(Canvas));go.transform.SetParent(transform,false);focusCanvas=go.GetComponent<Canvas>();focusCanvas.renderMode=RenderMode.ScreenSpaceOverlay;focusCanvas.sortingOrder=750;focusRect=Kit.Rect(go.transform,"Focus",Vector2.zero,Vector2.zero);focusRect.pivot=Vector2.zero;
@@ -141,19 +171,20 @@ namespace ElDespacho {
    var viewport=Kit.Panel(bg.transform,dark?Color.black:Pal.Paper,new Vector2(.035f,.075f),new Vector2(.965f,.915f));viewport.raycastTarget=true;viewport.gameObject.AddComponent<RectMask2D>();
    content=Kit.Rect(viewport.transform,"Flow",new Vector2(0,1),new Vector2(1,1));content.pivot=new Vector2(.5f,1);content.sizeDelta=new Vector2(0,1);
    scroll=viewport.gameObject.AddComponent<ScrollRect>();scroll.viewport=viewport.rectTransform;scroll.content=content;scroll.horizontal=false;scroll.movementType=ScrollRect.MovementType.Clamped;scroll.scrollSensitivity=70;
-   Canvas.ForceUpdateCanvases();float width=viewport.rectTransform.rect.width;float y=16;float size=24*P.textScale*P.interfaceScale;
+   Canvas.ForceUpdateCanvases();float width=viewport.rectTransform.rect.width;float y=16;float size=24*P.textScale;
    foreach(var entry in entries){
     string label=entry.text+(entry.action!=null&&!entry.enabled?" (no disponible)":"");
     var rt=Kit.Rect(content,"Entry",new Vector2(0,1),new Vector2(1,1));rt.pivot=new Vector2(.5f,1);rt.offsetMin=new Vector2(18,0);rt.offsetMax=new Vector2(-18,0);
     var text=Kit.Label(rt,label,Mathf.RoundToInt(size),dark?Color.white:Pal.Ink,TextAnchor.UpperLeft,Vector2.zero,Vector2.one,new Vector2(18,10),new Vector2(-18,-10));text.supportRichText=false;text.verticalOverflow=VerticalWrapMode.Overflow;
     if(P.symbols && label.StartsWith("["))text.rectTransform.offsetMin=new Vector2(56*P.interfaceScale,10);
-    Canvas.ForceUpdateCanvases();float height=Mathf.Max(entry.action==null?45:64*P.interfaceScale,text.preferredHeight+28);rt.sizeDelta=new Vector2(-36,height);rt.anchoredPosition=new Vector2(0,-y);y+=height+12;
+    Canvas.ForceUpdateCanvases();float height=Mathf.Max(entry.action==null?45:(P.largeTargets?96:64)*P.interfaceScale,text.preferredHeight+28);rt.sizeDelta=new Vector2(-36,height);rt.anchoredPosition=new Vector2(0,-y);y+=height+12;
     if(P.symbols && label.StartsWith("[")){var iconRect=Kit.Rect(rt,"Symbol",new Vector2(0,1),new Vector2(0,1));iconRect.pivot=new Vector2(0,1);iconRect.anchoredPosition=new Vector2(12,-12);iconRect.sizeDelta=new Vector2(30,30)*P.interfaceScale;var icon=iconRect.gameObject.AddComponent<AccessSymbol>();icon.symbol=label.Length>1?label.Substring(1,1):"D";icon.color=dark?Color.white:Pal.Ink;icon.raycastTarget=false;text.rectTransform.offsetMin=new Vector2(56*P.interfaceScale,10);}
     if(entry.action!=null){var img=rt.gameObject.AddComponent<Image>();img.color=dark?Kit.Hex("#202020"):Pal.PaperDark;img.raycastTarget=true;var button=rt.gameObject.AddComponent<Button>();button.targetGraphic=img;button.interactable=entry.enabled;var e=entry;button.onClick.AddListener(()=>{e.action?.Invoke();Refresh();});if(entry.enabled){rows.Add(rt);controls.Add(new Entry(label,e.action,rt));}}
    }
    content.sizeDelta=new Vector2(0,y+15);scroll.verticalNormalizedPosition=previousScroll;if(focused>=controls.Count)focused=-1;
   }
-  void Set(Action a){a();P.Clamp();bool saved=P.Save();applied=saved?"Cambios aplicados y guardados.":AccessPreferences.Error;DeskPreferences.Current.Apply(false);try{DeskPreferences.Current.Save();}catch(Exception e){applied="No se guardaron todos los ajustes: "+e.Message;Notify(applied);}Refresh();}
+  void Set(Action a){a();P.Clamp();P.CaptureManualProfileChanges();SaveSettings();}
+  void SaveSettings(){bool saved=P.Save();applied=saved?"Cambios aplicados y guardados.":AccessPreferences.Error;DeskPreferences.Current.Apply(false);try{DeskPreferences.Current.Save();}catch(Exception e){applied="No se guardaron todos los ajustes: "+e.Message;Notify(applied);}Refresh();}
   static float Cycle(float v,float[] values){int i=Array.FindIndex(values,x=>Mathf.Abs(x-v)<.01f);return values[(i+1)%values.Length];}
   List<Entry> LegacySettingsEntries(){var a=new List<Entry>();void Text(string t)=>a.Add(new Entry(t));void Button(string t,Action f)=>a.Add(new Entry(t,f));void Toggle(string t,bool v,Action f)=>Button(t+": "+(v?"SÍ":"NO"),()=>Set(f));void Volume(string t,float v,Action<float> f){Button(t+": "+Mathf.RoundToInt(v*100)+" % - reducir",()=>Set(()=>f(Mathf.Max(0,v-.1f))));Button(t+" - aumentar",()=>Set(()=>f(Mathf.Min(1,v+.1f))));}
    if(page=="Inicio"){
@@ -204,3 +235,4 @@ namespace ElDespacho {
  }
  public sealed class AccessName:MonoBehaviour {public string label;}
 }
+

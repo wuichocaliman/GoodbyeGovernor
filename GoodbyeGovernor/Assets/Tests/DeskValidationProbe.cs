@@ -122,7 +122,8 @@ public class DeskValidationProbe : MonoBehaviour
         var special=((List<Card>)Get("cards")).First(x=>x.id=="filtracion");
         Set("currentCard",special); Call("ShowOffice"); yield return null;
         yield return Open();
-        var labels=Doc.GetComponentsInChildren<StampTool>().Select(x=>x.GetComponentInChildren<Text>().text).ToList();
+        // The illustrated stamp rack places captions beside the stamp, not inside StampTool.
+        var labels=game.GetComponentsInChildren<Text>(false).Where(x=>x.enabled&&x.GetComponentInParent<Canvas>().sortingOrder==100).Select(x=>x.text).ToList();
         Check(labels.Contains(special.yesLabel)&&labels.Contains(special.noLabel),"custom answer labels retained");
         Call("ShowMap"); yield return null;
         Check(FindObjectsByType<Button>(FindObjectsSortMode.None).Length>0,"map remains accessible");

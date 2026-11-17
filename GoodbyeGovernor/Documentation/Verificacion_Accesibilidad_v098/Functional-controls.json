@@ -1,0 +1,460 @@
+{
+    "rows": [
+        {
+            "category": "Inicio",
+            "name": "Lectura cómoda",
+            "description": "Facilita la lectura con textos grandes, mayor contraste y elementos más visibles.",
+            "value": "Activar perfil",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Inicio",
+            "name": "Interacción sencilla",
+            "description": "Utiliza clics y controles más grandes para interactuar con documentos y menús.",
+            "value": "Activar perfil",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Inicio",
+            "name": "Comprensión guiada",
+            "description": "Recibe instrucciones más sencillas, símbolos explicativos y ayudas durante la partida.",
+            "value": "Activar perfil",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Inicio",
+            "name": "Escucha asistida",
+            "description": "Escucha información importante y recibe avisos visuales de los acontecimientos. Voz española disponible: Microsoft Helena Desktop · es-ES",
+            "value": "Activar perfil",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Inicio",
+            "name": "Personaliza cómo quieres jugar.",
+            "description": "Adapta la lectura, los controles, las instrucciones y el sonido a tus necesidades.",
+            "value": "",
+            "action": false,
+            "enabled": true
+        },
+        {
+            "category": "Inicio",
+            "name": "Perfiles recomendados",
+            "description": "Configuración personalizada. Puedes combinarlos y desactivarlos. Tus cambios manuales tienen prioridad y se conservan.",
+            "value": "",
+            "action": false,
+            "enabled": true
+        },
+        {
+            "category": "Inicio",
+            "name": "Preferencias personales",
+            "description": "Los cambios se guardan automáticamente. Cargar una campaña no cambia estos ajustes.",
+            "value": "",
+            "action": false,
+            "enabled": true
+        },
+        {
+            "category": "Inicio",
+            "name": "Opciones activas",
+            "description": "Texto 100 % · interfaz 100 %. Sin opciones adicionales.",
+            "value": "",
+            "action": false,
+            "enabled": true
+        },
+        {
+            "category": "Inicio",
+            "name": "Restaurar accesibilidad",
+            "description": "Restaura los apoyos, contraste y movimiento tras confirmar. Conserva partidas y volúmenes del juego.",
+            "value": "Restaurar…",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Visual",
+            "name": "Alto contraste",
+            "description": "Mejora la diferencia entre el texto y el fondo.",
+            "value": "Desactivado",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Visual",
+            "name": "Tamaño de texto",
+            "description": "Amplía las letras de Accesibilidad y del lector. La portada adapta el tamaño al espacio; las notas del asesor conservan su tamaño.",
+            "value": "100 %",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Visual",
+            "name": "Escala de interfaz",
+            "description": "Amplía los espacios, símbolos y controles de Accesibilidad y del lector. Para cambiar las letras, utiliza Tamaño de texto.",
+            "value": "100 %",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Visual",
+            "name": "Indicadores con etiquetas",
+            "description": "Añade nombres y estado de los indicadores al lector. Símbolos y narración también muestran esas etiquetas.",
+            "value": "Desactivado",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Visual",
+            "name": "Reducir destellos",
+            "description": "Elimina el pulso del tutorial y reduce los temblores de la interfaz.",
+            "value": "Desactivado",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Visual",
+            "name": "Lectura opcional",
+            "description": "El lector es una alternativa opcional. Pulsa F2 o Abrir ahora; vuelve al modo visual con F2 o ESC.",
+            "value": "",
+            "action": false,
+            "enabled": true
+        },
+        {
+            "category": "Visual",
+            "name": "Vista de lectura",
+            "description": "Abre la alternativa de texto para esta sesión. F2, ESC o Volver al modo visual permiten salir. Los demás ajustes nunca la abren automáticamente.",
+            "value": "Abrir ahora",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Visual",
+            "name": "VISTA PREVIA · sin efectos en tu partida",
+            "description": "Presidente, hay un expediente pendiente de lectura.",
+            "value": "",
+            "action": false,
+            "enabled": true
+        },
+        {
+            "category": "Motor",
+            "name": "Seleccionar documentos con clics",
+            "description": "Pulsa un documento y después la zona de lectura. No hace falta arrastrarlo. Desactivado: arrastra el documento.",
+            "value": "Desactivado",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Motor",
+            "name": "Navegación por teclado",
+            "description": "TAB elige; INTRO activa; las flechas izquierda y derecha ajustan los volúmenes.",
+            "value": "Desactivado",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Motor",
+            "name": "Botones y zonas más grandes",
+            "description": "Activa controles amplios en la vista de lectura.",
+            "value": "Desactivado",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Motor",
+            "name": "Reducir animaciones",
+            "description": "Simplifica la apertura y el archivo de documentos y elimina temblores.",
+            "value": "Desactivado",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Motor",
+            "name": "Controles y atajos",
+            "description": "Consulta los controles y cambia las teclas de repetir y detener voz.",
+            "value": "Consultar",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Motor",
+            "name": "Movimiento de cámara",
+            "description": "Este prototipo no tiene movimiento de cámara.",
+            "value": "",
+            "action": false,
+            "enabled": true
+        },
+        {
+            "category": "Motor",
+            "name": "VISTA PREVIA · sin efectos en tu partida",
+            "description": "Presidente, hay un expediente pendiente de lectura.",
+            "value": "",
+            "action": false,
+            "enabled": true
+        },
+        {
+            "category": "Motor",
+            "name": "Documento de ejemplo",
+            "description": "Activa la selección con clics y pulsa este documento.",
+            "value": "Seleccionar",
+            "action": true,
+            "enabled": false
+        },
+        {
+            "category": "Motor",
+            "name": "Zona de lectura",
+            "description": "Coloca aquí el documento seleccionado.",
+            "value": "Colocar",
+            "action": true,
+            "enabled": false
+        },
+        {
+            "category": "Cognitiva",
+            "name": "Instrucciones sencillas",
+            "description": "Utiliza explicaciones más cortas en el tutorial. La narrativa conserva su significado.",
+            "value": "Desactivado",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Cognitiva",
+            "name": "Ayudas de navegación",
+            "description": "Añade indicaciones sobre el siguiente paso en la vista de lectura. El marco de teclado funciona de forma independiente.",
+            "value": "Desactivado",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Cognitiva",
+            "name": "Símbolos explicativos",
+            "description": "Añade iconos al lector y símbolos a las notas del asesor. También muestra indicadores. El acceso al glosario se controla por separado.",
+            "value": "Desactivado",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Cognitiva",
+            "name": "Glosario disponible",
+            "description": "Añade un acceso a términos políticos en el lector. Es independiente de los símbolos.",
+            "value": "Desactivado",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Cognitiva",
+            "name": "Glosario político",
+            "description": "Consulta términos y símbolos. Las sospechas nunca se presentan como certezas.",
+            "value": "Consultar",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Cognitiva",
+            "name": "Tutorial y ayudas contextuales",
+            "description": "Consulta las doce lecciones del asesor. Las ayudas de la campaña conservan su progreso.",
+            "value": "Consultar tutorial",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Cognitiva",
+            "name": "VISTA PREVIA · sin efectos en tu partida",
+            "description": "Presidente, hay un expediente pendiente de lectura.",
+            "value": "",
+            "action": false,
+            "enabled": true
+        },
+        {
+            "category": "Audio",
+            "name": "Volumen maestro",
+            "description": "Ajusta el volumen general, incluida la voz.",
+            "value": "80 %",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Audio",
+            "name": "Música",
+            "description": "Pendiente: el prototipo no incluye pistas de música activas.",
+            "value": "100 %",
+            "action": true,
+            "enabled": false
+        },
+        {
+            "category": "Audio",
+            "name": "Efectos de sonido",
+            "description": "Ajusta los sonidos de las acciones del juego.",
+            "value": "100 %",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Audio",
+            "name": "Interfaz",
+            "description": "Ajusta los sonidos de los controles.",
+            "value": "70 %",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Audio",
+            "name": "Ambiente",
+            "description": "Pendiente: el prototipo no incluye pistas de ambiente activas.",
+            "value": "100 %",
+            "action": true,
+            "enabled": false
+        },
+        {
+            "category": "Audio",
+            "name": "Narración del sistema",
+            "description": "Lee información importante con una voz de Windows. Voz española disponible: Microsoft Helena Desktop · es-ES",
+            "value": "Desactivada",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Audio",
+            "name": "Volumen de narración",
+            "description": "Ajusta la voz; también depende del volumen maestro.",
+            "value": "80 %",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Audio",
+            "name": "Velocidad de voz",
+            "description": "Elige el ritmo de lectura que te resulte cómodo.",
+            "value": "Normal",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Audio",
+            "name": "Audio mono",
+            "description": "Mezcla los canales del juego. Los sonidos actuales ya son mono, por lo que no cambian. No procesa la voz de Windows.",
+            "value": "Desactivado",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Audio",
+            "name": "Reducir sonidos agudos",
+            "description": "Suaviza cambios bruscos de los sonidos del juego; no procesa la voz de Windows.",
+            "value": "Desactivado",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Audio",
+            "name": "Avisos visuales",
+            "description": "Muestra mensajes de los acontecimientos que ya emiten avisos en el juego.",
+            "value": "Desactivado",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Audio",
+            "name": "Probar narración",
+            "description": "Escucha una frase de ejemplo.",
+            "value": "Escuchar",
+            "action": true,
+            "enabled": false
+        },
+        {
+            "category": "Audio",
+            "name": "Repetir última narración",
+            "description": "Vuelve a escuchar el último mensaje.",
+            "value": "Repetir",
+            "action": true,
+            "enabled": false
+        },
+        {
+            "category": "Audio",
+            "name": "Detener narración",
+            "description": "Interrumpe la lectura actual.",
+            "value": "Detener",
+            "action": true,
+            "enabled": false
+        },
+        {
+            "category": "Audio",
+            "name": "VISTA PREVIA · sin efectos en tu partida",
+            "description": "Presidente, hay un expediente pendiente de lectura.",
+            "value": "",
+            "action": false,
+            "enabled": true
+        },
+        {
+            "category": "Audio",
+            "name": "Ejemplo de aviso",
+            "description": "Activa los avisos visuales y prueba la notificación.",
+            "value": "Mostrar aviso",
+            "action": true,
+            "enabled": false
+        },
+        {
+            "category": "Controles",
+            "name": "F1: controles y acceso a opciones. F2: vista de lectura. F3: leer la pantalla. ESC: cancelar selección, volver o pausa. Con teclado activado: TAB/Mayús+TAB o flechas arriba/abajo eligen; INTRO/Espacio activan. RePág/AvPág desplazan la vista. Los expedientes y sellos requieren seleccionar y después confirmar, igual que con ratón simplificado.",
+            "description": "",
+            "value": "",
+            "action": false,
+            "enabled": true
+        },
+        {
+            "category": "Controles",
+            "name": "Repetir voz: F6",
+            "description": "",
+            "value": "",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Controles",
+            "name": "Detener voz: F7",
+            "description": "",
+            "value": "",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Controles",
+            "name": "Activar navegación por teclado: NO",
+            "description": "",
+            "value": "",
+            "action": true,
+            "enabled": true
+        },
+        {
+            "category": "Glosario",
+            "name": "Símbolos: [A] Aurelia, su país; [=] Estabilidad; [S] Seguridad; [$] Prosperidad; [!] posible amenaza; [+] posible aliado; [V] visitado/confirmado; [?] sin visitar; [D] documento; [>] siguiente acción; [X] cancelado. Amenaza y aliado son sospechas, no certezas. + / - indican aumento o descenso, no siempre una decisión buena o mala.",
+            "description": "",
+            "value": "",
+            "action": false,
+            "enabled": true
+        },
+        {
+            "category": "Glosario",
+            "name": "Sanciones: restricciones económicas contra otro país. Relaciones diplomáticas: contactos oficiales entre gobiernos. Pacto militar: acuerdo de defensa. Acuerdo comercial: reglas para comprar y vender entre países. Gobierno autoritario: concentra el poder y limita la participación. Recesión: caída de la actividad económica. Inteligencia: información sobre riesgos; puede ser incorrecta o antigua.",
+            "description": "",
+            "value": "",
+            "action": false,
+            "enabled": true
+        },
+        {
+            "category": "Restaurar",
+            "name": "Se restablecerán accesibilidad, contraste y movimiento. La campaña y sus guardados no cambian.",
+            "description": "",
+            "value": "",
+            "action": false,
+            "enabled": true
+        },
+        {
+            "category": "Restaurar",
+            "name": "Confirmar restauración",
+            "description": "",
+            "value": "",
+            "action": true,
+            "enabled": true
+        }
+    ]
+}

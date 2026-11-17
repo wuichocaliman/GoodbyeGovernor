@@ -1,0 +1,17 @@
+PASS OFF click does not select or open; drag remains required
+PASS interaction profile enables clicks and large targets
+PASS ON real input click selects without opening
+PASS ESC route cancels selection
+PASS second mouse input click opens without dragging
+PASS stamp click previews without deciding
+PASS cancel stamp without deciding
+PASS paper click executes decision through original rules
+PASS duplicate decision rejected
+PASS next document available after result
+PASS interaction profile reverses baseline
+PASS OFF again requires dragging
+PASS guided profile enables four supports without enabling tutorial globally
+PASS guided presentation leaves campaign unchanged
+PASS guided profile reversible
+PASS profiles do not open reading view
+COMPLETE real Play Mode with simulated InputSystem mouse; no physical device or comprehension test

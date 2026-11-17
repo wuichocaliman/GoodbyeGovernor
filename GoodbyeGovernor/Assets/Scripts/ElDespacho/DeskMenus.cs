@@ -10,7 +10,7 @@ namespace ElDespacho
     // Dedicated overlay: never deletes or reconstructs the live game to pause it.
     public sealed class DeskMenus : MonoBehaviour
     {
-        public const string Version="v0.9.3-prototipo";
+        public const string Version="v0.9.9-prototipo";
         DespachoGame game;
         Transform root, page;
         CanvasGroup gameInput;
@@ -173,7 +173,7 @@ namespace ElDespacho
             Label("EL PODER DE CADA DECISIÓN",17,Pal.Cream,.075f,.60f,.37f,.65f);
             int latest=DeskSaveStore.LatestSlot();
             string[] labels={"CONTINUAR","NUEVA PARTIDA","CARGAR PARTIDA","AJUSTES","CÓMO JUGAR","CRÉDITOS","SALIR"};
-            UnityAction[] actions={()=>LoadSlot(latest),()=>ConfirmNew(),()=>ShowSlots(false),()=>ShowSettings(0),()=>ShowHelp(),()=>ShowCredits(),()=>ConfirmExit()};
+            UnityAction[] actions={()=>LoadSlot(latest),()=>ConfirmNew(),()=>ShowSlots(false),()=>ShowSettings(-1),()=>ShowHelp(),()=>ShowCredits(),()=>ConfirmExit()};
             for(int i=0;i<labels.Length;i++) Button(labels[i],actions[i],.075f,.52f-i*.067f,.365f,.585f-i*.067f,i!=0||latest>=0);
             Paper(.56f,.105f,.94f,.27f);
             string summary=latest>=0&&DeskSaveStore.TryRead(latest,out var s,out _) ? Describe(s) : "No hay partidas guardadas.\nUn nuevo mandato espera tu firma.";
@@ -192,7 +192,7 @@ namespace ElDespacho
             NewPage("Pausa"); back=Resume;
             Paper(.05f,.07f,.95f,.9f); Heading("MANDATO EN PAUSA",game.SessionSummary);
             string[] labels={"CONTINUAR","GUARDAR PARTIDA","CARGAR PARTIDA","AJUSTES","CÓMO JUGAR","VOLVER AL MENÚ PRINCIPAL","SALIR DEL JUEGO","GUARDAR Y VOLVER AL MENÚ","GUARDAR Y SALIR"};
-            UnityAction[] actions={Resume,()=>ShowSlots(true),()=>ShowSlots(false),()=>ShowSettings(0),ShowHelp,
+            UnityAction[] actions={Resume,()=>ShowSlots(true),()=>ShowSlots(false),()=>ShowSettings(-1),ShowHelp,
                 ()=>Confirm("VOLVER AL MENÚ","Perderás los cambios posteriores al último guardado.",ReturnMain,ShowPause),ConfirmExit,
                 ()=>SaveThen(ReturnMain),()=>SaveThen(Quit)};
             for(int i=0;i<labels.Length;i++) { int col=i<5?0:1, row=i<5?i:i-5; Button(labels[i],actions[i],.08f+col*.45f,.60f-row*.095f,.48f+col*.45f,.675f-row*.095f); }
@@ -268,7 +268,7 @@ namespace ElDespacho
             Label(TutorialLessons.Text(pages[step],game.HasSession?game.TutorialQuestions:3),32,Pal.Cream,.13f,.36f,.87f,.69f);
             Label("Puede revisar estas notas sin realizar acciones. ESC vuelve al índice. En el año 4 hay dos preguntas por visita.",22,Pal.Cream,.13f,.25f,.87f,.34f);
             int previous=step-1,following=step+1;
-            Button("ATRÁS",()=>{if(previous>=0)ShowLesson(lesson,previous);else ShowLesson(lesson-1);},.13f,.16f,.34f,.23f,step>0||lesson>0);
+            Button("ATRÁS",()=>{if(previous>=0)ShowLesson(lesson,previous);else ShowLesson(lesson-1,ManualSteps.Count(s=>s.lesson==lesson-1)-1);},.13f,.16f,.34f,.23f,step>0||lesson>0);
             Button("VOLVER",ShowHelp,.40f,.16f,.60f,.23f);
             Button("SIGUIENTE",()=>{if(following<pages.Length)ShowLesson(lesson,following);else ShowLesson(lesson+1);},.66f,.16f,.87f,.23f,step<pages.Length-1||lesson<11);
         }
@@ -292,10 +292,7 @@ namespace ElDespacho
             string[] tabs={"AUDIO","PANTALLA","JUGABILIDAD","CONTROLES","ACCESIBILIDAD"};
             for(int i=0;i<tabs.Length;i++) {int tab=i; Button((category==i?"● ":"")+tabs[i],()=>ShowSettings(tab),.07f,.61f-i*.095f,.30f,.685f-i*.095f);}
             if(category==0) {
-                SliderRow("Volumen maestro",prefs.master,0,1,.61f,v=>prefs.master=v);
-                SliderRow("Efectos",prefs.effects,0,1,.48f,v=>prefs.effects=v);
-                SliderRow("Interfaz",prefs.ui,0,1,.35f,v=>prefs.ui=v);
-                Label("Música: este prototipo no incluye pista musical.",22,Pal.Cream,.35f,.23f,.91f,.31f);
+                AccessController.Instance.ShowGeneralAudio();
             } else if(category==1) {
                 ToggleRow("Pantalla completa",desiredFullscreen,.63f,()=>{desiredFullscreen=!desiredFullscreen;ShowSettings(1);});
                 Button($"RESOLUCIÓN: {desiredWidth} × {desiredHeight}",()=>{ int[] widths={1280,1600,1920,2560}; int idx=(Array.IndexOf(widths,desiredWidth)+1)%widths.Length; desiredWidth=widths[idx];desiredHeight=desiredWidth*9/16;ShowSettings(1);},.35f,.54f,.91f,.61f);
@@ -311,12 +308,9 @@ namespace ElDespacho
                 Label("Idioma: español\nTexto instantáneo, como en el juego original.\nLa guía se guarda con cada campaña.\nRepita las lecciones desde Cómo jugar.",24,Pal.Cream,.35f,.22f,.91f,.37f);
             } else if(category==3) {
                 Label("Ratón izquierdo: coger, arrastrar y soltar\nESC: abrir pausa / volver\n\nEl papel y los sellos siguen el cursor 1:1.\nNo se altera su precisión con una sensibilidad artificial.",27,Pal.Cream,.35f,.34f,.91f,.68f);
-                Button("RESTABLECER AJUSTES",()=>Confirm("RESTABLECER AJUSTES","Las preferencias volverán a sus valores iniciales. No se borrará ningún guardado.",()=>{DeskPreferences.Reset();desiredWidth=prefs.width;desiredHeight=prefs.height;desiredFullscreen=prefs.fullscreen;Persist();ShowSettings(3);},()=>ShowSettings(3)),.35f,.23f,.91f,.31f);
+                Button("RESTABLECER AJUSTES",()=>Confirm("RESTABLECER AJUSTES","Se restauran los ajustes generales, incluidos contraste y movimiento. Las demás preferencias de accesibilidad y los guardados se conservan.",()=>{DeskPreferences.Reset();desiredWidth=prefs.width;desiredHeight=prefs.height;desiredFullscreen=prefs.fullscreen;Persist();ShowSettings(3);},()=>ShowSettings(3)),.35f,.23f,.91f,.31f);
             } else {
-                ToggleRow("Reducir movimiento",prefs.reduceMotion,.62f,()=>{prefs.reduceMotion=!prefs.reduceMotion;Persist();ShowSettings(4);});
-                ToggleRow("Alto contraste en menús",prefs.highContrast,.51f,()=>{prefs.highContrast=!prefs.highContrast;Persist();ShowSettings(4);});
-                Button($"TEXTO DE MENÚS: {Mathf.RoundToInt(prefs.menuTextScale*100)} %",()=>{prefs.menuTextScale=prefs.menuTextScale<1.1f?1.1f:prefs.menuTextScale<1.19f?1.2f:1f;Persist();ShowSettings(4);},.35f,.40f,.91f,.48f);
-                Label("Los menús se adaptan a la resolución.\nLa ampliación de texto afecta a estos menús;\nlos expedientes conservan su maquetación actual.",24,Pal.Cream,.35f,.22f,.91f,.36f);
+                Label("Selecciona un apartado de la izquierda para ajustar el juego.\n\nLos cambios se guardan automáticamente.",28,Pal.Cream,.35f,.35f,.91f,.65f);
             }
             Button("VOLVER",()=>{Persist();ReturnContext();},.73f,.075f,.91f,.135f);
         }

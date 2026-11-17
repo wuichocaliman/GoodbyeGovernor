@@ -1,3 +1,83 @@
+## v0.9.9-prototipo — Perfiles aplicados al despacho (2026-11-17)
+
+- Comparado el recorrido de ratón simulado en Unity Play Mode antes/después: los dos clics y sellos simplificados ya funcionaban, pero las instrucciones pedían arrastrar y las áreas ampliadas no alcanzaban los objetos del despacho.
+- Añadida superficie de selección ampliada reversible a expedientes cerrados y sellos disponibles. Se reutilizan sus manejadores y consecuencias, sin ampliar la zona válida de confirmación ni cambiar reglas.
+- Zona de lectura y notas del tutorial adaptan instrucciones al modo de clics. La nota del asesor muestra el siguiente paso, cancelación, confirmación y continuación.
+- Comprensión guiada conecta ayudas, definiciones de indicadores, símbolos y consulta AYUDA/GLOSARIO al despacho ilustrado; conserva tutorial desactivado/completado y preferencias personalizadas. No revela secretos ni cambia cartas o diálogos.
+- Pruebas nuevas de entrada real de Unity con ratón virtual, márgenes ampliados, consultas, reversión y reinicio; regresiones de perfiles, lector, documentos, tutorial, diplomacia, guardados y teclado simulado. Sin prueba física ni evaluación humana de comprensión.
+- Conservación de ocho archivos reales de preferencias/partidas verificada por SHA-256. Copia previa local; sin migración de datos.
+- Informe y comparativas: Documentation/El_Despacho_Perfiles_Jugabilidad_v0.9.9-prototipo.pdf. Evidencia: Documentation/Perfiles_Jugabilidad_v099/.
+- Alcance pendiente: evaluación con jugadores nuevos; no se transforma toda la ayuda del mapa/diplomacia ni el despacho alternativo sin arte. El tamaño de texto no se convierte en ajuste global.
+
+## Auditoría funcional de accesibilidad sobre v0.9.8 (2026-11-17)
+
+- Añadida FunctionalEvidenceProbe (Editor): 92 comprobaciones de propiedades renderizadas, reversión de controles, campaña aislada y capturas; persistencia completa comprobada en otro proceso de Unity.
+- Reejecutadas regresiones de perfiles, accesibilidad, lector, navegación, tutorial, documentos y menús. Pruebas en Unity Play Mode con eventos simulados; no se afirma uso de periféricos físicos ni escucha humana.
+- Documentado alcance parcial: contraste y texto no cambian despacho/mapa/diplomacia ilustrados ni texto del tutorial; Música/Ambiente no disponibles; salida audible y confort requieren prueba manual.
+- Sin cambios en lógica de producción ni incremento de versión. Partidas y preferencias reales conservadas, verificadas por SHA-256; copia previa fuera de la documentación compartible.
+- Informe: Documentation/El_Despacho_Verificacion_Funcional_Accesibilidad_v0.9.8.pdf. Tabla, resultados y capturas: Documentation/Verificacion_Accesibilidad_v098/.
+
+## v0.9.8-prototipo — Navegación de Ajustes y desplazamiento (2026-11-17)
+
+- Corregida la entrada AJUSTES del menú principal y pausa: abre la portada general (ShowSettings(-1)), con Audio, Pantalla, Jugabilidad, Controles y Accesibilidad. Ya no abre Audio accesible de forma implícita.
+- Audio conserva un único panel/modelo, con navegación general cuando se abre desde Ajustes y contexto accesible cuando se abre desde el centro. El contexto no se guarda como preferencia.
+- VOLVER y ESC comparten el retorno por niveles. Entrar en Accesibilidad requiere seleccionar su apartado; cerrar y abrir Ajustes no conserva una categoría equivocada.
+- Nuevo AccessScrollRect: delta de rueda limitado, 48 unidades por evento completo, pasos fraccionarios, transición breve con tiempo no escalado, límites Clamped y sin inercia prolongada. Reducir movimiento aplica pasos limitados sin transición.
+- El refresco ya no revela incondicionalmente el foco antiguo. La navegación/activación explícita por teclado conserva visibilidad; arrastre, barra, paginación y foco cancelan un destino anterior de rueda.
+- 122 comprobaciones nuevas en Unity Play Mode: recorridos repetidos, contextos y retorno, rueda simulada, posiciones intermedias, parada, límites, foco, texto al 100/175 % y reducción de movimiento. Regresiones de perfiles, persistencia, accesibilidad, lector, arranque, tutorial, documentos, campaña y guardados ejecutadas; resultados detallados en el informe.
+- Conservados fondo, panel oscuro, oro, botones, cuatro categorías, cuatro perfiles y todas las funciones. Sin cambios de preferencias ni formato de guardados. Sin pruebas con rueda o teclado físicos; la comodidad con hardware diverso sigue pendiente.
+- Copia previa verificada. Informe: Documentation/El_Despacho_Navegacion_y_Scroll_v0.9.8-prototipo.pdf.
+
+## v0.9.7-prototipo — Simplificación y consolidación de accesibilidad (2026-11-17)
+
+- Cuatro categorías: Visión y lectura, Controles, Comprensión y Audio y narración. Los cuatro perfiles reversibles aparecen primero; estado y restauración se reúnen en su portada. Se retira el botón redundante de guardar: los cambios siguen guardándose al realizarse.
+- Ajustes/Audio y Accesibilidad/Audio abren el mismo panel y usan los mismos datos. Contraste conserva una sola propiedad. Se mantiene la estética del escritorio y lámpara, controles ornamentados, oro, enfoque y desplazamiento.
+- Texto cambia fuentes del centro/lector; escala cambia espacios, iconos y mínimos de controles sin multiplicar la fuente. Se conservan los porcentajes existentes. Áreas ampliadas sigue siendo un ajuste diferente.
+- Glosario independiente de Símbolos. Migración navigationSchema conserva el acceso efectivo anterior y las bases de perfiles; tras migrar puede desactivarse sin apagar Símbolos.
+- Lectura opcional pasa a información. Se conserva readingView como recordatorio antiguo; F2 y Abrir ahora siguen siendo explícitos. No se abre automáticamente al iniciar o cargar.
+- ATRÁS del manual abre la última nota de la lección anterior. Las 18 notas se recorren en ambos sentidos sin alterar contenido, IDs ni progreso.
+- Play Mode: 116 comprobaciones semánticas, 654 de perfiles/controles, 50 UX, 21 presentación, 338 accesibilidad, 141 lector, 22 + 15 arranque, 54 tutorial, 58 menús/guardados y 21 arte; reinicios independientes completados. Menús incluye la regresión de documentos; lector/accesibilidad cubren mapa y visitas. Los recuentos cambian por la retirada de duplicaciones y nuevos contratos.
+- Revisión directa con ratón en Unity: cuatro categorías, volumen 80 a 50 %, contraste, texto hasta 175 %, rueda y retorno a Ajustes. Tras adelantar los perfiles, se repitieron presentación y perfiles. Pendientes teclado físico, escucha humana y pantalla en ejecutable.
+- Sin cambios en mecánicas de documentos/sellos, diplomacia, indicadores, narrativa, años, finales ni formato de guardado. Música y Ambiente siguen sin pistas; voz Windows y todos sus controles se conservan.
+- Backup verificado antes de editar. Informe: Documentation/El_Despacho_Simplificacion_Accesibilidad_v0.9.7-prototipo.pdf.
+
+## v0.9.6-prototipo — Auditoría semántica de accesibilidad (2026-11-17)
+
+- Corregido Brillo por teclado: las flechas respetan el rango real 65–115 %, con pasos del 5 % del rango. Reproducción previa y verificación del efecto visual y reversión en Unity Play Mode.
+- Aclaradas descripciones de texto/escala, indicadores, ayudas, símbolos/glosario, preferencia de lectura, mono y restauraciones. Se conserva su funcionamiento y persistencia.
+- Inventario de 120 registros con efectos reales, datos compartidos, evidencia, limitaciones y recomendaciones. Propuesta de cuatro grupos y perfiles rápidos, sin reorganización ni eliminación de funciones.
+- 92 comprobaciones semánticas nuevas y reinicio independiente; regresiones de perfiles (705), UX (57), estilo (25), accesibilidad (588), lector (141), arranque (22 + 15), tutorial (54), menús/guardados (58) y arte (21), además de persistencia, completadas. Los PASS que reproducen limitaciones no certifican un diseño correcto.
+- Detectado ATRÁS del manual: salta a la primera nota de la lección anterior y omite sus notas finales. Pendiente; no se modifica el tutorial protegido por el encargo.
+- Pendientes escucha humana, teclado físico y verificación de pantalla en ejecutable/monitor. Música y Ambiente siguen sin recursos; mono no altera clips ya mono; narración no equivale a audiodescripción de arte.
+- Copia previa verificada. No cambian campaña, documentos, sellos, indicadores, diplomacia, tutorial, guardados, narrativa, finales, arte ni escenas.
+- Informe: Documentation/El_Despacho_Auditoria_Simplificacion_Accesibilidad.pdf. Matriz editable: Documentation/Inventario_Simplificacion_Accesibilidad.csv.
+
+## v0.9.5-prototipo — Perfiles reversibles y auditoría de accesibilidad (2026-11-17)
+
+- Corregidos los cuatro perfiles: ahora alternan Activar/Desactivar, conservan una base personalizada y persisten su estado. Indicador ACTIVO y borde reforzado.
+- Capas combinables e independientes del orden: requisitos booleanos por unión y texto de Lectura cómoda con mínimo 150 %, sin reducir una base mayor. Los cambios manuales tienen prioridad y se conservan al retirar capas.
+- Compatibilidad con JSON anteriores: se conservan los valores efectivos como base personalizada; se retiran marcas antiguas de perfil porque no incluían valores previos recuperables. Mensaje explicativo en el menú. No se borran preferencias intencionales.
+- Corregidos desplazamiento tras recalcular el contenido y enfoque de controles fuera de pantalla, con texto ampliado y alto contraste. Se conserva el arte y los botones ornamentados.
+- Áreas grandes ahora aumenta realmente la altura mínima de los controles del lector. Avisos visuales ahora muestra también un aviso temporal en el modo ilustrado. Actualizar el menú sin cambiar contenido ya no reinicia la narración después de detenerla.
+- Etiquetas accesibles de los sellos ilustrados recuperadas sin modificar la lógica de decisiones; el texto visual de estos sellos vive junto a ellos.
+- Nueva auditoría automatizada de controles, combinaciones de perfiles, overrides, migración, reinicio independiente, foco y atajos simulados. Pruebas de regresión de accesibilidad, lector, arranque, menús/guardados, documentos y tutorial.
+- Música y Ambiente siguen desactivados por ausencia de pistas. Narración española validada a nivel de proceso y órdenes; no equivale a escucha humana ni a teclado físico.
+- Se conserva el despacho ilustrado v0.10 ya presente y todos los sistemas de campaña. No cambian escenas, imágenes, cartas ni formato de guardados.
+- Informe y tabla: Documentation/El_Despacho_Auditoria_Controles_Accesibilidad_v0.9.5-prototipo.pdf y Documentation/Auditoria_Controles_v095.csv.
+
+
+## v0.9.4-prototipo — Accesibilidad integrada visualmente en Ajustes (2026-11-16)
+
+- Sustituida la presentación beige por el mismo fondo de lámpara y escritorio, panel oscuro translúcido, separadores dorados y botones ornamentados de los ajustes normales.
+- Navegación lateral con Perfiles, Visión, Movimiento y controles, Comprensión, Audio y General. Contenido agrupado a la derecha y VOLVER coherente con Ajustes.
+- Cuatro perfiles conservados con paneles oscuros; opciones y audio mantienen sus acciones, sliders, estados y explicaciones.
+- Escalado de texto y controles con alturas adaptativas; desplazamiento independiente de navegación y contenido, incluido seguimiento del foco por teclado. Compatibilidad con alto contraste.
+- Conservados preferencias, narración, interacción simplificada, lectura explícita y todos los sistemas de juego. Se preserva el despacho ilustrado v0.10 ya presente en esta copia local.
+- Añadida AccessibilityStyleProbe (25 comprobaciones). Adaptada únicamente la comprobación de etiquetas de DeskValidationProbe al diseño actual, que coloca los textos junto a los sellos; no se cambia el juego.
+- Unity Play Mode: pasan accesibilidad UX (57), accesibilidad general (588), persistencia entre procesos, lectura (141), arranque (22 + 15), tutorial (54), menús/guardado (58) y arte (21). Suite de documentos completada; menús sin errores ni avisos de ejecución.
+- Revisión visual y ratón en Play Mode: Perfiles, Audio, Visión, volumen 80 a 50 %, alto contraste, texto al 125 % y retorno a Ajustes. Pruebas con preferencias temporales. Teclado validado mediante eventos automatizados; pendiente revisión humana de teclado y voz y build de distribución.
+- Informe: Documentation/El_Despacho_Accesibilidad_Visual_Polish_v0.9.4-prototipo.pdf.
+
 ## v0.10-prototipo — Despacho ilustrado con el nuevo pixel art (2026-11-14)
 
 - La pantalla principal se monta sobre `Art/Despacho/Fondo_Despacho` (320x180 a x6) siguiendo el doc de diseño de la pantalla principal (opción B). Nuevo archivo `DespachoGame.Office.cs`; si el fondo no está, `ShowOffice` usa el despacho anterior sin cambios.

@@ -1,0 +1,43 @@
+Hay nubes sobre Aurelia.
+ESTABILIDAD
+45
+SEGURIDAD
+45
+PROSPERIDAD
+45
+LA GACETA · ÚLTIMA HORA
+NO a Tomás Ruiz
+CONFIDENCIAL
+Esperan audiencia:
+Lindmark, Pavonia, Tarvessa
+MAPA DEL MUNDO
+3 visitas
+1
+Año 1 de 4
+Atiende tu mesa
+NOTA DEL ASESOR
+[>] Arrastre el expediente de la bandeja derecha al centro de la mesa. Allí se abrirá.
+
+[=] Estabilidad: orden y confianza.
+[S] Seguridad: defensa.
+[$] Prosperidad: economía.
+Si uno llega a 0, termina el mandato.
+
+[=] Estabilidad 45 / 100: atención. [S] Seguridad 45 / 100: atención. [$] Prosperidad 45 / 100: atención. Año 1 de 4.
+
+AYUDA: Tutorial Presidencial. F1: controles. El mapa abre las visitas; La Gaceta reúne noticias.
+AYUDA
+GLOSARIO
+PRESIDENCIA
+DE AURELIA
+3
+4
+EXPEDIENTES
+DENEGADO
+APROBADO
+Arrastra un expediente
+de la bandeja hasta el vade
+AURELIA · PRESIDENCIA
+PENDIENTE DE REVISIÓN
+AÑO 1 · ASUNTO 2
+PAUSA · ESC

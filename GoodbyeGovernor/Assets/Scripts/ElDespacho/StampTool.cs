@@ -38,6 +38,7 @@ namespace ElDespacho
             var r = area.rect;
             home = new Vector2(r.width * (homeAnchor.x - 0.5f), r.height * (homeAnchor.y - 0.5f));
             self.anchoredPosition = home;
+            gameObject.AddComponent<AccessHitPadding>();
         }
 
         public void OnPointerDown(PointerEventData e)
@@ -93,6 +94,7 @@ namespace ElDespacho
         }
 
         public bool AccessAvailable=>!used && !dragging && isActiveAndEnabled;
+        public bool AccessOnTool(Vector2 p)=>RectTransformUtility.RectangleContainsScreenPoint(self,p) || (GetComponent<AccessHitPadding>()?.Contains(p) ?? false);
         public bool AccessContains(Vector2 p)=>RectTransformUtility.RectangleContainsScreenPoint(target,p);
         public void AccessPreview(){if(AccessAvailable)onHover?.Invoke(true);}
         public void AccessApply(){if(!AccessAvailable||DeskPreferences.Paused)return;used=true;onStamped?.Invoke(Vector2.zero);}

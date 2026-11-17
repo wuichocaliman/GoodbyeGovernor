@@ -1,0 +1,33 @@
+PASS game boots in Unity Play mode
+PASS fresh card is closed and decisions hidden
+PASS answer before opening has no effect
+PASS document follows cursor in canvas coordinates
+PASS invalid drop returns to pile
+PASS closed document hit by GraphicRaycaster
+PASS reading zone highlights during drag
+PASS opening animation blocks decisions
+PASS valid drop opens exactly once
+PASS map round-trip preserves opened document
+PASS reading zone highlights during drag
+PASS opening animation blocks decisions
+PASS valid drop opens exactly once
+PASS original three effects applied exactly once despite double answer
+PASS second click cannot skip freshly shown result
+PASS archive animation blocks repeated continue
+PASS chain delivered as new closed document
+PASS reading zone highlights during drag
+PASS opening animation blocks decisions
+PASS valid drop opens exactly once
+PASS reading zone highlights during drag
+PASS opening animation blocks decisions
+PASS valid drop opens exactly once
+PASS reading zone highlights during drag
+PASS opening animation blocks decisions
+PASS valid drop opens exactly once
+PASS successive decisions advance once each
+PASS reading zone highlights during drag
+PASS opening animation blocks decisions
+PASS valid drop opens exactly once
+PASS custom answer labels retained
+PASS map remains accessible
+COMPLETE: automated Play-mode event tests; no physical mouse or visual sign-off.

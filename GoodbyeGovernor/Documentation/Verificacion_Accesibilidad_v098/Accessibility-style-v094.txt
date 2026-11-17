@@ -1,0 +1,22 @@
+PASS opens from original settings button
+PASS sidebar navigation VISIÓN Y LECTURA
+PASS shared lamp artwork Visual
+PASS ornate navigation and return Visual
+PASS independent content and navigation scrolling Visual
+PASS sidebar navigation CONTROLES
+PASS shared lamp artwork Motor
+PASS ornate navigation and return Motor
+PASS independent content and navigation scrolling Motor
+PASS sidebar navigation COMPRENSIÓN
+PASS shared lamp artwork Cognitiva
+PASS ornate navigation and return Cognitiva
+PASS independent content and navigation scrolling Cognitiva
+PASS sidebar navigation AUDIO Y NARRACIÓN
+PASS shared lamp artwork Audio
+PASS ornate navigation and return Audio
+PASS independent content and navigation scrolling Audio
+PASS visual navigation does not mutate preferences
+PASS return from category
+PASS return restores normal settings
+PASS large high-contrast layout fits after focus navigation
+COMPLETE 21 PASS - automated Unity Play Mode
