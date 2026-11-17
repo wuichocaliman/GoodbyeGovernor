@@ -1,4 +1,16 @@
-﻿## v0.9.13-prototipo — Accesibilidad durante la partida (2026-11-17)
+﻿## v0.9.14-prototipo — Expediente de formación presidencial (2026-11-17)
+
+- Rediseñados el índice de CÓMO JUGAR y la consulta de lecciones con estructura de expediente oficial: título, lección/nota, progreso, ficha de Julián Paz, documento de pergamino y navegación inferior uniforme.
+- Conservadas las doce lecciones en dos columnas y las dieciocho notas, su contenido, orden y acciones. ATRÁS/SIGUIENTE se desactivan en los extremos; VOLVER/ESC regresan al índice.
+- Fondo del despacho y botones ornamentados reutilizados. Reserva de retrato con monograma JP; no se usa la imagen de otro personaje.
+- Tipografía propia sin reducción automática, escalas hasta 175%, alto contraste y scroll separado de los botones inferiores. Foco y activación existentes; desplazamiento del manual disponible en navegación accesible. Evitada la doble aplicación del adaptador genérico de texto.
+- 907 comprobaciones nuevas de Unity Play Mode: recorrido de las dieciocho notas en ambos sentidos, 100/150/175% en 1920x1080 y 1280x720, textos y botones dentro de sus áreas, rueda/foco/activación simulados, contenido de narración y conservación completa de campaña. Regresiones de tutorial (54), menús/guardados (58), semántica (116), lector (141) y navegación/scroll (122), con persistencia en proceso nuevo.
+- Actualizada una prueba antigua que localizaba botones por el prefijo «1.» y el título anterior; ahora usa identificadores estables y la presentación actual. No se alteró la lógica para satisfacer la prueba.
+- TutorialLessons, recursos de notas, activación contextual, progreso, omisión, guardados, cartas y diplomacia sin modificar. Copia previa verificada; ocho archivos reales de preferencias/partidas intactos por SHA-256.
+- Pendientes evaluación física/humana, escucha de pronunciación y retrato real de Julián Paz. Este cambio no rediseña la nota contextual superpuesta durante la partida.
+- Informe: Documentation/El_Despacho_Tutorial_Presidencial_Rediseno_v0.9.14-prototipo.pdf. Capturas y registros: Documentation/Tutorial_Presidencial_v0914/.
+
+## v0.9.13-prototipo — Accesibilidad durante la partida (2026-11-17)
 
 - Conectados alto contraste y ampliación de texto con la interfaz ilustrada mediante adaptadores uGUI reversibles. Placas de contraste locales, texto completo desplazable sin encogimiento, etiquetas de estado y separación de textos de indicadores. Ilustraciones conservadas.
 - Reorganización de la columna del mapa y de preguntas/pestañas/decisiones diplomáticas al ampliar texto. Corregida la selección de referencias a paneles antiguos durante reconstrucciones. Tutorial con bandas independientes de título, cuerpo y controles; sello decorativo de inteligencia separado de su título.

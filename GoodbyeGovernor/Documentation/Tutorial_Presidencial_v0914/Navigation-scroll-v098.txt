@@ -1,0 +1,123 @@
+PASS main -> general settings 0
+PASS general tab AUDIO
+PASS general tab PANTALLA
+PASS general tab JUGABILIDAD
+PASS general tab CONTROLES
+PASS general tab ACCESIBILIDAD
+PASS explicit accessibility entry
+PASS category back -> profiles
+PASS accessibility back -> general
+PASS general back -> main
+PASS main -> general settings 1
+PASS general tab AUDIO
+PASS general tab PANTALLA
+PASS general tab JUGABILIDAD
+PASS general tab CONTROLES
+PASS general tab ACCESIBILIDAD
+PASS explicit accessibility entry
+PASS category back -> profiles
+PASS accessibility back -> general
+PASS general back -> main
+PASS main -> general settings 2
+PASS general tab AUDIO
+PASS general tab PANTALLA
+PASS general tab JUGABILIDAD
+PASS general tab CONTROLES
+PASS general tab ACCESIBILIDAD
+PASS explicit accessibility entry
+PASS category back -> profiles
+PASS accessibility back -> general
+PASS general back -> main
+PASS shared Audio uses general navigation, not accessibility center
+PASS general audio back -> settings
+PASS ESC matches accessibility back
+PASS reader consultation returns to reader rather than opening general settings
+PASS scrollable content 1
+PASS wheel starts bounded / reduced motion immediate
+PASS one wheel event settles at 48 units, not a page
+PASS wheel stops without long inertia
+PASS refresh preserves manual position and focus
+PASS fractional wheel supports intermediate position
+PASS bottom clamped
+PASS top clamped without bounce
+PASS keyboard focus visible 0
+PASS keyboard focus visible 1
+PASS keyboard focus visible 2
+PASS keyboard focus visible 3
+PASS keyboard focus visible 4
+PASS keyboard focus visible 5
+PASS keyboard focus visible 6
+PASS keyboard focus visible 7
+PASS keyboard focus visible 8
+PASS keyboard focus visible 9
+PASS keyboard focus visible 10
+PASS keyboard focus visible 11
+PASS keyboard focus visible 12
+PASS keyboard focus visible 14
+PASS scrollable content 1
+PASS wheel starts bounded / reduced motion immediate
+PASS one wheel event settles at 48 units, not a page
+PASS wheel stops without long inertia
+PASS refresh preserves manual position and focus
+PASS fractional wheel supports intermediate position
+PASS bottom clamped
+PASS top clamped without bounce
+PASS keyboard focus visible 0
+PASS keyboard focus visible 1
+PASS keyboard focus visible 2
+PASS keyboard focus visible 3
+PASS keyboard focus visible 4
+PASS keyboard focus visible 5
+PASS keyboard focus visible 6
+PASS keyboard focus visible 7
+PASS keyboard focus visible 8
+PASS keyboard focus visible 9
+PASS keyboard focus visible 10
+PASS keyboard focus visible 11
+PASS keyboard focus visible 12
+PASS keyboard focus visible 14
+PASS scrollable content 1.75
+PASS wheel starts bounded / reduced motion immediate
+PASS one wheel event settles at 48 units, not a page
+PASS wheel stops without long inertia
+PASS refresh preserves manual position and focus
+PASS fractional wheel supports intermediate position
+PASS bottom clamped
+PASS top clamped without bounce
+PASS keyboard focus visible 0
+PASS keyboard focus visible 1
+PASS keyboard focus visible 2
+PASS keyboard focus visible 3
+PASS keyboard focus visible 4
+PASS keyboard focus visible 5
+PASS keyboard focus visible 6
+PASS keyboard focus visible 7
+PASS keyboard focus visible 8
+PASS keyboard focus visible 9
+PASS keyboard focus visible 10
+PASS keyboard focus visible 11
+PASS keyboard focus visible 12
+PASS keyboard focus visible 14
+PASS scrollable content 1.75
+PASS wheel starts bounded / reduced motion immediate
+PASS one wheel event settles at 48 units, not a page
+PASS wheel stops without long inertia
+PASS refresh preserves manual position and focus
+PASS fractional wheel supports intermediate position
+PASS bottom clamped
+PASS top clamped without bounce
+PASS keyboard focus visible 0
+PASS keyboard focus visible 1
+PASS keyboard focus visible 2
+PASS keyboard focus visible 3
+PASS keyboard focus visible 4
+PASS keyboard focus visible 5
+PASS keyboard focus visible 6
+PASS keyboard focus visible 7
+PASS keyboard focus visible 8
+PASS keyboard focus visible 9
+PASS keyboard focus visible 10
+PASS keyboard focus visible 11
+PASS keyboard focus visible 12
+PASS keyboard focus visible 14
+COMPLETE 122 PASS; simulated wheel and focus, real Unity Play Mode; no physical device claim

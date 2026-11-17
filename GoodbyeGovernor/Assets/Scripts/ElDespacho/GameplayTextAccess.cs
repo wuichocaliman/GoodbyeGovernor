@@ -56,7 +56,7 @@ namespace ElDespacho {
 
 
    foreach(var text in game.GetComponentsInChildren<Text>(false)){
-    if(text.GetComponent<GameplayTextVisual>()!=null||!IsSource(text.transform))continue;
+    if(text.GetComponent<GameplayTextVisual>()!=null||text.GetComponentInParent<TutorialManualView>()!=null||!IsSource(text.transform))continue;
     var c=text.GetComponentInParent<Canvas>();if(c.sortingOrder==400&&(menus.PageName=="Principal"||menus.PageName=="Ajustes"))continue;
     if((text.text=="Elige un país con el ratón."||text.text.StartsWith("Puedes hacer")||text.text.StartsWith("No te quedan preguntas"))&&text.GetComponent<GameplayGuidanceNote>()==null)text.gameObject.AddComponent<GameplayGuidanceNote>();
     text.GetComponent<GameplayGuidanceNote>()?.Apply();

@@ -10,7 +10,7 @@ namespace ElDespacho
     // Dedicated overlay: never deletes or reconstructs the live game to pause it.
     public sealed class DeskMenus : MonoBehaviour
     {
-        public const string Version="v0.9.13-prototipo";
+        public const string Version="v0.9.14-prototipo";
         DespachoGame game;
         Transform root, page;
         CanvasGroup gameInput;
@@ -252,25 +252,19 @@ namespace ElDespacho
         TutorialStepData[] ManualSteps => manualSteps ?? (manualSteps=TutorialLessons.Create(Resources.LoadAll<TutorialStepData>("Tutorial").OrderBy(s=>s.name).ToArray()));
         void ShowHelp()
         {
-            NewPage("Cómo jugar"); back=ReturnContext; Paper(.05f,.07f,.95f,.9f);
-            Heading("TUTORIAL PRESIDENCIAL","Julián Paz · Consulta libre: no cambia su campaña ni el progreso de la guía.");
-            for(int i=0;i<12;i++) {
-                int lesson=i,col=i/6,row=i%6;
-                Button((i+1)+". "+TutorialLessons.Titles[i],()=>ShowLesson(lesson),.08f+col*.45f,.60f-row*.075f,.48f+col*.45f,.66f-row*.075f);
-            }
-            Button("VOLVER",ReturnContext,.74f,.09f,.91f,.15f);
+            NewPage("Cómo jugar"); back=ReturnContext;
+            TutorialManualView.Create(page).Index(lesson=>ShowLesson(lesson),ReturnContext);
         }
         public void ShowLesson(int lesson,int step=0)
         {
             var pages=ManualSteps.Where(s=>s.lesson==lesson).ToArray();step=Mathf.Clamp(step,0,pages.Length-1);
-            NewPage("Consulta");back=ShowHelp;Paper(.08f,.12f,.92f,.9f);
-            Heading(TutorialLessons.Titles[lesson],$"Julián Paz · Lección {lesson+1}/12 · Nota {step+1}/{pages.Length} · Solo consulta");
-            Label(TutorialLessons.Text(pages[step],game.HasSession?game.TutorialQuestions:3),32,Pal.Cream,.13f,.36f,.87f,.69f);
-            Label("Puede revisar estas notas sin realizar acciones. ESC vuelve al índice. En el año 4 hay dos preguntas por visita.",22,Pal.Cream,.13f,.25f,.87f,.34f);
+            NewPage("Consulta");back=ShowHelp;
             int previous=step-1,following=step+1;
-            Button("ATRÁS",()=>{if(previous>=0)ShowLesson(lesson,previous);else ShowLesson(lesson-1,ManualSteps.Count(s=>s.lesson==lesson-1)-1);},.13f,.16f,.34f,.23f,step>0||lesson>0);
-            Button("VOLVER",ShowHelp,.40f,.16f,.60f,.23f);
-            Button("SIGUIENTE",()=>{if(following<pages.Length)ShowLesson(lesson,following);else ShowLesson(lesson+1);},.66f,.16f,.87f,.23f,step<pages.Length-1||lesson<11);
+            TutorialManualView.Create(page).Lesson(lesson,step,pages.Length,Array.IndexOf(ManualSteps,pages[step]),
+                TutorialLessons.Text(pages[step],game.HasSession?game.TutorialQuestions:3),
+                ()=>{if(previous>=0)ShowLesson(lesson,previous);else ShowLesson(lesson-1,ManualSteps.Count(s=>s.lesson==lesson-1)-1);},
+                ShowHelp,()=>{if(following<pages.Length)ShowLesson(lesson,following);else ShowLesson(lesson+1);},
+                step>0||lesson>0,step<pages.Length-1||lesson<11);
         }
         void ShowCredits()
         {

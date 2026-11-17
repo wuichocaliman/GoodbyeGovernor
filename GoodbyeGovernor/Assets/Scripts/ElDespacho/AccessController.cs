@@ -68,6 +68,7 @@ namespace ElDespacho {
     foreach(var s in game.GetComponentsInChildren<StampTool>())if(s.AccessAvailable){var stamp=s;list.Add(new Entry("[S] Seleccionar sello: "+Plain(s.GetComponent<AccessName>()!=null?s.GetComponent<AccessName>().label:string.Join(" ",s.GetComponentsInChildren<Text>().Select(t=>t.text))),()=>SelectStamp(stamp),s.transform));}
     if(SelectedStamp!=null)list.Add(new Entry("[V] Aplicar sello seleccionado al expediente",()=>{var s=SelectedStamp;SelectedStamp=null;s.AccessApply();}));
    }
+   foreach(var manual in game.GetComponentsInChildren<TutorialManualView>())foreach(var area in manual.GetComponentsInChildren<ScrollRect>())if(IsSource(area.transform)&&area.content.rect.height>area.viewport.rect.height+2){var scrollArea=area;list.Add(new Entry("Desplazar contenido del tutorial",()=>scrollArea.verticalNormalizedPosition=scrollArea.verticalNormalizedPosition>.05f?Mathf.Max(0,scrollArea.verticalNormalizedPosition-.5f):1,area.transform));}
    foreach(var text in game.GetComponentsInChildren<GameplayTextAccess>())if(IsSource(text.transform)&&text.Scroll!=null&&text.Scroll.enabled&&text.Scroll.content.rect.height>text.Scroll.viewport.rect.height+2){var area=text.Scroll;list.Add(new Entry("Desplazar texto: "+Plain(text.GetComponent<Text>().text).Split('\n')[0],()=>area.verticalNormalizedPosition=area.verticalNormalizedPosition>.05f?Mathf.Max(0,area.verticalNormalizedPosition-.5f):1,area.transform));}
    return list;
   }

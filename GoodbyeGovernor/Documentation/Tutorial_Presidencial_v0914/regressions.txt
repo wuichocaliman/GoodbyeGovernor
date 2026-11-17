@@ -1,0 +1,4 @@
+TutorialManualRunner.Run exit=0
+TutorialValidationRunner.Run exit=0
+MenuValidationRunner.Run exit=0
+AccessibilityMeaningRunner.Run exit=1
