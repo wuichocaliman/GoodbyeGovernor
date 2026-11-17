@@ -17,10 +17,24 @@ Aquí solo van los sprites a tamaño real que usa el juego. Se cargan por códig
 | `UI/UI_Dossier` | Portada del expediente cerrado en la pila | Portada de texto |
 | `UI/UI_IconoGaceta_Normal` / `_Hover` | La Gaceta en la mesa (abre el periódico; aviso rojo = noticias sin leer) | Papel con texto |
 | `Despacho/Fondo_Despacho` | Fondo del despacho (320x180, se ve a x6). **Si falta, se usa el despacho anterior entero** | Despacho generado por código |
+| `Despacho/Ventana_Tranquilo` / `_Nublado` / `_Humo` / `_Crisis` | Vista de la ventana (el cristal, 44x42, con los parteluces): crisis si la media < 40; humo si algún indicador < 35; tranquilo si la media >= 60; si no, nublado | Cielo oscurecido y manchas de humo |
 | `Despacho/Bandeja_Expedientes` | Bandeja de la mesa: de aquí se coge el expediente; el número va sobre el círculo rojo dibujado | Rectángulo de madera |
 | `Sellos/Sello_Aprobado` / `_Denegado` | Sellos que se arrastran (derecha = sí, izquierda = no) | Sello generado por código |
 | `Sellos/Tampon_Verde` / `_Rojo` | Tampones bajo cada sello | Nada |
 | `Sellos/Marca_Aprobado` / `_Denegado` | Marca que deja el sello en el papel (solo si la etiqueta es APROBADO/DENEGADO; las cartas con etiquetas propias usan la marca de texto) | Marco con texto |
+| `Despacho/Ficha_Indicador` | Tarjetas de Estabilidad/Seguridad/Prosperidad del corcho (38x28) | Tarjeta crema |
+| `Despacho/Recorte_Prensa` | Recorte con el último titular (52x22); el texto va bajo la regla roja | Papel liso |
+| `Despacho/Informe_Confidencial` | Informe con los países que esperan audiencia (56x23); el texto evita el lomo y el clip | Papel liso |
+| `Despacho/Mapa_Clavado` | Mapa del corcho que abre el mapa del mundo (40x38) | Mapa dibujado por código |
+| `Despacho/Chincheta` | Chinchetas de todos los papeles del corcho y la nota (6x5) | Círculo rojo |
+| `Despacho/Reloj_Esfera` + `Reloj_Marco` | Reloj del mandato (30x30); los cuartos del año se pintan entre los dos | Reloj por código |
+| `Despacho/Nota_Asesor` | Nota del asesor (63x66) | Papel amarillo |
+| `Despacho/Placa_Nombre` | Placa «Presidencia de Aurelia» (56x13); el texto va encima | Placa por código |
+| `Despacho/Papel_Expediente` | Papel del expediente abierto y cerrado (99x86); el contenido va dentro del doble marco | Papel liso |
+| `UI/Boton_Laton` | Botón de cerrar el año y DOBLAR EL PERIÓDICO (58x11) | Botón dorado |
+| `UI/Gaceta_Abierta` | Periódico abierto (136x160) | Papel liso |
+| `UI/Gaceta_Ilustracion_Economia` / `_Exterior` / `_Politica` | Foto de la noticia principal según el tema (40x28) | Recuadro vacío |
+| `UI/Sello_Nuevo` | Marca «NUEVO» en las noticias sin leer (26x9) | Texto rojo |
 
 ## Importación
 `Assets/Editor/ElDespachoArtImporter.cs` aplica solo a esta carpeta: Sprite, filtro Point, sin compresión, sin mipmaps, 100 PPU.

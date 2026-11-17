@@ -1,4 +1,12 @@
-﻿## v0.9.14-prototipo — Expediente de formación presidencial (2026-11-17)
+﻿## v0.10.1-prototipo — Arte del corcho, la mesa y La Gaceta (2026-11-17)
+
+- Integradas las piezas que faltaban del despacho: `Ficha_Indicador`, `Recorte_Prensa`, `Informe_Confidencial`, `Mapa_Clavado`, `Chincheta`, `Reloj_Esfera` + `Reloj_Marco`, `Nota_Asesor`, `Placa_Nombre` y `Papel_Expediente` (Art/Despacho), y `Boton_Laton` (Art/UI). Cada una sustituye al dibujo por código solo si el PNG existe (`UseArt`); si falta, se ve como antes.
+- La Gaceta abierta con maquetación de portada: `Gaceta_Abierta`, noticia principal con ilustración según el tema (`Gaceta_Ilustracion_Economia/Exterior/Politica`), dos breves en columnas, «Más noticias» con scroll, sello `Sello_Nuevo` en lo no leído y botón DOBLAR EL PERIÓDICO.
+- Ajustes de colocación sobre el arte: el antetítulo del recorte va bajo su regla roja; el título del informe evita el lomo y el clip; el contenido del expediente va dentro del doble marco del papel (retrato algo más pequeño para no pisar la cabecera ni el texto); el botón de latón desactivado se atenúa sin volverse transparente.
+- Probado en Unity Play Mode: despacho, La Gaceta, sellado y resultado. Consola sin errores.
+- Incluir al subir: los PNG nuevos de Art/Despacho y Art/UI con sus `.meta`.
+
+## v0.9.14-prototipo — Expediente de formación presidencial (2026-11-17)
 
 - Rediseñados el índice de CÓMO JUGAR y la consulta de lecciones con estructura de expediente oficial: título, lección/nota, progreso, ficha de Julián Paz, documento de pergamino y navegación inferior uniforme.
 - Conservadas las doce lecciones en dos columnas y las dieciocho notas, su contenido, orden y acciones. ATRÁS/SIGUIENTE se desactivan en los extremos; VOLVER/ESC regresan al índice.

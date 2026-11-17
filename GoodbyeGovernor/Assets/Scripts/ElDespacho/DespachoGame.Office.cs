@@ -36,6 +36,27 @@ namespace ElDespacho
         static RectTransform AtIn(Transform parent, float pw, float ph, string name, float x, float y, float w, float h) =>
             Kit.Rect(parent, name, new Vector2(x / pw, 1f - (y + h) / ph), new Vector2((x + w) / pw, 1f - y / ph));
 
+        /// <summary>Pone un sprite del pack en una imagen ya creada. False si no existe (se queda el dibujo de respaldo).</summary>
+        static bool UseArt(Image img, string path)
+        {
+            var sprite = img != null ? Art.Get(path) : null;
+            if (sprite == null) return false;
+            img.sprite = sprite;
+            img.color = Color.white;
+            return true;
+        }
+
+        /// <summary>Sprite del pack a su tamaño real (x6), centrado en el ancla dada y sin recibir clics.</summary>
+        static Image ArtImage(Transform parent, Sprite sprite, Vector2 anchor, string name)
+        {
+            var rt = Kit.Rect(parent, name, anchor, anchor);
+            rt.sizeDelta = ArtSize(sprite);
+            var img = rt.gameObject.AddComponent<Image>();
+            img.sprite = sprite;
+            img.raycastTarget = false;
+            return img;
+        }
+
         // ───────────── Pantalla ─────────────
 
         void ShowIllustratedOffice()
@@ -68,16 +89,32 @@ namespace ElDespacho
         {
             var window = At(stage, "Window", 15, 15, 44, 42);
             int min = Mathf.Min(estabilidad, Mathf.Min(seguridad, prosperidad));
-            // El cielo se oscurece con la situación del país
-            if (avg < 60)
-                Kit.Panel(window, new Color(0.12f, 0.13f, 0.17f, Mathf.InverseLerp(60f, 20f, avg) * 0.5f), Vector2.zero, Vector2.one);
-            if (min < 35)
+            // La vista cambia con la situación del país: crisis (media < 40), humo (algún indicador < 35),
+            // tranquilo (media >= 60) o nublado. Cada vista es un sprite del cristal entero (44x42).
+            string view = avg < 40 ? "Despacho/Ventana_Crisis"
+                : min < 35 ? "Despacho/Ventana_Humo"
+                : avg >= 60 ? "Despacho/Ventana_Tranquilo"
+                : "Despacho/Ventana_Nublado";
+            var viewArt = Art.Get(view);
+            if (viewArt != null)
             {
-                Color smoke = new Color(0.22f, 0.22f, 0.24f, 0.7f);
-                Kit.Dot(window, smoke, new Vector2(0.62f, 0.45f), 24);
-                Kit.Dot(window, smoke, new Vector2(0.66f, 0.60f), 36);
-                Kit.Dot(window, smoke, new Vector2(0.72f, 0.77f), 50);
-                Kit.Dot(window, smoke, new Vector2(0.80f, 0.93f), 62);
+                var glass = window.gameObject.AddComponent<Image>();
+                glass.sprite = viewArt;
+                glass.raycastTarget = false;
+            }
+            else
+            {
+                // Respaldo sin arte: el cielo se oscurece y sale humo
+                if (avg < 60)
+                    Kit.Panel(window, new Color(0.12f, 0.13f, 0.17f, Mathf.InverseLerp(60f, 20f, avg) * 0.5f), Vector2.zero, Vector2.one);
+                if (min < 35)
+                {
+                    Color smoke = new Color(0.22f, 0.22f, 0.24f, 0.7f);
+                    Kit.Dot(window, smoke, new Vector2(0.62f, 0.45f), 24);
+                    Kit.Dot(window, smoke, new Vector2(0.66f, 0.60f), 36);
+                    Kit.Dot(window, smoke, new Vector2(0.72f, 0.77f), 50);
+                    Kit.Dot(window, smoke, new Vector2(0.80f, 0.93f), 62);
+                }
             }
             string mood = avg >= 60 ? "El país está tranquilo." : avg >= 40 ? "Hay nubes sobre Aurelia." : "Aurelia está en crisis.";
             var sill = At(stage, "WindowCaption", 12, 59, 50, 8);
@@ -100,26 +137,31 @@ namespace ElDespacho
 
             // Recorte de prensa con el último titular
             var clip = At(stage, "NewsClipping", 80, 42, 52, 22).gameObject.AddComponent<Image>();
-            clip.color = Kit.Hex("#ddd2b8");
+            bool clipArt = UseArt(clip, "Despacho/Recorte_Prensa");
+            if (!clipArt) clip.color = Kit.Hex("#ddd2b8");
             clip.raycastTarget = false;
             clip.rectTransform.localEulerAngles = new Vector3(0, 0, 1.5f);
+            // Con arte: la regla roja dibujada queda entre el borde y el antetítulo; todo el texto va debajo
+            float clipTop = clipArt ? 40 : 20;
             Kit.Label(clip.transform, "LA GACETA · ÚLTIMA HORA", 13, Pal.Red, TextAnchor.UpperLeft, Vector2.zero, Vector2.one,
-                new Vector2(12, 0), new Vector2(-12, -20), FontStyle.Bold);
+                new Vector2(14, 0), new Vector2(-14, -clipTop), FontStyle.Bold);
             Kit.Label(clip.transform, Headline(news.FirstOrDefault()), 19, Pal.Ink, TextAnchor.UpperLeft, Vector2.zero, Vector2.one,
-                new Vector2(12, 8), new Vector2(-12, -40), FontStyle.Bold, true);
+                new Vector2(14, clipArt ? 14 : 8), new Vector2(-14, -(clipTop + 18)), FontStyle.Bold, true);
             Pin(clip.transform);
 
             // Informe confidencial con la agenda exterior
             var report = At(stage, "ConfidentialReport", 140, 41, 56, 23).gameObject.AddComponent<Image>();
-            report.color = Kit.Hex("#e8dfc4");
+            bool reportArt = UseArt(report, "Despacho/Informe_Confidencial");
+            if (!reportArt) report.color = Kit.Hex("#e8dfc4");
             report.raycastTarget = false;
             report.rectTransform.localEulerAngles = new Vector3(0, 0, -1.8f);
+            float reportTop = reportArt ? 30 : 18, reportLeft = reportArt ? 26 : 10; // sin pisar el lomo, el clip ni la regla
             Kit.Label(report.transform, "CONFIDENCIAL", 17, Pal.Red, TextAnchor.UpperCenter, Vector2.zero, Vector2.one,
-                new Vector2(10, 0), new Vector2(-10, -18), FontStyle.Bold);
+                new Vector2(reportLeft, 0), new Vector2(-10, -reportTop), FontStyle.Bold);
             var waiting = ThisYear.Where(c => c.decision == Decision.Ninguna).Select(c => c.name).ToList();
             string agenda = waiting.Count > 0 ? "Esperan audiencia:\n" + string.Join(", ", waiting) : "Agenda exterior del año cumplida.";
             Kit.Label(report.transform, agenda, 16, Pal.Ink, TextAnchor.UpperCenter, Vector2.zero, Vector2.one,
-                new Vector2(12, 8), new Vector2(-12, -42), FontStyle.Normal, true);
+                new Vector2(reportLeft + 2, 10), new Vector2(-12, -(reportTop + 22)), FontStyle.Normal, true);
             Pin(report.transform);
 
             // Mapa del mundo clavado: se pulsa para abrirlo
@@ -127,13 +169,16 @@ namespace ElDespacho
             var mapRt = At(stage, "MapButton", 205, 9, 40, 38);
             mapRt.localEulerAngles = new Vector3(0, 0, 2f);
             var map = mapRt.gameObject.AddComponent<Image>();
-            map.color = Pal.Paper;
-            var ocean = Kit.Panel(mapRt, Kit.Hex("#5e8aa0"), new Vector2(0.07f, 0.30f), new Vector2(0.93f, 0.93f), default, default, "Ocean");
-            ocean.gameObject.AddComponent<RectMask2D>();
-            Kit.Dot(ocean.transform, Pal.Land, new Vector2(0.25f, 0.62f), 90);
-            Kit.Dot(ocean.transform, Pal.Land, new Vector2(0.62f, 0.38f), 110);
-            Kit.Dot(ocean.transform, Pal.Land, new Vector2(0.85f, 0.80f), 60);
-            Kit.Dot(ocean.transform, Pal.Red, new Vector2(0.58f, 0.45f), 14);
+            if (!UseArt(map, "Despacho/Mapa_Clavado"))
+            {
+                map.color = Pal.Paper;
+                var ocean = Kit.Panel(mapRt, Kit.Hex("#5e8aa0"), new Vector2(0.07f, 0.30f), new Vector2(0.93f, 0.93f), default, default, "Ocean");
+                ocean.gameObject.AddComponent<RectMask2D>();
+                Kit.Dot(ocean.transform, Pal.Land, new Vector2(0.25f, 0.62f), 90);
+                Kit.Dot(ocean.transform, Pal.Land, new Vector2(0.62f, 0.38f), 110);
+                Kit.Dot(ocean.transform, Pal.Land, new Vector2(0.85f, 0.80f), 60);
+                Kit.Dot(ocean.transform, Pal.Red, new Vector2(0.58f, 0.45f), 14);
+            }
             Kit.Label(mapRt, "MAPA DEL MUNDO", 17, Pal.Ink, TextAnchor.MiddleCenter, new Vector2(0, 0.14f), new Vector2(1, 0.30f), default, default, FontStyle.Bold);
             Kit.Label(mapRt, left > 0 ? $"{left} visita{(left == 1 ? "" : "s")}" : "Sin visitas", 16,
                 left > 0 ? Pal.Red : Pal.InkSoft, TextAnchor.MiddleCenter, new Vector2(0, 0.01f), new Vector2(1, 0.15f), default, default, FontStyle.Bold);
@@ -150,7 +195,7 @@ namespace ElDespacho
             var rt = AtIn(hud, 126, 33, name, x, 3, 38, 28);
             rt.localEulerAngles = new Vector3(0, 0, angle);
             var card = rt.gameObject.AddComponent<Image>();
-            card.color = Pal.Cream;
+            if (!UseArt(card, "Despacho/Ficha_Indicador")) card.color = Pal.Cream;
             card.raycastTarget = false;
             Kit.Label(rt, name, 16, Pal.InkSoft, TextAnchor.UpperCenter, Vector2.zero, Vector2.one,
                 new Vector2(6, 0), new Vector2(-6, -22), FontStyle.Bold);
@@ -163,6 +208,13 @@ namespace ElDespacho
 
         static void Pin(Transform paper)
         {
+            var pinArt = Art.Get("Despacho/Chincheta");
+            if (pinArt != null)
+            {
+                // La cabeza de la chincheta está 1 px a la izquierda del centro del sprite (el resto es su sombra)
+                ArtImage(paper, pinArt, new Vector2(0.5f, 1f), "Pin").rectTransform.anchoredPosition = new Vector2(ArtPx, -9);
+                return;
+            }
             var shadow = Kit.Dot(paper, new Color(0, 0, 0, 0.35f), new Vector2(0.5f, 1f), 20, "PinShadow");
             shadow.rectTransform.anchoredPosition = new Vector2(3, -12);
             Kit.Dot(paper, Kit.Hex("#b8322b"), new Vector2(0.5f, 1f), 18, "Pin").rectTransform.anchoredPosition = new Vector2(0, -9);
@@ -194,15 +246,27 @@ namespace ElDespacho
         {
             var clock = At(stage, "MandateClock", 267, 20, 36, 30);
             Kit.Dot(clock, new Color(0, 0, 0, 0.4f), new Vector2(0.53f, 0.47f), 176, "Shadow");
-            Kit.Dot(clock, Pal.WoodLight, new Vector2(0.5f, 0.5f), 176, "Rim");
-            Kit.Dot(clock, Pal.Cream, new Vector2(0.5f, 0.5f), 152, "Dial");
+            var clockFace = Art.Get("Despacho/Reloj_Esfera");
+            var clockRim = Art.Get("Despacho/Reloj_Marco");
+            bool artClock = clockFace != null && clockRim != null;
+            if (artClock) ArtImage(clock, clockFace, new Vector2(0.5f, 0.5f), "Dial");
+            else
+            {
+                Kit.Dot(clock, Pal.WoodLight, new Vector2(0.5f, 0.5f), 176, "Rim");
+                Kit.Dot(clock, Pal.Cream, new Vector2(0.5f, 0.5f), 152, "Dial");
+            }
             // Trimestre en curso (suave) y años ya cumplidos (oro)
             Quarter(clock, Kit.WithAlpha(Pal.Gold, 0.35f), year / (float)YearsInMandate);
             Quarter(clock, Pal.Gold, (year - 1) / (float)YearsInMandate);
             // Cuatro marcas (una por año): dos barras cruzadas que el círculo interior tapa por el centro
-            for (int i = 0; i < 2; i++)
-                Kit.Box(clock, Pal.Ink, new Vector2(0.5f, 0.5f), new Vector2(4, 152), "Tick").rectTransform.localEulerAngles = new Vector3(0, 0, i * 90);
-            Kit.Dot(clock, Pal.Cream, new Vector2(0.5f, 0.5f), 96, "Inner");
+            // El marco de latón (aro, cruz de los 4 años y círculo central) tapa el borde de los cuartos
+            if (artClock) ArtImage(clock, clockRim, new Vector2(0.5f, 0.5f), "Rim");
+            else
+            {
+                for (int i = 0; i < 2; i++)
+                    Kit.Box(clock, Pal.Ink, new Vector2(0.5f, 0.5f), new Vector2(4, 152), "Tick").rectTransform.localEulerAngles = new Vector3(0, 0, i * 90);
+                Kit.Dot(clock, Pal.Cream, new Vector2(0.5f, 0.5f), 96, "Inner");
+            }
             Kit.Label(clock, $"{year}", 44, Pal.Ink, TextAnchor.MiddleCenter, Vector2.zero, Vector2.one, default, default, FontStyle.Bold);
             var hand = Kit.Rect(clock, "Hand", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
             hand.pivot = new Vector2(0.5f, 0f);
@@ -221,7 +285,18 @@ namespace ElDespacho
             var endBtn = Kit.MakeButton(plate, label, 18, Pal.Gold, Pal.Ink, () => { Sfx.Play(Sfx.Thunk); EndYear(); },
                 Vector2.zero, Vector2.one);
             endBtn.gameObject.name = "YearEndButton";
+            if (UseArt(endBtn.GetComponent<Image>(), "UI/Boton_Laton"))
+            {
+                var shade = endBtn.transform.Find("Shade"); // el sprite ya trae su canto inferior
+                if (shade != null) shade.gameObject.SetActive(false);
+            }
             endBtn.interactable = left == 0 && cardsDone;
+            if (endBtn.transition == Selectable.Transition.ColorTint)
+            {
+                var cb = endBtn.colors;
+                cb.disabledColor = new Color(0.72f, 0.68f, 0.62f, 1f); // latón apagado pero opaco
+                endBtn.colors = cb;
+            }
         }
 
         static void Quarter(Transform clock, Color color, float amount)
@@ -242,7 +317,7 @@ namespace ElDespacho
             var noteRt = At(stage, "AdvisorNote", 5, 82, 63, 66);
             // Sin giro: el recorte del texto con scroll (RectMask2D) no funciona en rectángulos girados
             Kit.Panel(noteRt, new Color(0, 0, 0, 0.3f), Vector2.zero, Vector2.one, new Vector2(8, -8), new Vector2(8, -8), "Shadow");
-            Kit.Panel(noteRt, Kit.Hex("#efe3a8"), Vector2.zero, Vector2.one, default, default, "Paper");
+            UseArt(Kit.Panel(noteRt, Kit.Hex("#efe3a8"), Vector2.zero, Vector2.one, default, default, "Paper"), "Despacho/Nota_Asesor");
             Kit.Label(noteRt, "NOTA DEL ASESOR", 19, Pal.Red, TextAnchor.UpperLeft, Vector2.zero, Vector2.one,
                 new Vector2(18, 0), new Vector2(-18, -26), FontStyle.Bold);
             var advisorScroll = Kit.ScrollText(noteRt, AdvisorText(), 18, Pal.Ink, new Vector2(18, 14), new Vector2(-10, -56), false, "AdvisorText");
@@ -251,8 +326,9 @@ namespace ElDespacho
 
             var plate = At(stage, "NamePlate", 9, 153, 56, 13);
             Kit.Panel(plate, new Color(0, 0, 0, 0.35f), Vector2.zero, Vector2.one, new Vector2(6, -6), new Vector2(6, -6));
-            Kit.Panel(plate, Pal.Wood, Vector2.zero, Vector2.one);
+            bool plateArt = UseArt(Kit.Panel(plate, Pal.Wood, Vector2.zero, Vector2.one), "Despacho/Placa_Nombre");
             var brass = Kit.Panel(plate, Pal.Gold, Vector2.zero, Vector2.one, new Vector2(10, 10), new Vector2(-10, -10));
+            if (plateArt) brass.color = Color.clear; // la chapa de latón ya está en el sprite; aquí solo va el texto
             Kit.Label(brass.transform, "PRESIDENCIA\nDE AURELIA", 17, Pal.Ink, TextAnchor.MiddleCenter, Vector2.zero, Vector2.one,
                 default, default, FontStyle.Bold, true);
         }
@@ -291,29 +367,121 @@ namespace ElDespacho
 
         void ShowGazette(Transform stage)
         {
+            int unread = Mathf.Clamp(news.Count - newsSeen, 0, news.Count); // las noticias más nuevas van primero
             newsSeen = news.Count;
             var overlay = Kit.Panel(stage, new Color(0, 0, 0, 0.6f), Vector2.zero, Vector2.one, default, default, "GazetteOverlay");
             overlay.raycastTarget = true; // bloquea la mesa mientras se lee
             var paper = At(overlay.transform, "GazettePaper", 92, 10, 136, 160).gameObject.AddComponent<Image>();
-            paper.color = Pal.Paper;
+            if (!UseArt(paper, "UI/Gaceta_Abierta")) paper.color = Pal.Paper;
             var p = paper.transform;
-            Kit.Label(p, "LA GACETA", 64, Pal.Ink, TextAnchor.UpperCenter, Vector2.zero, Vector2.one,
-                new Vector2(20, 0), new Vector2(-20, -16), FontStyle.Bold);
-            Kit.Label(p, $"Año {year} del mandato · Edición de la Presidencia", 20, Pal.InkSoft, TextAnchor.UpperCenter,
-                Vector2.zero, Vector2.one, new Vector2(20, 0), new Vector2(-20, -92));
-            Kit.Panel(p, Pal.Ink, new Vector2(0, 1), new Vector2(1, 1), new Vector2(30, -128), new Vector2(-30, -124));
-            var sb = new StringBuilder();
-            foreach (var n in news.Take(12)) sb.Append(n).Append("\n\n");
-            Kit.ScrollText(p, sb.ToString().TrimEnd(), 24, Pal.Ink, new Vector2(40, 110), new Vector2(-30, -146), false, "GazetteText");
-            var close = Kit.MakeButton(p, "CERRAR", 26, Pal.WoodLight, Pal.Cream, () =>
+
+            // Maquetación «portada clásica» (propuesta A), en píxeles de arte del periódico (136×160)
+            RectTransform Box(string name, float x, float y, float w, float h) => AtIn(p, 136, 160, name, x, y, w, h);
+            Text Line(string name, string text, int size, Color color, TextAnchor align, float x, float y, float w, float h,
+                FontStyle style = FontStyle.Normal, bool fit = false) =>
+                Kit.Label(Box(name, x, y, w, h), text, size, color, align, Vector2.zero, Vector2.one, default, default, style, fit);
+
+            // Cabecera
+            Line("GazetteNumber", $"Nº {Mathf.Max(1, news.Count)} · AÑO {year} DEL MANDATO", 16, Pal.InkSoft, TextAnchor.MiddleLeft, 8, 5, 70, 5);
+            Line("GazetteEdition", "EDICIÓN DE LA PRESIDENCIA", 16, Pal.InkSoft, TextAnchor.MiddleRight, 70, 5, 58, 5);
+            Line("GazetteMasthead", "LA GACETA", 80, Pal.Ink, TextAnchor.MiddleCenter, 8, 10, 120, 16, FontStyle.Bold, true);
+            Line("GazetteSubtitle", "Diario de la República de Aurelia", 18, Pal.InkSoft, TextAnchor.MiddleCenter, 8, 26, 120, 5, FontStyle.Italic);
+            Kit.Panel(Box("GazetteRule", 8, 32, 120, 1), Pal.Ink, Vector2.zero, Vector2.one);
+            Kit.Panel(Box("GazetteRuleThin", 8, 34, 120, 0.5f), Pal.InkSoft, Vector2.zero, Vector2.one);
+
+            if (news.Count == 0)
+            {
+                Line("GazetteLead", "Sin noticias por ahora.", 30, Pal.InkSoft, TextAnchor.MiddleCenter, 8, 60, 120, 20, FontStyle.Italic);
+            }
+            else
+            {
+                // Noticia principal: titular, ilustración según el tema y texto
+                Line("GazetteLeadTitle", Headline(news[0]).ToUpperInvariant(), 40, Pal.Ink, TextAnchor.LowerLeft, 8, 37, 120, 13, FontStyle.Bold, true);
+                var pic = Box("GazetteLeadArt", 8, 52, 40, 28).gameObject.AddComponent<Image>();
+                pic.raycastTarget = false;
+                var illus = Art.Get(NewsIllustration(news[0]));
+                if (illus != null) pic.sprite = illus; else pic.color = Pal.PaperDark;
+                // Si es nueva, el sello va al pie del texto (sin tapar el titular) y el texto le deja sitio
+                bool leadNew = unread > 0;
+                Line("GazetteLeadBody", NewsBody(news[0]), 21, Pal.Ink, TextAnchor.UpperLeft, 51, 52, 77, leadNew ? 18 : 28, FontStyle.Normal, true);
+                if (leadNew) NewStamp(Box("GazetteLeadNew", 101, 71, 26, 9));
+
+                // Dos breves en columnas
+                Kit.Panel(Box("GazetteDivider", 8, 83, 120, 0.5f), Pal.InkSoft, Vector2.zero, Vector2.one);
+                if (news.Count > 2) Kit.Panel(Box("GazetteColumnRule", 67.75f, 86, 0.5f, 35), Pal.PaperDark, Vector2.zero, Vector2.one);
+                for (int i = 1; i <= 2 && i < news.Count; i++)
+                {
+                    float x = i == 1 ? 8 : 70;
+                    Line("GazetteBriefTitle" + i, Headline(news[i]).ToUpperInvariant(), 24, Pal.Ink, TextAnchor.UpperLeft, x, 86, 58, 10, FontStyle.Bold, true);
+                    bool briefNew = i < unread;
+                    Line("GazetteBriefBody" + i, NewsBody(news[i]), 18, Pal.Ink, TextAnchor.UpperLeft, x, 97, 58, briefNew ? 15 : 24, FontStyle.Normal, true);
+                    if (briefNew) NewStamp(Box("GazetteBriefNew" + i, x + 31, 112, 26, 9));
+                }
+
+                // El resto, en una lista corta con scroll
+                if (news.Count > 3)
+                {
+                    Kit.Panel(Box("GazetteMoreRule", 8, 124, 120, 0.5f), Pal.InkSoft, Vector2.zero, Vector2.one);
+                    Line("GazetteMoreTitle", "MÁS NOTICIAS", 16, Pal.Red, TextAnchor.MiddleLeft, 8, 125, 60, 5, FontStyle.Bold);
+                    var sb = new StringBuilder();
+                    foreach (var n in news.Skip(3).Take(12)) sb.Append("· ").Append(Headline(n)).Append('\n');
+                    Kit.ScrollText(Box("GazetteMore", 8, 130, 120, 13), sb.ToString().TrimEnd(), 18, Pal.Ink,
+                        Vector2.zero, Vector2.zero, false, "GazetteText");
+                }
+            }
+
+            var close = Kit.MakeButton(Box("GazetteCloseSlot", 39, 145, 58, 11), "DOBLAR EL PERIÓDICO", 22, Pal.Gold, Pal.Ink, () =>
             {
                 Sfx.Play(Sfx.Paper);
                 overlay.gameObject.SetActive(false);
                 Destroy(overlay.gameObject);
                 var badge = stage.Find("Gazette/UnreadBadge");
                 if (badge != null) badge.gameObject.SetActive(false);
-            }, new Vector2(0.35f, 0), new Vector2(0.65f, 0), new Vector2(0, 24), new Vector2(0, 90));
+            }, Vector2.zero, Vector2.one);
             close.gameObject.name = "GazetteClose";
+            if (UseArt(close.GetComponent<Image>(), "UI/Boton_Laton"))
+            {
+                var shade = close.transform.Find("Shade"); // el sprite ya trae su canto inferior
+                if (shade != null) shade.gameObject.SetActive(false);
+            }
+        }
+
+        /// <summary>Texto de una noticia sin el titular (lo que va después de la primera línea).</summary>
+        static string NewsBody(string item)
+        {
+            if (string.IsNullOrEmpty(item)) return "";
+            int nl = item.IndexOf('\n');
+            return nl >= 0 ? item.Substring(nl + 1).Trim() : "";
+        }
+
+        /// <summary>Ilustración de la noticia principal según su tema (economía, exterior o política).</summary>
+        static string NewsIllustration(string item)
+        {
+            string t = (item ?? "").ToLowerInvariant();
+            string[] economy = { "impuest", "arcas", "comerci", "econom", "económ", "dinero", "presupuest", "empresa", "mercado", "prosperidad", "deuda" };
+            string[] foreign = { "país", "países", "audiencia", "visita", "bloque", "alianza", "aliad", "frontera", "embaj", "ataque", "guerra", "sancion", "sanción", "tratado" };
+            if (economy.Any(k => t.Contains(k))) return "UI/Gaceta_Ilustracion_Economia";
+            if (foreign.Any(k => t.Contains(k))) return "UI/Gaceta_Ilustracion_Exterior";
+            return "UI/Gaceta_Ilustracion_Politica";
+        }
+
+        /// <summary>Sello rojo «NUEVO» sobre una noticia que aún no se había leído.</summary>
+        static void NewStamp(RectTransform slot)
+        {
+            slot.localEulerAngles = new Vector3(0, 0, 4f);
+            var img = slot.gameObject.AddComponent<Image>();
+            img.raycastTarget = false;
+            var art = Art.Get("UI/Sello_Nuevo");
+            if (art != null)
+            {
+                img.sprite = art;
+                img.color = new Color(1, 1, 1, 0.9f);
+            }
+            else
+            {
+                img.color = Color.clear;
+                Kit.Label(slot, "NUEVO", 20, Pal.Red, TextAnchor.MiddleCenter, Vector2.zero, Vector2.one, default, default, FontStyle.Bold);
+            }
         }
 
         RectTransform BuildDeskTray(Transform stage)
@@ -364,7 +532,7 @@ namespace ElDespacho
             sheet.raycastTarget = true;
             var shadow = Kit.Panel(sheet.transform, new Color(0, 0, 0, 0.28f), Vector2.zero, Vector2.one,
                 new Vector2(14, -14), new Vector2(14, -14), "PaperShadow");
-            Kit.Panel(sheet.transform, Pal.Paper, Vector2.zero, Vector2.one, default, default, "PaperSurface");
+            UseArt(Kit.Panel(sheet.transform, Pal.Paper, Vector2.zero, Vector2.one, default, default, "PaperSurface"), "Despacho/Papel_Expediente");
 
             // Portada (expediente cerrado en la bandeja)
             var cover = Kit.Rect(sheet.transform, "ClosedCover", Vector2.zero, Vector2.one);
@@ -380,7 +548,10 @@ namespace ElDespacho
             // Contenido del expediente abierto
             var content = Kit.Rect(sheet.transform, "OpenedContent", Vector2.zero, Vector2.one);
             var card = Kit.Panel(content, Pal.Paper, Vector2.zero, Vector2.one, default, default, "Card");
-            var ct = card.transform;
+            bool paperArt = UseArt(card, "Despacho/Papel_Expediente");
+            // Con el papel del pack, todo el contenido va dentro de su doble marco (~4 px de arte)
+            var ct = paperArt ? (Transform)Kit.Rect(card.transform, "Inner", Vector2.zero, Vector2.one, new Vector2(24, 24), new Vector2(-24, -24))
+                              : card.transform;
             Kit.Panel(ct, k.color, new Vector2(0, 1), new Vector2(1, 1), new Vector2(0, -10), Vector2.zero);
             Kit.Label(ct, "AURELIA / PRESIDENCIA", 16, Pal.Red, TextAnchor.UpperLeft, Vector2.zero, Vector2.one,
                 new Vector2(22, 0), new Vector2(-22, -20), FontStyle.Bold);
@@ -388,9 +559,10 @@ namespace ElDespacho
                 Vector2.zero, Vector2.one, new Vector2(22, 0), new Vector2(-22, -20));
 
             // Retrato (se dibuja al tamaño de siempre y se reduce)
-            var frame = Kit.Rect(ct, "PortraitSlot", new Vector2(0.18f, 0.80f), new Vector2(0.18f, 0.80f));
+            float portraitY = 0.80f;
+            var frame = Kit.Rect(ct, "PortraitSlot", new Vector2(0.18f, portraitY), new Vector2(0.18f, portraitY));
             frame.sizeDelta = new Vector2(184, 176);
-            frame.localScale = Vector3.one * 0.72f;
+            frame.localScale = Vector3.one * (paperArt ? 0.66f : 0.72f); // dentro del marco el sitio es menor
             var portrait = Kit.Panel(frame, Color.Lerp(k.color, Color.white, 0.25f), Vector2.zero, Vector2.one, default, default, "Portrait");
             portrait.gameObject.AddComponent<RectMask2D>();
             BuildFace(portrait.transform, k.color, k.id, cardAnswered && cardResultEffect.estabilidad + cardResultEffect.seguridad + cardResultEffect.prosperidad < 0);
