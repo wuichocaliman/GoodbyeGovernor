@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+﻿#if UNITY_EDITOR
 using System;using System.IO;using System.Linq;using System.Collections;using System.Collections.Generic;using System.Reflection;using UnityEngine;using UnityEngine.UI;using UnityEditor;using ElDespacho;
 public sealed class FunctionalEvidenceProbe:MonoBehaviour {
  const BindingFlags F=BindingFlags.Instance|BindingFlags.NonPublic;AccessController a;DespachoGame g;DeskMenus m;List<string> log=new List<string>();
@@ -16,7 +16,7 @@ public sealed class FunctionalEvidenceProbe:MonoBehaviour {
  string Fonts(Transform t)=>string.Join("|",t.GetComponentsInChildren<Text>().Select(x=>x.name+":"+x.fontSize));
  void Shot(string name){var tex=ScreenCapture.CaptureScreenshotAsTexture();if(tex!=null){File.WriteAllBytes("Logs/FunctionalVisual/"+name+".png",tex.EncodeToPNG());Destroy(tex);}}
  IEnumerator Start(){Application.logMessageReceived+=Err;Directory.CreateDirectory("Logs/FunctionalVisual");yield return null;yield return null;a=AccessController.Instance;g=a.GetComponent<DespachoGame>();m=a.GetComponent<DeskMenus>();
- Check(DeskMenus.Version=="v0.9.9-prototipo","actual version v099");Check(!P.narration&&!P.readingView&&P.textScale==1&&!D.highContrast,"fresh isolated defaults");a.ShowSettings();yield return new WaitForSecondsRealtime(3);yield return Tick();
+ Check(DeskMenus.Version=="v0.9.12-prototipo","actual version v0910");Check(!P.narration&&!P.readingView&&P.textScale==1&&!D.highContrast,"fresh isolated defaults");a.ShowSettings();yield return new WaitForSecondsRealtime(3);yield return Tick();
  var inventory=new Inventory();foreach(string cat in new[]{"Inicio","Visual","Motor","Cognitiva","Audio","Controles","Glosario","Restaurar"}){a.OpenCategory(cat);yield return Tick();foreach(var e in Entries().Where(e=>!e.text.StartsWith("Volver a ")))inventory.rows.Add(new Row{category=cat,name=e.text,description=e.description??"",value=e.value??"",action=e.action!=null,enabled=e.enabled});}File.WriteAllText("Logs/Functional-controls.json",JsonUtility.ToJson(inventory,true));
  D.tutorial=true;D.autosave=false;m.Resume();g.StartFromMenu();Call("ShowOffice");yield return Tick();yield return new WaitForSecondsRealtime(.3f);
  var tutor=TutorialManager.Instance;Check(tutor.IsActive,"tutorial active in real campaign");var frame=(Image[])typeof(TutorialManager).GetField("frame",F).GetValue(tutor);float alpha=frame[0].color.a;yield return new WaitForSecondsRealtime(.19f);Check(Mathf.Abs(alpha-frame[0].color.a)>.001f,"tutorial frame pulse changes alpha normally");
@@ -62,4 +62,5 @@ public static class FunctionalEvidenceRunner {
  [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]static void After(){if(!SessionState.GetBool("FunctionalAudit",false))return;SessionState.SetBool("FunctionalAudit",false);new GameObject("FunctionalAudit").AddComponent<FunctionalEvidenceProbe>();}
 }
 #endif
+
 

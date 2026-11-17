@@ -1,0 +1,5 @@
+PASS four profiles rendered
+PASS two columns at normal viewport
+PASS keyboard reveals next focused control
+PASS 175 percent uses single column
+COMPLETE 4 PASS; Unity Play Mode, simulated focus/scroll; no physical device

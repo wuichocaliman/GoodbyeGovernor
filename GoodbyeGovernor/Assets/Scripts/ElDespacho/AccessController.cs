@@ -17,7 +17,7 @@ namespace ElDespacho {
   bool Press(string key)=>pressed.Remove(key);
   void BindKeys(){keys=new InputActionMap("Accessibility09");foreach(var name in new[]{"f1","f2","f3","f6","f7","f8","tab","upArrow","downArrow","enter","space","pageDown","pageUp","leftArrow","rightArrow"}){string id=name;keys.AddAction(id,InputActionType.Button,"<Keyboard>/"+id).performed+=_=>pressed.Add(id);}keys.AddAction("place",InputActionType.Button,"<Mouse>/leftButton").performed+=_=>mouseClick=true;keys.Enable();}
 #endif
-  DespachoGame game;DeskMenus menus; Canvas canvas,focusCanvas;RectTransform root,content,focusRect;ScrollRect scroll;Image focus;Text notice;
+  DespachoGame game;DeskMenus menus; Canvas canvas;RectTransform root,content,focusRect;ScrollRect scroll;Image focus;Text notice;
   List<Entry> source=new List<Entry>(), controls=new List<Entry>();List<RectTransform> rows=new List<RectTransform>();
   public readonly AccessSpeech Speech=new AccessSpeech();
   string layoutContext=""; int focused=-1;string signature="",page="";float nextScan;bool force=true;bool reader;bool lastNarration;string lastTutorial="";
@@ -157,9 +157,16 @@ namespace ElDespacho {
   public void Activate(){if(focused<0||focused>=controls.Count)return;var action=controls[focused].action;if(page!="")revealSetting=controls[focused].text.Split('.')[0];action?.Invoke();force=true;}
   void DrawFocus(){
    bool show=(P.keyboard||page!=""||reader)&&focused>=0&&focused<controls.Count;
-   if(focusCanvas==null){var go=new GameObject("KeyboardFocus",typeof(RectTransform),typeof(Canvas));go.transform.SetParent(transform,false);focusCanvas=go.GetComponent<Canvas>();focusCanvas.renderMode=RenderMode.ScreenSpaceOverlay;focusCanvas.sortingOrder=750;focusRect=Kit.Rect(go.transform,"Focus",Vector2.zero,Vector2.zero);focusRect.pivot=Vector2.zero;
-    Kit.Panel(focusRect,Pal.Gold,new Vector2(0,0),new Vector2(1,0),new Vector2(0,-3),new Vector2(0,3));Kit.Panel(focusRect,Pal.Gold,new Vector2(0,1),new Vector2(1,1),new Vector2(0,-3),new Vector2(0,3));Kit.Panel(focusRect,Pal.Gold,new Vector2(0,0),new Vector2(0,1),new Vector2(-3,0),new Vector2(3,0));Kit.Panel(focusRect,Pal.Gold,new Vector2(1,0),new Vector2(1,1),new Vector2(-3,0),new Vector2(3,0));}
-   focusCanvas.enabled=show;if(!show)return;var target=controls[focused].target as RectTransform;if(target==null){focusCanvas.enabled=false;return;}var corners=new Vector3[4];target.GetWorldCorners(corners);var min=RectTransformUtility.WorldToScreenPoint(null,corners[0]);var max=RectTransformUtility.WorldToScreenPoint(null,corners[2]);focusRect.anchoredPosition=min;focusRect.sizeDelta=max-min;
+   var target=show?controls[focused].target as RectTransform:null;
+   if(target==null||!target.gameObject.activeInHierarchy){if(focusRect!=null)focusRect.gameObject.SetActive(false);return;}
+   // A child decoration inherits scrolling, transforms and every ancestor UI mask.
+   // It cannot remain on an independent overlay after its control is clipped or destroyed.
+   if(focusRect==null){focusRect=Kit.Rect(target,"KeyboardFocus",Vector2.zero,Vector2.one);
+    Kit.Panel(focusRect,Pal.Gold,new Vector2(0,0),new Vector2(1,0),new Vector2(0,0),new Vector2(0,3));
+    Kit.Panel(focusRect,Pal.Gold,new Vector2(0,1),new Vector2(1,1),new Vector2(0,-3),new Vector2(0,0));
+    Kit.Panel(focusRect,Pal.Gold,new Vector2(0,0),new Vector2(0,1),new Vector2(0,0),new Vector2(3,0));
+    Kit.Panel(focusRect,Pal.Gold,new Vector2(1,0),new Vector2(1,1),new Vector2(-3,0),new Vector2(0,0));}
+   focusRect.SetParent(target,false);focusRect.anchorMin=Vector2.zero;focusRect.anchorMax=Vector2.one;focusRect.offsetMin=focusRect.offsetMax=Vector2.zero;focusRect.localScale=Vector3.one;focusRect.localRotation=Quaternion.identity;focusRect.SetAsLastSibling();focusRect.gameObject.SetActive(true);
   }
   void Render(List<Entry> entries){
    if(page!=""){RenderSettings(entries);return;}

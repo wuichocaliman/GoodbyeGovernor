@@ -1,0 +1,655 @@
+PASS profile on 0
+PASS active caption 0
+PASS profile restores custom baseline 0
+PASS profile on 1
+PASS active caption 1
+PASS profile restores custom baseline 1
+PASS profile on 2
+PASS active caption 2
+PASS profile restores custom baseline 2
+PASS profile on 3
+PASS active caption 3
+PASS profile restores custom baseline 3
+PASS remaining layer 010
+PASS shared large targets retained
+PASS pair restoration 010
+PASS remaining layer 011
+PASS shared large targets retained
+PASS pair restoration 011
+PASS remaining layer 020
+PASS pair restoration 020
+PASS remaining layer 021
+PASS shared large targets retained
+PASS pair restoration 021
+PASS remaining layer 030
+PASS pair restoration 030
+PASS remaining layer 031
+PASS shared large targets retained
+PASS pair restoration 031
+PASS remaining layer 100
+PASS shared large targets retained
+PASS pair restoration 100
+PASS remaining layer 101
+PASS shared large targets retained
+PASS pair restoration 101
+PASS remaining layer 120
+PASS pair restoration 120
+PASS remaining layer 121
+PASS shared large targets retained
+PASS pair restoration 121
+PASS remaining layer 130
+PASS pair restoration 130
+PASS remaining layer 131
+PASS shared large targets retained
+PASS pair restoration 131
+PASS remaining layer 200
+PASS shared large targets retained
+PASS pair restoration 200
+PASS remaining layer 201
+PASS pair restoration 201
+PASS remaining layer 210
+PASS shared large targets retained
+PASS pair restoration 210
+PASS remaining layer 211
+PASS pair restoration 211
+PASS remaining layer 230
+PASS pair restoration 230
+PASS remaining layer 231
+PASS pair restoration 231
+PASS remaining layer 300
+PASS shared large targets retained
+PASS pair restoration 300
+PASS remaining layer 301
+PASS pair restoration 301
+PASS remaining layer 310
+PASS shared large targets retained
+PASS pair restoration 310
+PASS remaining layer 311
+PASS pair restoration 311
+PASS remaining layer 320
+PASS pair restoration 320
+PASS remaining layer 321
+PASS pair restoration 321
+PASS enabled button Tamaño de texto
+PASS manual text override
+PASS manual override survives all deactivations
+PASS external normal settings edit preserved
+PASS legacy effective settings preserved without guessing baseline
+PASS text fits Lectura cómoda
+PASS enabled button Lectura cómoda
+PASS profile callback Lectura cómoda
+PASS unrelated preferences unchanged Lectura cómoda
+PASS post-action layout Lectura cómoda
+PASS preference round-trip Lectura cómoda
+PASS text fits Lectura cómoda
+PASS keyboard target Lectura cómoda
+PASS profile callback Lectura cómoda
+PASS unrelated preferences unchanged Lectura cómoda
+PASS post-action layout Lectura cómoda
+PASS preference round-trip Lectura cómoda
+PASS text fits Interacción sencilla
+PASS enabled button Interacción sencilla
+PASS profile callback Interacción sencilla
+PASS unrelated preferences unchanged Interacción sencilla
+PASS post-action layout Interacción sencilla
+PASS preference round-trip Interacción sencilla
+PASS text fits Interacción sencilla
+PASS keyboard target Interacción sencilla
+PASS profile callback Interacción sencilla
+PASS unrelated preferences unchanged Interacción sencilla
+PASS post-action layout Interacción sencilla
+PASS preference round-trip Interacción sencilla
+PASS text fits Comprensión guiada
+PASS enabled button Comprensión guiada
+PASS profile callback Comprensión guiada
+PASS unrelated preferences unchanged Comprensión guiada
+PASS post-action layout Comprensión guiada
+PASS preference round-trip Comprensión guiada
+PASS text fits Comprensión guiada
+PASS keyboard target Comprensión guiada
+PASS profile callback Comprensión guiada
+PASS unrelated preferences unchanged Comprensión guiada
+PASS post-action layout Comprensión guiada
+PASS preference round-trip Comprensión guiada
+PASS text fits Escucha asistida
+PASS enabled button Escucha asistida
+PASS profile callback Escucha asistida
+PASS unrelated preferences unchanged Escucha asistida
+PASS post-action layout Escucha asistida
+PASS preference round-trip Escucha asistida
+PASS text fits Escucha asistida
+PASS keyboard target Escucha asistida
+PASS profile callback Escucha asistida
+PASS unrelated preferences unchanged Escucha asistida
+PASS post-action layout Escucha asistida
+PASS preference round-trip Escucha asistida
+PASS text fits Restaurar accesibilidad
+PASS enabled button Restaurar accesibilidad
+PASS expected effect Restaurar accesibilidad
+PASS unrelated preferences unchanged Restaurar accesibilidad
+PASS preference round-trip Restaurar accesibilidad
+PASS text fits Restaurar accesibilidad
+PASS keyboard target Restaurar accesibilidad
+PASS expected effect Restaurar accesibilidad
+PASS unrelated preferences unchanged Restaurar accesibilidad
+PASS preference round-trip Restaurar accesibilidad
+PASS focused control fully visible: Lectura cómoda
+PASS focused control fully visible: Interacción sencilla
+PASS focused control fully visible: Comprensión guiada
+PASS focused control fully visible: Escucha asistida
+PASS focused control fully visible: Restaurar accesibilidad
+PASS focused control fully visible: VISIÓN Y LECTURA
+PASS focused control fully visible: CONTROLES
+PASS focused control fully visible: COMPRENSIÓN
+PASS focused control fully visible: AUDIO Y NARRACIÓN
+PASS focused control fully visible: ● PERFILES
+PASS text fits Alto contraste
+PASS enabled button Alto contraste
+PASS expected effect Alto contraste
+PASS unrelated preferences unchanged Alto contraste
+PASS post-action layout Alto contraste
+PASS preference round-trip Alto contraste
+PASS text fits Alto contraste
+PASS keyboard target Alto contraste
+PASS expected effect Alto contraste
+PASS unrelated preferences unchanged Alto contraste
+PASS post-action layout Alto contraste
+PASS preference round-trip Alto contraste
+PASS text fits Tamaño de texto
+PASS enabled button Tamaño de texto
+PASS expected effect Tamaño de texto
+PASS unrelated preferences unchanged Tamaño de texto
+PASS post-action layout Tamaño de texto
+PASS preference round-trip Tamaño de texto
+PASS text fits Tamaño de texto
+PASS keyboard target Tamaño de texto
+PASS expected effect Tamaño de texto
+PASS unrelated preferences unchanged Tamaño de texto
+PASS post-action layout Tamaño de texto
+PASS preference round-trip Tamaño de texto
+PASS text fits Escala de interfaz
+PASS enabled button Escala de interfaz
+PASS expected effect Escala de interfaz
+PASS unrelated preferences unchanged Escala de interfaz
+PASS post-action layout Escala de interfaz
+PASS preference round-trip Escala de interfaz
+PASS text fits Escala de interfaz
+PASS keyboard target Escala de interfaz
+PASS expected effect Escala de interfaz
+PASS unrelated preferences unchanged Escala de interfaz
+PASS post-action layout Escala de interfaz
+PASS preference round-trip Escala de interfaz
+PASS text fits Indicadores con etiquetas
+PASS enabled button Indicadores con etiquetas
+PASS expected effect Indicadores con etiquetas
+PASS unrelated preferences unchanged Indicadores con etiquetas
+PASS post-action layout Indicadores con etiquetas
+PASS preference round-trip Indicadores con etiquetas
+PASS text fits Indicadores con etiquetas
+PASS keyboard target Indicadores con etiquetas
+PASS expected effect Indicadores con etiquetas
+PASS unrelated preferences unchanged Indicadores con etiquetas
+PASS post-action layout Indicadores con etiquetas
+PASS preference round-trip Indicadores con etiquetas
+PASS text fits Reducir destellos
+PASS enabled button Reducir destellos
+PASS expected effect Reducir destellos
+PASS unrelated preferences unchanged Reducir destellos
+PASS post-action layout Reducir destellos
+PASS preference round-trip Reducir destellos
+PASS text fits Reducir destellos
+PASS keyboard target Reducir destellos
+PASS expected effect Reducir destellos
+PASS unrelated preferences unchanged Reducir destellos
+PASS post-action layout Reducir destellos
+PASS preference round-trip Reducir destellos
+PASS text fits Vista de lectura
+PASS enabled button Vista de lectura
+PASS expected effect Vista de lectura
+PASS unrelated preferences unchanged Vista de lectura
+PASS preference round-trip Vista de lectura
+PASS text fits Vista de lectura
+PASS keyboard target Vista de lectura
+PASS expected effect Vista de lectura
+PASS unrelated preferences unchanged Vista de lectura
+PASS preference round-trip Vista de lectura
+PASS focused control fully visible: ● VISIÓN Y LECTURA
+PASS focused control fully visible: CONTROLES
+PASS focused control fully visible: COMPRENSIÓN
+PASS focused control fully visible: AUDIO Y NARRACIÓN
+PASS focused control fully visible: PERFILES
+PASS focused control fully visible: Alto contraste
+PASS focused control fully visible: Tamaño de texto
+PASS focused control fully visible: Escala de interfaz
+PASS focused control fully visible: Indicadores con etiquetas
+PASS focused control fully visible: Reducir destellos
+PASS focused control fully visible: Vista de lectura
+PASS text fits Seleccionar documentos con clics
+PASS enabled button Seleccionar documentos con clics
+PASS expected effect Seleccionar documentos con clics
+PASS unrelated preferences unchanged Seleccionar documentos con clics
+PASS post-action layout Seleccionar documentos con clics
+PASS preference round-trip Seleccionar documentos con clics
+PASS text fits Seleccionar documentos con clics
+PASS keyboard target Seleccionar documentos con clics
+PASS expected effect Seleccionar documentos con clics
+PASS unrelated preferences unchanged Seleccionar documentos con clics
+PASS post-action layout Seleccionar documentos con clics
+PASS preference round-trip Seleccionar documentos con clics
+PASS text fits Navegación por teclado
+PASS enabled button Navegación por teclado
+PASS expected effect Navegación por teclado
+PASS unrelated preferences unchanged Navegación por teclado
+PASS post-action layout Navegación por teclado
+PASS preference round-trip Navegación por teclado
+PASS text fits Navegación por teclado
+PASS keyboard target Navegación por teclado
+PASS expected effect Navegación por teclado
+PASS unrelated preferences unchanged Navegación por teclado
+PASS post-action layout Navegación por teclado
+PASS preference round-trip Navegación por teclado
+PASS text fits Botones y zonas más grandes
+PASS enabled button Botones y zonas más grandes
+PASS expected effect Botones y zonas más grandes
+PASS unrelated preferences unchanged Botones y zonas más grandes
+PASS post-action layout Botones y zonas más grandes
+PASS preference round-trip Botones y zonas más grandes
+PASS text fits Botones y zonas más grandes
+PASS keyboard target Botones y zonas más grandes
+PASS expected effect Botones y zonas más grandes
+PASS unrelated preferences unchanged Botones y zonas más grandes
+PASS post-action layout Botones y zonas más grandes
+PASS preference round-trip Botones y zonas más grandes
+PASS text fits Reducir animaciones
+PASS enabled button Reducir animaciones
+PASS expected effect Reducir animaciones
+PASS unrelated preferences unchanged Reducir animaciones
+PASS post-action layout Reducir animaciones
+PASS preference round-trip Reducir animaciones
+PASS text fits Reducir animaciones
+PASS keyboard target Reducir animaciones
+PASS expected effect Reducir animaciones
+PASS unrelated preferences unchanged Reducir animaciones
+PASS post-action layout Reducir animaciones
+PASS preference round-trip Reducir animaciones
+PASS text fits Controles y atajos
+PASS enabled button Controles y atajos
+PASS expected effect Controles y atajos
+PASS unrelated preferences unchanged Controles y atajos
+PASS preference round-trip Controles y atajos
+PASS text fits Controles y atajos
+PASS keyboard target Controles y atajos
+PASS expected effect Controles y atajos
+PASS unrelated preferences unchanged Controles y atajos
+PASS preference round-trip Controles y atajos
+PASS text fits Documento de ejemplo
+PASS enabled button Documento de ejemplo
+PASS expected effect Documento de ejemplo
+PASS unrelated preferences unchanged Documento de ejemplo
+PASS post-action layout Documento de ejemplo
+PASS preference round-trip Documento de ejemplo
+PASS text fits Documento de ejemplo
+PASS keyboard target Documento de ejemplo
+PASS expected effect Documento de ejemplo
+PASS unrelated preferences unchanged Documento de ejemplo
+PASS post-action layout Documento de ejemplo
+PASS preference round-trip Documento de ejemplo
+PASS text fits Zona de lectura
+PASS enabled button Zona de lectura
+PASS expected effect Zona de lectura
+PASS unrelated preferences unchanged Zona de lectura
+PASS post-action layout Zona de lectura
+PASS preference round-trip Zona de lectura
+PASS text fits Zona de lectura
+PASS keyboard target Zona de lectura
+PASS expected effect Zona de lectura
+PASS unrelated preferences unchanged Zona de lectura
+PASS post-action layout Zona de lectura
+PASS preference round-trip Zona de lectura
+PASS focused control fully visible: Seleccionar documentos con clics
+PASS focused control fully visible: Navegación por teclado
+PASS focused control fully visible: Botones y zonas más grandes
+PASS focused control fully visible: Reducir animaciones
+PASS focused control fully visible: Controles y atajos
+PASS focused control fully visible: VISIÓN Y LECTURA
+PASS focused control fully visible: ● CONTROLES
+PASS focused control fully visible: COMPRENSIÓN
+PASS focused control fully visible: AUDIO Y NARRACIÓN
+PASS focused control fully visible: PERFILES
+PASS text fits Instrucciones sencillas
+PASS enabled button Instrucciones sencillas
+PASS expected effect Instrucciones sencillas
+PASS unrelated preferences unchanged Instrucciones sencillas
+PASS post-action layout Instrucciones sencillas
+PASS preference round-trip Instrucciones sencillas
+PASS text fits Instrucciones sencillas
+PASS keyboard target Instrucciones sencillas
+PASS expected effect Instrucciones sencillas
+PASS unrelated preferences unchanged Instrucciones sencillas
+PASS post-action layout Instrucciones sencillas
+PASS preference round-trip Instrucciones sencillas
+PASS text fits Ayudas de navegación
+PASS enabled button Ayudas de navegación
+PASS expected effect Ayudas de navegación
+PASS unrelated preferences unchanged Ayudas de navegación
+PASS post-action layout Ayudas de navegación
+PASS preference round-trip Ayudas de navegación
+PASS text fits Ayudas de navegación
+PASS keyboard target Ayudas de navegación
+PASS expected effect Ayudas de navegación
+PASS unrelated preferences unchanged Ayudas de navegación
+PASS post-action layout Ayudas de navegación
+PASS preference round-trip Ayudas de navegación
+PASS text fits Símbolos explicativos
+PASS enabled button Símbolos explicativos
+PASS expected effect Símbolos explicativos
+PASS unrelated preferences unchanged Símbolos explicativos
+PASS post-action layout Símbolos explicativos
+PASS preference round-trip Símbolos explicativos
+PASS text fits Símbolos explicativos
+PASS keyboard target Símbolos explicativos
+PASS expected effect Símbolos explicativos
+PASS unrelated preferences unchanged Símbolos explicativos
+PASS post-action layout Símbolos explicativos
+PASS preference round-trip Símbolos explicativos
+PASS text fits Glosario disponible
+PASS enabled button Glosario disponible
+PASS expected effect Glosario disponible
+PASS unrelated preferences unchanged Glosario disponible
+PASS post-action layout Glosario disponible
+PASS preference round-trip Glosario disponible
+PASS text fits Glosario disponible
+PASS keyboard target Glosario disponible
+PASS expected effect Glosario disponible
+PASS unrelated preferences unchanged Glosario disponible
+PASS post-action layout Glosario disponible
+PASS preference round-trip Glosario disponible
+PASS text fits Glosario político
+PASS enabled button Glosario político
+PASS expected effect Glosario político
+PASS unrelated preferences unchanged Glosario político
+PASS preference round-trip Glosario político
+PASS text fits Glosario político
+PASS keyboard target Glosario político
+PASS expected effect Glosario político
+PASS unrelated preferences unchanged Glosario político
+PASS preference round-trip Glosario político
+PASS text fits Tutorial y ayudas contextuales
+PASS enabled button Tutorial y ayudas contextuales
+PASS expected effect Tutorial y ayudas contextuales
+PASS unrelated preferences unchanged Tutorial y ayudas contextuales
+PASS preference round-trip Tutorial y ayudas contextuales
+PASS text fits Tutorial y ayudas contextuales
+PASS keyboard target Tutorial y ayudas contextuales
+PASS expected effect Tutorial y ayudas contextuales
+PASS unrelated preferences unchanged Tutorial y ayudas contextuales
+PASS preference round-trip Tutorial y ayudas contextuales
+PASS focused control fully visible: VISIÓN Y LECTURA
+PASS focused control fully visible: CONTROLES
+PASS focused control fully visible: ● COMPRENSIÓN
+PASS focused control fully visible: AUDIO Y NARRACIÓN
+PASS focused control fully visible: PERFILES
+PASS focused control fully visible: Instrucciones sencillas
+PASS focused control fully visible: Ayudas de navegación
+PASS focused control fully visible: Símbolos explicativos
+PASS focused control fully visible: Glosario disponible
+PASS focused control fully visible: Glosario político
+PASS focused control fully visible: Tutorial y ayudas contextuales
+PASS text fits Volumen maestro
+PASS volume value Volumen maestro
+PASS unrelated preferences unchanged Volumen maestro
+PASS post-action layout Volumen maestro
+PASS preference round-trip Volumen maestro
+PASS text fits Volumen maestro
+PASS keyboard target Volumen maestro
+PASS volume value Volumen maestro
+PASS unrelated preferences unchanged Volumen maestro
+PASS post-action layout Volumen maestro
+PASS preference round-trip Volumen maestro
+PASS text fits Música
+PASS unavailable control disabled Música
+PASS text fits Música
+PASS unavailable control disabled Música
+PASS text fits Efectos de sonido
+PASS volume value Efectos de sonido
+PASS unrelated preferences unchanged Efectos de sonido
+PASS post-action layout Efectos de sonido
+PASS preference round-trip Efectos de sonido
+PASS text fits Efectos de sonido
+PASS keyboard target Efectos de sonido
+PASS volume value Efectos de sonido
+PASS unrelated preferences unchanged Efectos de sonido
+PASS post-action layout Efectos de sonido
+PASS preference round-trip Efectos de sonido
+PASS text fits Interfaz
+PASS volume value Interfaz
+PASS unrelated preferences unchanged Interfaz
+PASS post-action layout Interfaz
+PASS preference round-trip Interfaz
+PASS text fits Interfaz
+PASS keyboard target Interfaz
+PASS volume value Interfaz
+PASS unrelated preferences unchanged Interfaz
+PASS post-action layout Interfaz
+PASS preference round-trip Interfaz
+PASS text fits Ambiente
+PASS unavailable control disabled Ambiente
+PASS text fits Ambiente
+PASS unavailable control disabled Ambiente
+PASS text fits Narración del sistema
+PASS enabled button Narración del sistema
+PASS expected effect Narración del sistema
+PASS unrelated preferences unchanged Narración del sistema
+PASS post-action layout Narración del sistema
+PASS preference round-trip Narración del sistema
+PASS text fits Narración del sistema
+PASS keyboard target Narración del sistema
+PASS expected effect Narración del sistema
+PASS unrelated preferences unchanged Narración del sistema
+PASS post-action layout Narración del sistema
+PASS preference round-trip Narración del sistema
+PASS text fits Volumen de narración
+PASS volume value Volumen de narración
+PASS unrelated preferences unchanged Volumen de narración
+PASS post-action layout Volumen de narración
+PASS preference round-trip Volumen de narración
+PASS text fits Volumen de narración
+PASS keyboard target Volumen de narración
+PASS volume value Volumen de narración
+PASS unrelated preferences unchanged Volumen de narración
+PASS post-action layout Volumen de narración
+PASS preference round-trip Volumen de narración
+PASS text fits Velocidad de voz
+PASS enabled button Velocidad de voz
+PASS expected effect Velocidad de voz
+PASS unrelated preferences unchanged Velocidad de voz
+PASS post-action layout Velocidad de voz
+PASS preference round-trip Velocidad de voz
+PASS text fits Velocidad de voz
+PASS keyboard target Velocidad de voz
+PASS expected effect Velocidad de voz
+PASS unrelated preferences unchanged Velocidad de voz
+PASS post-action layout Velocidad de voz
+PASS preference round-trip Velocidad de voz
+PASS text fits Audio mono
+PASS enabled button Audio mono
+PASS expected effect Audio mono
+PASS unrelated preferences unchanged Audio mono
+PASS post-action layout Audio mono
+PASS preference round-trip Audio mono
+PASS text fits Audio mono
+PASS keyboard target Audio mono
+PASS expected effect Audio mono
+PASS unrelated preferences unchanged Audio mono
+PASS post-action layout Audio mono
+PASS preference round-trip Audio mono
+PASS text fits Reducir sonidos agudos
+PASS enabled button Reducir sonidos agudos
+PASS expected effect Reducir sonidos agudos
+PASS unrelated preferences unchanged Reducir sonidos agudos
+PASS post-action layout Reducir sonidos agudos
+PASS preference round-trip Reducir sonidos agudos
+PASS text fits Reducir sonidos agudos
+PASS keyboard target Reducir sonidos agudos
+PASS expected effect Reducir sonidos agudos
+PASS unrelated preferences unchanged Reducir sonidos agudos
+PASS post-action layout Reducir sonidos agudos
+PASS preference round-trip Reducir sonidos agudos
+PASS text fits Avisos visuales
+PASS enabled button Avisos visuales
+PASS expected effect Avisos visuales
+PASS unrelated preferences unchanged Avisos visuales
+PASS post-action layout Avisos visuales
+PASS preference round-trip Avisos visuales
+PASS text fits Avisos visuales
+PASS keyboard target Avisos visuales
+PASS expected effect Avisos visuales
+PASS unrelated preferences unchanged Avisos visuales
+PASS post-action layout Avisos visuales
+PASS preference round-trip Avisos visuales
+PASS text fits Probar narración
+PASS enabled button Probar narración
+PASS expected effect Probar narración
+PASS unrelated preferences unchanged Probar narración
+PASS post-action layout Probar narración
+PASS preference round-trip Probar narración
+PASS text fits Probar narración
+PASS keyboard target Probar narración
+PASS expected effect Probar narración
+PASS unrelated preferences unchanged Probar narración
+PASS post-action layout Probar narración
+PASS preference round-trip Probar narración
+PASS text fits Repetir última narración
+PASS enabled button Repetir última narración
+PASS expected effect Repetir última narración
+PASS unrelated preferences unchanged Repetir última narración
+PASS post-action layout Repetir última narración
+PASS preference round-trip Repetir última narración
+PASS text fits Repetir última narración
+PASS keyboard target Repetir última narración
+PASS expected effect Repetir última narración
+PASS unrelated preferences unchanged Repetir última narración
+PASS post-action layout Repetir última narración
+PASS preference round-trip Repetir última narración
+PASS text fits Detener narración
+PASS enabled button Detener narración
+PASS expected effect Detener narración
+PASS unrelated preferences unchanged Detener narración
+PASS post-action layout Detener narración
+PASS preference round-trip Detener narración
+PASS text fits Detener narración
+PASS keyboard target Detener narración
+PASS expected effect Detener narración
+PASS unrelated preferences unchanged Detener narración
+PASS post-action layout Detener narración
+PASS preference round-trip Detener narración
+PASS text fits Ejemplo de aviso
+PASS enabled button Ejemplo de aviso
+PASS expected effect Ejemplo de aviso
+PASS unrelated preferences unchanged Ejemplo de aviso
+PASS post-action layout Ejemplo de aviso
+PASS preference round-trip Ejemplo de aviso
+PASS text fits Ejemplo de aviso
+PASS keyboard target Ejemplo de aviso
+PASS expected effect Ejemplo de aviso
+PASS unrelated preferences unchanged Ejemplo de aviso
+PASS post-action layout Ejemplo de aviso
+PASS preference round-trip Ejemplo de aviso
+PASS focused control fully visible: Volumen maestro
+PASS focused control fully visible: Efectos de sonido
+PASS focused control fully visible: Interfaz
+PASS focused control fully visible: Narración del sistema
+PASS focused control fully visible: Volumen de narración
+PASS focused control fully visible: Velocidad de voz
+PASS focused control fully visible: Audio mono
+PASS focused control fully visible: Reducir sonidos agudos
+PASS focused control fully visible: Avisos visuales
+PASS focused control fully visible: VISIÓN Y LECTURA
+PASS focused control fully visible: CONTROLES
+PASS focused control fully visible: COMPRENSIÓN
+PASS focused control fully visible: ● AUDIO Y NARRACIÓN
+PASS focused control fully visible: PERFILES
+PASS text fits Repetir voz: F6
+PASS enabled button Repetir voz: F6
+PASS repeat shortcut changed without collision
+PASS unrelated preferences unchanged Repetir voz: F6
+PASS post-action layout Repetir voz: F6
+PASS preference round-trip Repetir voz: F6
+PASS text fits Repetir voz: F6
+PASS keyboard target Repetir voz: F6
+PASS repeat shortcut changed without collision
+PASS unrelated preferences unchanged Repetir voz: F6
+PASS post-action layout Repetir voz: F6
+PASS preference round-trip Repetir voz: F6
+PASS text fits Detener voz: F7
+PASS enabled button Detener voz: F7
+PASS stop shortcut changed
+PASS unrelated preferences unchanged Detener voz: F7
+PASS post-action layout Detener voz: F7
+PASS preference round-trip Detener voz: F7
+PASS text fits Detener voz: F7
+PASS keyboard target Detener voz: F7
+PASS stop shortcut changed
+PASS unrelated preferences unchanged Detener voz: F7
+PASS post-action layout Detener voz: F7
+PASS preference round-trip Detener voz: F7
+PASS text fits Activar navegación por teclado: NO
+PASS enabled button Activar navegación por teclado: NO
+PASS legacy keyboard toggle
+PASS unrelated preferences unchanged Activar navegación por teclado: NO
+PASS post-action layout Activar navegación por teclado: NO
+PASS preference round-trip Activar navegación por teclado: NO
+PASS text fits Activar navegación por teclado: NO
+PASS keyboard target Activar navegación por teclado: NO
+PASS legacy keyboard toggle
+PASS unrelated preferences unchanged Activar navegación por teclado: NO
+PASS post-action layout Activar navegación por teclado: NO
+PASS preference round-trip Activar navegación por teclado: NO
+PASS focused control fully visible: Repetir voz: F6
+PASS focused control fully visible: Detener voz: F7
+PASS focused control fully visible: Activar navegación por teclado: NO
+PASS focused control fully visible: VISIÓN Y LECTURA
+PASS focused control fully visible: CONTROLES
+PASS focused control fully visible: COMPRENSIÓN
+PASS focused control fully visible: AUDIO Y NARRACIÓN
+PASS focused control fully visible: PERFILES
+PASS focused control fully visible: VISIÓN Y LECTURA
+PASS focused control fully visible: CONTROLES
+PASS focused control fully visible: COMPRENSIÓN
+PASS focused control fully visible: AUDIO Y NARRACIÓN
+PASS focused control fully visible: PERFILES
+PASS text fits Confirmar restauración
+PASS enabled button Confirmar restauración
+PASS expected effect Confirmar restauración
+PASS preference round-trip Confirmar restauración
+PASS text fits Confirmar restauración
+PASS keyboard target Confirmar restauración
+PASS expected effect Confirmar restauración
+PASS preference round-trip Confirmar restauración
+PASS focused control fully visible: Confirmar restauración
+PASS focused control fully visible: VISIÓN Y LECTURA
+PASS focused control fully visible: CONTROLES
+PASS focused control fully visible: COMPRENSIÓN
+PASS focused control fully visible: AUDIO Y NARRACIÓN
+PASS focused control fully visible: PERFILES
+PASS large targets actually enlarge reader controls
+PASS visual notice visible in normal mode
+PASS visual notice obeys disabled preference
+PASS enabled button Detener narración
+PASS stop sends only stop; refresh does not restart narration
+PASS enabled button Repetir última narración
+PASS repeat sends previous message once
+PASS F1 simulated input opens reference
+PASS F2 simulated input opens reader
+PASS F2 simulated input closes reader
+PASS F3 simulated input narrates current screen
+PASS repeat shortcut F6
+PASS stop shortcut F7
+PASS repeat shortcut F7
+PASS stop shortcut F8
+PASS repeat shortcut F8
+PASS stop shortcut F6
+PASS illustrated stamps have accessible decision labels
+PASS enabled button Tamaño de texto
+PASS profiles never open reader
+COMPLETE 654 PASS - automated Play Mode, no physical keyboard claim

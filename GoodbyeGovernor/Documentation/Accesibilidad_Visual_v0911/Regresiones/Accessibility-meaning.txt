@@ -1,0 +1,117 @@
+PASS native slider reachable by accessibility keyboard
+PASS keyboard brightness reaches real 115 percent maximum
+PASS keyboard brightness reaches real 65 percent minimum
+PASS brightness effect visible in overlay alpha
+PASS brightness effect reversible
+PASS resolution changes pending selection
+PASS fullscreen changes pending selection
+PASS display apply explicitly unavailable in editor; no false persistence claim
+PASS VSync sets actual quality setting
+PASS FPS sets actual target; VSync may override
+PASS tutorial switch uses general preference
+PASS autosave switch
+PASS autosave interval cycles
+PASS general access opens shared audio panel
+PASS general -> accessibility shared Volumen maestro
+PASS accessibility -> general shared Volumen maestro
+PASS general access opens shared audio panel
+PASS general -> accessibility shared Efectos de sonido
+PASS accessibility -> general shared Efectos de sonido
+PASS general access opens shared audio panel
+PASS general -> accessibility shared Interfaz
+PASS accessibility -> general shared Interfaz
+PASS master drives actual AudioListener
+PASS all current generated sound clips are already mono
+PASS reading profile controls shared contrast
+PASS individual contrast reflects profile
+PASS individual contrast override
+PASS removing profile preserves manual contrast
+PASS reader contrast consumes same property and changes pixels
+PASS LIMIT general settings text does not follow accessibility text scale
+PASS LIMIT lesson text does not follow accessibility text scale
+PASS accessibility text visibly scales
+PASS interface scale leaves reader font independent
+PASS LIMIT reading preference has no presentation effect
+PASS glossary link absent with both flags off
+PASS symbols independent of glossary link
+PASS glossary alone supplies same link
+PASS navigation help adds actual context instruction
+PASS simple language changes real tutorial wording
+PASS symbols add tutorial prefix separately
+PASS manual lesson content 0/0
+PASS manual lesson content 1/0
+PASS manual lesson content 2/0
+PASS manual lesson content 2/1
+PASS manual lesson content 3/0
+PASS manual lesson content 4/0
+PASS manual lesson content 5/0
+PASS manual lesson content 5/1
+PASS manual lesson content 6/0
+PASS manual lesson content 7/0
+PASS manual lesson content 7/1
+PASS manual lesson content 7/2
+PASS manual lesson content 7/3
+PASS manual lesson content 8/0
+PASS manual lesson content 9/0
+PASS manual lesson content 10/0
+PASS manual lesson content 11/0
+PASS manual lesson content 11/1
+PASS index button opens lesson 0
+PASS index button opens lesson 1
+PASS index button opens lesson 2
+PASS index button opens lesson 3
+PASS index button opens lesson 4
+PASS index button opens lesson 5
+PASS index button opens lesson 6
+PASS index button opens lesson 7
+PASS index button opens lesson 8
+PASS index button opens lesson 9
+PASS index button opens lesson 10
+PASS index button opens lesson 11
+PASS manual start disables previous
+PASS next button advances to exact note 1
+PASS next button advances to exact note 2
+PASS next button advances to exact note 3
+PASS next button advances to exact note 4
+PASS next button advances to exact note 5
+PASS next button advances to exact note 6
+PASS next button advances to exact note 7
+PASS next button advances to exact note 8
+PASS next button advances to exact note 9
+PASS next button advances to exact note 10
+PASS next button advances to exact note 11
+PASS next button advances to exact note 12
+PASS next button advances to exact note 13
+PASS next button advances to exact note 14
+PASS next button advances to exact note 15
+PASS next button advances to exact note 16
+PASS next button advances to exact note 17
+PASS manual end disables next
+PASS previous button returns to exact note 16
+PASS previous button returns to exact note 15
+PASS previous button returns to exact note 14
+PASS previous button returns to exact note 13
+PASS previous button returns to exact note 12
+PASS previous button returns to exact note 11
+PASS previous button returns to exact note 10
+PASS previous button returns to exact note 9
+PASS previous button returns to exact note 8
+PASS previous button returns to exact note 7
+PASS previous button returns to exact note 6
+PASS previous button returns to exact note 5
+PASS previous button returns to exact note 4
+PASS previous button returns to exact note 3
+PASS previous button returns to exact note 2
+PASS previous button returns to exact note 1
+PASS previous button returns to exact note 0
+PASS manual reverse reaches disabled beginning
+PASS reading reminder is information not toggle
+PASS legacy migration preserves effective glossary and existing preferences
+PASS independent glossary off persists after migration
+PASS FIXED tutorial previous opens final note of preceding lesson
+PASS manual return opens index
+PASS manual index return opens main without campaign
+PASS general reset requires confirmation
+PASS cancel reset preserves both stores
+PASS general reset leaves accessibility preferences intact
+COMPLETE 116 PASS; semantic effects and known limitations, automated Play Mode; no physical audio/display claim

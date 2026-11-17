@@ -1,0 +1,118 @@
+PASS Visual ALL cards have equal width and height, including orphan rows
+PASS Visual equal header slots
+PASS Visual equal description slots
+PASS Visual control bottoms aligned
+PASS Visual same inner padding
+PASS Visual text fits without shrinking
+PASS Visual original background
+PASS Visual grouped headings
+PASS Visual two-column cards at full HD
+PASS Visual focus attached and masked
+PASS Visual refresh preserves manual scroll
+PASS Visual outside focus culled
+PASS Visual keyboard reveals focused control
+PASS Motor ALL cards have equal width and height, including orphan rows
+PASS Motor equal header slots
+PASS Motor equal description slots
+PASS Motor control bottoms aligned
+PASS Motor same inner padding
+PASS Motor text fits without shrinking
+PASS Motor original background
+PASS Motor grouped headings
+PASS Motor two-column cards at full HD
+PASS Motor focus attached and masked
+PASS Motor refresh preserves manual scroll
+PASS Motor outside focus culled
+PASS Motor keyboard reveals focused control
+PASS Cognitiva ALL cards have equal width and height, including orphan rows
+PASS Cognitiva equal header slots
+PASS Cognitiva equal description slots
+PASS Cognitiva control bottoms aligned
+PASS Cognitiva same inner padding
+PASS Cognitiva text fits without shrinking
+PASS Cognitiva original background
+PASS Cognitiva grouped headings
+PASS Cognitiva two-column cards at full HD
+PASS Cognitiva focus attached and masked
+PASS Cognitiva refresh preserves manual scroll
+PASS Cognitiva outside focus culled
+PASS Cognitiva keyboard reveals focused control
+PASS Audio ALL cards have equal width and height, including orphan rows
+PASS Audio equal header slots
+PASS Audio equal description slots
+PASS Audio control bottoms aligned
+PASS Audio same inner padding
+PASS Audio text fits without shrinking
+PASS Audio original background
+PASS Audio grouped headings
+PASS Audio two-column cards at full HD
+PASS Audio focus attached and masked
+PASS Audio refresh preserves manual scroll
+PASS Audio outside focus culled
+PASS Audio keyboard reveals focused control
+PASS actual 1280x720 Game View
+PASS Visual 720p 1 ALL cards have equal width and height, including orphan rows
+PASS Visual 720p 1 equal header slots
+PASS Visual 720p 1 equal description slots
+PASS Visual 720p 1 control bottoms aligned
+PASS Visual 720p 1 same inner padding
+PASS Visual 720p 1 text fits without shrinking
+PASS Visual one column at 720p 1
+PASS Visual keyboard focus at 720p 1
+PASS Motor 720p 1 ALL cards have equal width and height, including orphan rows
+PASS Motor 720p 1 equal header slots
+PASS Motor 720p 1 equal description slots
+PASS Motor 720p 1 control bottoms aligned
+PASS Motor 720p 1 same inner padding
+PASS Motor 720p 1 text fits without shrinking
+PASS Motor one column at 720p 1
+PASS Motor keyboard focus at 720p 1
+PASS Cognitiva 720p 1 ALL cards have equal width and height, including orphan rows
+PASS Cognitiva 720p 1 equal header slots
+PASS Cognitiva 720p 1 equal description slots
+PASS Cognitiva 720p 1 control bottoms aligned
+PASS Cognitiva 720p 1 same inner padding
+PASS Cognitiva 720p 1 text fits without shrinking
+PASS Cognitiva one column at 720p 1
+PASS Cognitiva keyboard focus at 720p 1
+PASS Audio 720p 1 ALL cards have equal width and height, including orphan rows
+PASS Audio 720p 1 equal header slots
+PASS Audio 720p 1 equal description slots
+PASS Audio 720p 1 control bottoms aligned
+PASS Audio 720p 1 same inner padding
+PASS Audio 720p 1 text fits without shrinking
+PASS Audio one column at 720p 1
+PASS Audio keyboard focus at 720p 1
+PASS Visual 720p 1.75 ALL cards have equal width and height, including orphan rows
+PASS Visual 720p 1.75 equal header slots
+PASS Visual 720p 1.75 equal description slots
+PASS Visual 720p 1.75 control bottoms aligned
+PASS Visual 720p 1.75 same inner padding
+PASS Visual 720p 1.75 text fits without shrinking
+PASS Visual one column at 720p 1.75
+PASS Visual keyboard focus at 720p 1.75
+PASS Motor 720p 1.75 ALL cards have equal width and height, including orphan rows
+PASS Motor 720p 1.75 equal header slots
+PASS Motor 720p 1.75 equal description slots
+PASS Motor 720p 1.75 control bottoms aligned
+PASS Motor 720p 1.75 same inner padding
+PASS Motor 720p 1.75 text fits without shrinking
+PASS Motor one column at 720p 1.75
+PASS Motor keyboard focus at 720p 1.75
+PASS Cognitiva 720p 1.75 ALL cards have equal width and height, including orphan rows
+PASS Cognitiva 720p 1.75 equal header slots
+PASS Cognitiva 720p 1.75 equal description slots
+PASS Cognitiva 720p 1.75 control bottoms aligned
+PASS Cognitiva 720p 1.75 same inner padding
+PASS Cognitiva 720p 1.75 text fits without shrinking
+PASS Cognitiva one column at 720p 1.75
+PASS Cognitiva keyboard focus at 720p 1.75
+PASS Audio 720p 1.75 ALL cards have equal width and height, including orphan rows
+PASS Audio 720p 1.75 equal header slots
+PASS Audio 720p 1.75 equal description slots
+PASS Audio 720p 1.75 control bottoms aligned
+PASS Audio 720p 1.75 same inner padding
+PASS Audio 720p 1.75 text fits without shrinking
+PASS Audio one column at 720p 1.75
+PASS Audio keyboard focus at 720p 1.75
+COMPLETE 117 PASS; Unity Play Mode, simulated focus/scroll; no physical device

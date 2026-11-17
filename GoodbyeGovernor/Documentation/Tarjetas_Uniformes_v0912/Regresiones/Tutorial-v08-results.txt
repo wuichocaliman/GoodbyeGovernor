@@ -1,0 +1,55 @@
+PASS 12 lessons / 18 notes available
+PASS campaign notes hidden in main menu
+PASS new game shows Julian welcome
+PASS pending becomes in progress
+PASS disabled guide reconciles assume-office action
+PASS reactivation follows actual screen
+PASS indicator explanation leaves values intact
+PASS guide leaves document reachable through UI raycast
+PASS pointer down records grab with guide enabled
+PASS invalid event drag returns to pile
+PASS failed drag retains recoverable open step
+PASS pause contextual lesson above menu
+PASS pause second note
+PASS guide leaves document reachable through UI raycast
+PASS pointer down records grab with guide enabled
+PASS valid event drag opens document
+PASS opening advances to actual stamp decision
+PASS tutorial stored in slot 0
+PASS exact pending decision restored from slot 0
+PASS tutorial stored in slot 1
+PASS exact pending decision restored from slot 1
+PASS tutorial stored in slot 2
+PASS exact pending decision restored from slot 2
+PASS tutorial stored in slot 3
+PASS exact pending decision restored from slot 3
+PASS consult all lessons without changing campaign or tutorial
+PASS skipped lesson distinct from completed
+PASS real card decision resolves normally after skip
+PASS duplicate stamp rejected
+PASS continue action completes result lesson
+PASS first map contextual lesson
+PASS first visit explains questions without consuming them
+PASS real question unlocks dossier guidance
+PASS document tab lesson 1
+PASS document tab lesson 2
+PASS document tab lesson 3
+PASS tab guidance consumes no questions
+PASS existing three-question limit preserved
+PASS first diplomacy click explains before executing
+PASS player repeats click to decide exactly once
+PASS real authored chain activates lesson without future reveal
+PASS year lesson uses actual eligibility
+PASS existing year advancement executes
+PASS v07 slot without tutorial loads and reconciles
+PASS guide leaves document reachable through UI raycast
+PASS pointer down records grab with guide enabled
+PASS valid event drag opens document
+PASS reduced motion preserves guide transitions
+PASS omit remaining guide does not mark every note completed
+PASS new campaign resets prior omission
+PASS fully omitted has explicit omitted status
+PASS completed state distinct from omitted
+PASS year four uses two questions in explanations
+PASS zero runtime errors and warnings
+COMPLETE 54 PASS - automated Unity Play Mode, no physical input

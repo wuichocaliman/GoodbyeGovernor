@@ -1,0 +1,339 @@
+PASS defaults retain original presentation
+PASS select without opening
+PASS escape cancels without pausing
+PASS simplified placement invokes real opening once
+PASS stamp selection previews without deciding
+PASS stamp cancellation
+PASS simplified stamp applies real decision
+PASS duplicate simplified stamp ignored
+PASS next card after simplified decision
+PASS keyboard action path opens document without mouse
+PASS reflow layout text 0.75 interface 0.8
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 0.75 interface 0.9
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 0.75 interface 1
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 0.75 interface 1.1
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 0.75 interface 1.2
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 1 interface 0.8
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 1 interface 0.9
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 1 interface 1
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 1 interface 1.1
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 1 interface 1.2
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 1.25 interface 0.8
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 1.25 interface 0.9
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 1.25 interface 1
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 1.25 interface 1.1
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 1.25 interface 1.2
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 1.5 interface 0.8
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 1.5 interface 0.9
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 1.5 interface 1
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 1.5 interface 1.1
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 1.5 interface 1.2
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 1.75 interface 0.8
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 1.75 interface 0.9
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 1.75 interface 1
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 1.75 interface 1.1
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS reflow layout text 1.75 interface 1.2
+PASS text fits scroll row: [X] Volver al modo v
+PASS text fits scroll row: REPÚBLICA DE AURELIA
+PASS text fits scroll row: v0.9.10-prototipo
+PASS text fits scroll row: AJUSTES DEL DESPACHO
+PASS text fits scroll row: Preferencias persona
+PASS text fits scroll row: ● AUDIO
+PASS text fits scroll row: PANTALLA
+PASS text fits scroll row: JUGABILIDAD
+PASS text fits scroll row: CONTROLES
+PASS text fits scroll row: ACCESIBILIDAD
+PASS text fits scroll row: VOLVER
+PASS visual settings leave campaign and tutorial unchanged in menus
+PASS settings category actions 0
+PASS settings category actions 1
+PASS settings category actions 2
+PASS settings category actions 3
+PASS pause save actions exposed
+PASS load screen navigation exposed
+PASS all twelve lesson links exposed
+PASS map action semantic labels
+PASS future country name not exposed by accessible snapshot
+PASS diplomatic decisions remain reachable
+PASS report content readable tab 0
+PASS report content readable tab 1
+PASS report content readable tab 2
+PASS report content readable tab 3
+PASS simplified tutorial uses real question limit
+PASS keyboard focus activates accessibility category
+PASS settings saved separately
+PASS preferences reload from disk
+PASS preference reload leaves campaign untouched
+PASS accessibility excluded from campaign schema
+PASS stereo downmix equal channels
+PASS comfort filter attenuates sharp changes
+PASS Windows TTS worker starts without reported error: 
+PASS narration stop and worker disposal
+PASS accessible preferences coexist with campaign save
+PASS load does not overwrite accessibility
+PASS no runtime errors or warnings
+COMPLETE 338 PASS; automated Play Mode events and fixtures; no physical or hearing test

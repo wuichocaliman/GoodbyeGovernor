@@ -1,0 +1,9 @@
+PASS Visual text fits without shrinking
+PASS Visual original background
+PASS Motor text fits without shrinking
+PASS Motor original background
+PASS Cognitiva text fits without shrinking
+PASS Cognitiva original background
+PASS Audio text fits without shrinking
+PASS Audio original background
+COMPLETE 8 PASS; Unity Play Mode, simulated focus/scroll; no physical device

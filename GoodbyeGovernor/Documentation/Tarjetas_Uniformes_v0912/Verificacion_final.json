@@ -1,0 +1,18 @@
+{
+  "existing_files_changed": [
+    "Assets/Tests/CategoriesLayoutProbe.cs",
+    "Assets/Tests/FunctionalEvidenceProbe.cs",
+    "Assets/Tests/ProfilesLayoutProbe.cs",
+    "Assets/Scripts/ElDespacho/AccessSettingsLayout.cs",
+    "Assets/Scripts/ElDespacho/DeskMenus.cs",
+    "CHANGELOG.md"
+  ],
+  "missing_files": [],
+  "real_user_files_unchanged_sha256": 8,
+  "quality_settings_preserved": true,
+  "new_files": [
+    "Documentation/El_Despacho_Tarjetas_Uniformes_v0.9.12-prototipo.pdf",
+    "Documentation/Tarjetas_Uniformes_v0912/"
+  ],
+  "backup": "C:\\Users\\User\\Documents\\Codex\\work\\cards-v0912\\Backup_antes_v0912.zip"
+}

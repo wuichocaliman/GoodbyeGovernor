@@ -30,15 +30,11 @@ namespace ElDespacho {
    void Volume(string title,string desc,float value,Action<float> f,bool enabled=true)=>a.Add(new Entry(title,()=>{},null,enabled){description=desc,icon="audio",value=Mathf.RoundToInt(value*100)+" %",sliderValue=value,sliderChange=v=>Set(()=>f(v))});
    if(page=="Inicio"){
     string[] names={"Lectura cómoda","Interacción sencilla","Comprensión guiada","Escucha asistida"};
-    string[] descriptions={"Facilita la lectura con textos grandes, mayor contraste y elementos más visibles.","Utiliza clics y controles más grandes para interactuar con documentos y menús.","Recibe instrucciones más sencillas, símbolos explicativos y ayudas durante la partida.","Escucha información importante y recibe avisos visuales de los acontecimientos."};
+    string[] descriptions={"Letras más grandes y contraste mejorado.","Documentos con clics y zonas más fáciles de pulsar.","Instrucciones claras y ayuda durante el juego.","Narración y avisos visuales."};
     string[] icons={"eye","cursor","book","audio"};
-    for(int i=0;i<4;i++){int n=i;Action(names[i],descriptions[i]+(i==3?" "+VoiceStatus():""),icons[i],()=>ApplyProfile(n),(P.profileMask&(1<<i))!=0?"Desactivar perfil":"Activar perfil");a[a.Count-1].card=true;}
-    Info("Personaliza cómo quieres jugar.","Adapta la lectura, los controles, las instrucciones y el sonido a tus necesidades.","access");
-    Info("Perfiles recomendados",ConfigurationStatus+". Puedes combinarlos y desactivarlos. Tus cambios manuales tienen prioridad y se conservan.","gear");
-    if(P.profilesMigrated)Info("Preferencias anteriores conservadas","Los perfiles antiguos no guardaban los valores previos. Tus ajustes se conservan como base personalizada; vuelve a activar los perfiles que quieras usar.","gear");
-    Info("Preferencias personales","Los cambios se guardan automáticamente. Cargar una campaña no cambia estos ajustes.","gear");
-    Info("Opciones activas",ActiveOptions(),"gear");
-    Action("Restaurar accesibilidad","Restaura los apoyos, contraste y movimiento tras confirmar. Conserva partidas y volúmenes del juego.","gear",()=>OpenCategory("Restaurar"),"Restaurar…");
+    for(int i=0;i<4;i++){int n=i;Action(names[i],descriptions[i],icons[i],()=>ApplyProfile(n),(P.profileMask&(1<<i))!=0?"Desactivar perfil":"Activar perfil");a[a.Count-1].card=true;}
+    Info("Opciones activas",ConfigurationStatus+". "+ActiveOptions()+" Puedes combinar perfiles; tus cambios manuales tienen prioridad."+(P.profilesMigrated?" Preferencias anteriores conservadas como base personalizada.":""),"gear");
+    Action("Restaurar accesibilidad","", "gear",()=>OpenCategory("Restaurar"),"Restaurar accesibilidad");
    }else if(page=="Visual"){
     Toggle("Alto contraste","Mejora la diferencia entre el texto y el fondo.","eye",DeskPreferences.Current.highContrast,()=>DeskPreferences.Current.highContrast=!DeskPreferences.Current.highContrast);
     Action("Tamaño de texto","Amplía las letras de Accesibilidad y del lector. La portada adapta el tamaño al espacio; las notas del asesor conservan su tamaño.","eye",()=>Set(()=>P.textScale=Cycle(P.textScale,new[]{.75f,1f,1.25f,1.5f,1.75f})),Mathf.RoundToInt(P.textScale*100)+" %");

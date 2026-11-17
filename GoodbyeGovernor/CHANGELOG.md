@@ -1,3 +1,36 @@
+﻿## v0.9.12-prototipo — Tarjetas uniformes de Accesibilidad (2026-11-17)
+
+- Corregida la causa de las diferencias: cada tarjeta calculaba su altura por separado y las tarjetas sin pareja ocupaban todo el ancho. Ahora se mide el contenido de cada categoría y se comparten altura, ancho, espacio de cabecera, descripción y zona de control.
+- Controles alineados abajo con el mismo margen; separación constante de 20 unidades entre tarjetas. Escala de interfaz y las demás tarjetas sueltas mantienen el ancho de una columna cuando la cuadrícula tiene dos.
+- Aplicado a Visión y lectura, Controles, Comprensión y Audio (incluido el audio compartido de Ajustes). PERFILES, encabezados y notas conservan su diseño. No se cambian descripciones, acciones, disponibilidad ni preferencias.
+- Las dimensiones comunes se recalculan con el ancho y las escalas actuales; una columna para texto mayor del 125% o espacio reducido. Se conserva texto completo, sin recortarlo ni reducirlo para encajar.
+- 117 comprobaciones de Unity Play Mode: igualdad de dimensiones, cabeceras, descripciones, márgenes y alineación inferior; texto 175% e interfaz 120% en Game View real 1280x720, alto contraste, scroll y foco. Regresiones existentes de categorías, perfiles, persistencia, restauración, lector, tutorial, menús y guardados. Entradas simuladas; pruebas físicas y evaluación humana pendientes.
+- Backup previo verificado y ocho archivos reales de preferencias/partidas preservados por SHA-256. Sin cambios en el modelo de opciones ni en documentos, diplomacia o campaña.
+- Informe: Documentation/El_Despacho_Tarjetas_Uniformes_v0.9.12-prototipo.pdf. Capturas antes/después y registros: Documentation/Tarjetas_Uniformes_v0912/.
+
+
+## v0.9.11-prototipo — Categorías de Accesibilidad organizadas como PERFILES (2026-11-17)
+
+- Visión y lectura, Controles, Comprensión y Audio y narración usan tarjetas compactas con icono, título, explicación y control/estado, agrupadas con encabezados y separadores dorados. El modelo, orden, disponibilidad y acciones de las opciones no cambian.
+- Dos columnas cuando el ancho y el tamaño de texto lo permiten; una columna con texto mayor del 125% o menos de 840 píxeles disponibles. Alturas según contenido, sin reducir letras para encajarlas. Notas informativas y vistas previas compactas fuera de tarjetas de acción.
+- Conservados el fondo ilustrado, panel oscuro, botones ornamentados, tipografía, navegación lateral, PERFILES y restauración. El audio compartido de Ajustes utiliza la misma presentación agrupada.
+- Sin cambios en preferencias, perfiles, guardados, F2, tutorial, documentos o diplomacia. Conservados AccessScrollRect y el marco de foco hijo del control con su recorte por máscara.
+- 57 comprobaciones nuevas de Unity Play Mode: cuatro categorías, columnas, texto y estado combinado al 175%/120% con alto contraste, Game View real 1280x720, conservación de scroll, foco oculto y retorno. Capturas antes/después; regresiones existentes de controles, perfiles, persistencia, restauración, lector, teclado, tutorial y menús. Entradas simuladas; no se declara prueba física ni evaluación humana.
+- Backup previo y ocho archivos reales de usuario conservados mediante comparación SHA-256. Tests aislados en directorios temporales. No se amplía el alcance funcional de ajustes ni la disponibilidad de audio existente.
+- Informe: Documentation/El_Despacho_Accesibilidad_Visual_Unificada_v0.9.11-prototipo.pdf. Capturas y registros: Documentation/Accesibilidad_Visual_v0911/.
+
+
+## v0.9.10-prototipo — PERFILES compacto y foco recortado (2026-11-17)
+
+- PERFILES conserva cuatro tarjetas con icono, descripción breve, botón y marca activa. Retirados los paneles Personaliza cómo quieres jugar, Perfiles recomendados y Preferencias personales.
+- Opciones activas pasa a resumen compacto; restauración a botón con su confirmación existente. Se conserva aviso de migración en el resumen, prioridad de ajustes personales y lógica de perfiles sin modificaciones.
+- Cuadrícula 2 x 2 con ancho suficiente; una columna para texto mayor del 125% o espacio reducido. Botones ornamentados, fondo y recursos actuales conservados.
+- Corregido el marco flotante: ahora es hijo del control enfocado y hereda ScrollRect/RectMask2D, en lugar de dibujarse en un Canvas superpuesto independiente. No intercepta eventos ni altera la rueda.
+- 20 comprobaciones específicas en Unity Play Mode: geometría, texto hasta 175%, Game View 1280x720, foco con cull efectivo fuera de pantalla y retorno por teclado. Regresiones de perfiles, persistencia, restauración, accesibilidad, lector, scroll y menús ejecutadas. Entradas simuladas; sin prueba física ni evaluación humana.
+- Campaña, Audio, otras categorías, lector, tutorial, diplomacia y documentos sin cambios funcionales. Preferencias/partidas reales conservadas por SHA-256; backup previo local.
+- Informe: Documentation/El_Despacho_Perfiles_y_Foco_v0.9.10-prototipo.pdf. Evidencias: Documentation/Perfiles_Visual_v0910/.
+- Documentada incidencia de tutorial durante recarga de scripts en la sesión previa; fuera de este alcance, no se declara corregida.
+
 ## v0.9.9-prototipo — Perfiles aplicados al despacho (2026-11-17)
 
 - Comparado el recorrido de ratón simulado en Unity Play Mode antes/después: los dos clics y sellos simplificados ya funcionaban, pero las instrucciones pedían arrastrar y las áreas ampliadas no alcanzaban los objetos del despacho.

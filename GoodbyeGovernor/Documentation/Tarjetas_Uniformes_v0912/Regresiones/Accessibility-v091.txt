@@ -1,0 +1,52 @@
+PASS home has four profile cards
+PASS profile applied 0
+PASS profile applied 1
+PASS profile applied 2
+PASS profile applied 3
+PASS profiles combine without clearing earlier options
+PASS combined profile state
+PASS individual setting marks custom state
+PASS live preview exists Visual
+PASS all text fits Visual 0.75/0.8
+PASS all text fits Visual 0.75/1.2
+PASS all text fits Visual 1/0.8
+PASS all text fits Visual 1/1.2
+PASS all text fits Visual 1.75/0.8
+PASS all text fits Visual 1.75/1.2
+PASS live preview exists Motor
+PASS all text fits Motor 0.75/0.8
+PASS all text fits Motor 0.75/1.2
+PASS all text fits Motor 1/0.8
+PASS all text fits Motor 1/1.2
+PASS all text fits Motor 1.75/0.8
+PASS all text fits Motor 1.75/1.2
+PASS live preview exists Cognitiva
+PASS all text fits Cognitiva 0.75/0.8
+PASS all text fits Cognitiva 0.75/1.2
+PASS all text fits Cognitiva 1/0.8
+PASS all text fits Cognitiva 1/1.2
+PASS all text fits Cognitiva 1.75/0.8
+PASS all text fits Cognitiva 1.75/1.2
+PASS live preview exists Audio
+PASS all text fits Audio 0.75/0.8
+PASS all text fits Audio 0.75/1.2
+PASS all text fits Audio 1/0.8
+PASS all text fits Audio 1/1.2
+PASS all text fits Audio 1.75/0.8
+PASS all text fits Audio 1.75/1.2
+PASS demo requires selection
+PASS document demo select then place
+PASS demo leaves campaign untouched
+PASS voice availability probe
+VOICE Microsoft Helena Desktop|es-ES
+PASS six real volume sliders
+PASS music and ambience disabled without sources
+PASS slider survives pointer drag and applies value
+PASS keyboard adjusts focused slider
+PASS new preferences persist
+PASS reset needs confirmation
+PASS cancel reset preserves preferences
+PASS confirmed reset restores defaults
+PASS old preference JSON gains safe defaults
+PASS no runtime errors
+COMPLETE 50 PASS; automated Play Mode, no physical usability or hearing test

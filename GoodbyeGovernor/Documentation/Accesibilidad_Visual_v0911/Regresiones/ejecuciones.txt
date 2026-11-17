@@ -1,0 +1,13 @@
+ProfilesLayoutRunner.Run exit=0
+AccessibilityAuditRunner.Run exit=0
+AccessibilityAuditRunner.Restart exit=0
+AccessibilityMeaningRunner.Run exit=0
+AccessibilityMeaningRunner.Restart exit=0
+AccessibilityUxRunner.Run exit=0
+AccessibilityStyleRunner.Run exit=0
+AccessibilityValidationRunner.Run exit=0
+AccessibilityValidationRunner.Persistence exit=0
+ReadingViewValidationRunner.Run exit=0
+NavigationScrollRunner.Run exit=0
+TutorialValidationRunner.Run exit=0
+MenuValidationRunner.Run exit=0

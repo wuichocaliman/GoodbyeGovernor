@@ -1,0 +1,19 @@
+{
+  "existing_files_changed": [
+    "Assets/Tests/FunctionalEvidenceProbe.cs",
+    "Assets/Tests/ProfilesLayoutProbe.cs",
+    "Assets/Scripts/ElDespacho/AccessSettingsLayout.cs",
+    "Assets/Scripts/ElDespacho/DeskMenus.cs",
+    "CHANGELOG.md"
+  ],
+  "missing_files": [],
+  "real_user_files_unchanged_sha256": 8,
+  "quality_settings_preserved": true,
+  "new_files": [
+    "Assets/Tests/CategoriesLayoutProbe.cs",
+    "Assets/Tests/CategoriesLayoutProbe.cs.meta",
+    "Documentation/El_Despacho_Accesibilidad_Visual_Unificada_v0.9.11-prototipo.pdf",
+    "Documentation/Accesibilidad_Visual_v0911/"
+  ],
+  "backup": "C:\\Users\\User\\Documents\\Codex\\work\\categories-v0911\\Backup_antes_v0911.zip"
+}
