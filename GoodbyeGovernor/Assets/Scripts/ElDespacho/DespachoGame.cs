@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -206,8 +206,8 @@ namespace ElDespacho
         void Indicator(Transform p, string name, int v, float x)
         {
             const float w = 0.21f;
-            Kit.Label(p, name, 20, Pal.Cream, TextAnchor.LowerLeft, new Vector2(x, 0.52f), new Vector2(x + w, 1), Vector2.zero, new Vector2(0, -10), FontStyle.Bold);
-            Kit.Label(p, v.ToString(), 24, Kit.IndicatorColor(v), TextAnchor.LowerRight, new Vector2(x, 0.52f), new Vector2(x + w, 1), Vector2.zero, new Vector2(0, -10), FontStyle.Bold);
+            Kit.Label(p, name, 20, Pal.Cream, TextAnchor.LowerLeft, new Vector2(x, 0.52f), new Vector2(x + w * .76f, 1), Vector2.zero, new Vector2(0, -10), FontStyle.Bold);
+            Kit.Label(p, "  " + v.ToString(), 24, Kit.IndicatorColor(v), TextAnchor.LowerRight, new Vector2(x + w * .77f, 0.52f), new Vector2(x + w, 1), Vector2.zero, new Vector2(0, -10), FontStyle.Bold);
             Kit.Bar(p, v, Kit.IndicatorColor(v), new Vector2(x, 0.2f), new Vector2(x + w, 0.46f));
         }
 
@@ -774,6 +774,7 @@ namespace ElDespacho
 
             // Barra lateral: leyenda y pendientes
             var side = Kit.Panel(root, Pal.Paper, new Vector2(0.79f, 0.03f), new Vector2(0.985f, 0.885f), default, default, "Side");
+            side.gameObject.AddComponent<GameplayMapSidebar>();
             var st = side.transform;
             Kit.Label(st, "MAPA DEL MUNDO", 26, Pal.Ink, TextAnchor.UpperCenter, Vector2.zero, Vector2.one, new Vector2(10, 0), new Vector2(-10, -16), FontStyle.Bold);
             Kit.Label(st, "Elige un país con el ratón.", 18, Pal.InkSoft, TextAnchor.UpperCenter, Vector2.zero, Vector2.one, new Vector2(10, 0), new Vector2(-10, -52), FontStyle.Italic);
@@ -892,6 +893,7 @@ namespace ElDespacho
 
             // ── Diálogo (izquierda)
             var left = Kit.Panel(root, Pal.WoodMid, new Vector2(0.015f, 0.155f), new Vector2(0.49f, 0.885f), default, default, "Dialog");
+            left.gameObject.AddComponent<GameplayVisitLayout>();
             var lt = left.transform;
 
             var portrait = Kit.Panel(lt, Color.Lerp(c.color, Color.black, 0.25f), new Vector2(0.03f, 0.63f), new Vector2(0.28f, 0.97f), default, default, "Portrait");
@@ -995,6 +997,7 @@ namespace ElDespacho
 
         void BuildDocument(Transform d, Country c)
         {
+            d.gameObject.AddComponent<DiplomaticAccessLayout>();
             string title; string body;
             switch (docTab)
             {
@@ -1025,7 +1028,7 @@ namespace ElDespacho
                         Kit.Label(photo.transform, "<i>" + c.photo + "</i>", 17, Pal.Ink, TextAnchor.MiddleCenter,
                             new Vector2(0.04f, 0f), new Vector2(0.96f, 0.26f), default, default, FontStyle.Normal, true);
                         Kit.Label(d, body, 22, Pal.Ink, TextAnchor.UpperLeft, new Vector2(0, 0), new Vector2(0.54f, 1),
-                            new Vector2(28, 24), new Vector2(-10, -80), FontStyle.Normal, true);
+                            new Vector2(28, 24), new Vector2(-10, -80*Mathf.Max(1,AccessPreferences.Current.textScale)), FontStyle.Normal, true);
                         Kit.Label(d, title, 28, Pal.Ink, TextAnchor.UpperLeft, Vector2.zero, Vector2.one, new Vector2(28, 0), new Vector2(-28, -24), FontStyle.Bold);
                         return;
                     }
@@ -1043,11 +1046,11 @@ namespace ElDespacho
                     Kit.Label(d, "Riesgo para Aurelia", 22, Pal.Ink, TextAnchor.LowerLeft, new Vector2(0.06f, 0.13f), new Vector2(0.94f, 0.21f), default, default, FontStyle.Bold);
                     Kit.Bar(d, c.riskBar, Kit.Hex("#c94a3a"), new Vector2(0.06f, 0.07f), new Vector2(0.94f, 0.13f));
                     Kit.Label(d, title, 28, Pal.Ink, TextAnchor.UpperLeft, Vector2.zero, Vector2.one, new Vector2(28, 0), new Vector2(-28, -24), FontStyle.Bold);
-                    Kit.Label(d, body, 22, Pal.Ink, TextAnchor.UpperLeft, new Vector2(0, 0.42f), new Vector2(1, 1), new Vector2(28, 0), new Vector2(-28, -80), FontStyle.Normal, true);
+                    Kit.Label(d, body, 22, Pal.Ink, TextAnchor.UpperLeft, new Vector2(0, 0.42f), new Vector2(1, 1), new Vector2(28, 0), new Vector2(-28, -80*Mathf.Max(1,AccessPreferences.Current.textScale)), FontStyle.Normal, true);
                     return;
             }
             Kit.Label(d, title, 28, Pal.Ink, TextAnchor.UpperLeft, Vector2.zero, Vector2.one, new Vector2(28, 0), new Vector2(-28, -24), FontStyle.Bold);
-            Kit.Label(d, body, 23, Pal.Ink, TextAnchor.UpperLeft, Vector2.zero, Vector2.one, new Vector2(28, 24), new Vector2(-28, -80), FontStyle.Normal, true);
+            Kit.Label(d, body, 23, Pal.Ink, TextAnchor.UpperLeft, Vector2.zero, Vector2.one, new Vector2(28, 24), new Vector2(-28, -80*Mathf.Max(1,AccessPreferences.Current.textScale)), FontStyle.Normal, true);
         }
 
         void Ask(Question q)

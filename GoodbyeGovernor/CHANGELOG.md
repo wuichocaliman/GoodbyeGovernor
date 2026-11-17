@@ -1,4 +1,18 @@
-﻿## v0.9.12-prototipo — Tarjetas uniformes de Accesibilidad (2026-11-17)
+﻿## v0.9.13-prototipo — Accesibilidad durante la partida (2026-11-17)
+
+- Conectados alto contraste y ampliación de texto con la interfaz ilustrada mediante adaptadores uGUI reversibles. Placas de contraste locales, texto completo desplazable sin encogimiento, etiquetas de estado y separación de textos de indicadores. Ilustraciones conservadas.
+- Reorganización de la columna del mapa y de preguntas/pestañas/decisiones diplomáticas al ampliar texto. Corregida la selección de referencias a paneles antiguos durante reconstrucciones. Tutorial con bandas independientes de título, cuerpo y controles; sello decorativo de inteligencia separado de su título.
+- Ampliación de áreas de botones nativos, preservando callbacks y rectángulos de controles vecinos. Ayudas de herramientas para mapa, preguntas, dossier, inteligencia, comercio y decisiones; sin revelar secretos ni cambiar narrativa.
+- Narración de contenido actual y opciones disponibles; eliminación de una segunda lectura redundante del tutorial. Reactivación y F3 consultan contenido actual. Se conservan detener/repetir, voz local, avisos y acceso voluntario F2.
+- Conservados definiciones/reversibilidad/persistencia de perfiles, reglas, cartas, cadenas, diplomacia, años, finales y guardados. El menú mantiene tarjetas/scroll/foco v0.9.12; solo se actualizan dos descripciones de alcance.
+- Unity Play Mode: 322 comprobaciones nuevas de cobertura; cuatro perfiles en diez pantallas, reversión y conservación de campaña; combinaciones 5/3/12/15; tamaños 75–175%, 1920x1080 y Game View 1280x720. Pruebas de ratón virtual para documento/sello/cancelación/decisión no duplicada, también con Lectura cómoda combinada. Regresiones existentes completadas; persistencia individual y combinada en procesos separados.
+- Una expectativa de la prueba combinada se corrigió: Lectura cómoda también aporta áreas ampliadas, que no deben desactivarse al retirar Interacción sencilla. No se cambió la lógica de perfiles.
+- Narración automática y aceptación por proceso comprobadas. WAV con Microsoft Helena Desktop es-ES y muestras no nulas; no equivale a escucha humana ni a grabación de salida de Unity.
+- Límites explícitos: rótulos pequeños/decorativos y botones estrechos requieren scroll a gran escala; no se certifica adaptación visual completa ni todas las variantes de informe/foto o cada país con cada combinación. Pendientes dispositivos físicos, comprensión con jugadores, escucha/pronunciación y rendimiento en equipos lentos.
+- Backup previo verificado. Ocho archivos reales de partidas/preferencias intactos por SHA-256. QualitySettings restaurado tras pruebas.
+- Informe y matriz: Documentation/El_Despacho_Accesibilidad_Gameplay_v0.9.13-prototipo.pdf. Evidencias: Documentation/Accesibilidad_Gameplay_v0913/.
+
+## v0.9.12-prototipo — Tarjetas uniformes de Accesibilidad (2026-11-17)
 
 - Corregida la causa de las diferencias: cada tarjeta calculaba su altura por separado y las tarjetas sin pareja ocupaban todo el ancho. Ahora se mide el contenido de cada categoría y se comparten altura, ancho, espacio de cabecera, descripción y zona de control.
 - Controles alineados abajo con el mismo margen; separación constante de 20 unidades entre tarjetas. Escala de interfaz y las demás tarjetas sueltas mantienen el ancho de una columna cuando la cuadrícula tiene dos.

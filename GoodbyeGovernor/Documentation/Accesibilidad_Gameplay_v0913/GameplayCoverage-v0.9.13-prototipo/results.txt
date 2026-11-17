@@ -1,0 +1,323 @@
+PASS profile 0 despacho stays illustrated
+PASS profile 0 despacho preserves campaign
+PASS reading adapted text exists despacho
+PASS reading actual white, enlarged unshrunk text despacho
+PASS reading full text fits scroll content despacho
+PASS profile reversible 0 despacho
+PASS profile 0 documento stays illustrated
+PASS profile 0 documento preserves campaign
+PASS reading adapted text exists documento
+PASS reading actual white, enlarged unshrunk text documento
+PASS reading full text fits scroll content documento
+PASS profile reversible 0 documento
+PASS profile 0 resultado stays illustrated
+PASS profile 0 resultado preserves campaign
+PASS reading adapted text exists resultado
+PASS reading actual white, enlarged unshrunk text resultado
+PASS reading full text fits scroll content resultado
+PASS profile reversible 0 resultado
+PASS profile 0 mapa stays illustrated
+PASS profile 0 mapa preserves campaign
+PASS reading adapted text exists mapa
+PASS reading actual white, enlarged unshrunk text mapa
+PASS reading full text fits scroll content mapa
+PASS profile reversible 0 mapa
+PASS profile 0 dialogo stays illustrated
+PASS profile 0 dialogo preserves campaign
+PASS reading adapted text exists dialogo
+PASS reading actual white, enlarged unshrunk text dialogo
+PASS reading full text fits scroll content dialogo
+PASS profile reversible 0 dialogo
+PASS profile 0 dossier stays illustrated
+PASS profile 0 dossier preserves campaign
+PASS reading adapted text exists dossier
+PASS reading actual white, enlarged unshrunk text dossier
+PASS reading full text fits scroll content dossier
+PASS profile reversible 0 dossier
+PASS profile 0 inteligencia stays illustrated
+PASS profile 0 inteligencia preserves campaign
+PASS reading adapted text exists inteligencia
+PASS reading actual white, enlarged unshrunk text inteligencia
+PASS reading full text fits scroll content inteligencia
+PASS profile reversible 0 inteligencia
+PASS profile 0 tutorial stays illustrated
+PASS profile 0 tutorial preserves campaign
+PASS reading adapted text exists tutorial
+PASS reading actual white, enlarged unshrunk text tutorial
+PASS reading full text fits scroll content tutorial
+PASS profile reversible 0 tutorial
+PASS profile 0 pausa stays illustrated
+PASS profile 0 pausa preserves campaign
+PASS reading adapted text exists pausa
+PASS reading actual white, enlarged unshrunk text pausa
+PASS reading full text fits scroll content pausa
+PASS profile reversible 0 pausa
+PASS profile 0 guardados stays illustrated
+PASS profile 0 guardados preserves campaign
+PASS reading adapted text exists guardados
+PASS reading actual white, enlarged unshrunk text guardados
+PASS reading full text fits scroll content guardados
+PASS profile reversible 0 guardados
+PASS profile reload 0
+PASS profile 1 despacho stays illustrated
+PASS profile 1 despacho preserves campaign
+PASS profile reversible 1 despacho
+PASS profile 1 documento stays illustrated
+PASS profile 1 documento preserves campaign
+PASS profile reversible 1 documento
+PASS profile 1 resultado stays illustrated
+PASS profile 1 resultado preserves campaign
+PASS profile reversible 1 resultado
+PASS profile 1 mapa stays illustrated
+PASS profile 1 mapa preserves campaign
+PASS profile reversible 1 mapa
+PASS profile 1 dialogo stays illustrated
+PASS profile 1 dialogo preserves campaign
+PASS profile reversible 1 dialogo
+PASS profile 1 dossier stays illustrated
+PASS profile 1 dossier preserves campaign
+PASS profile reversible 1 dossier
+PASS profile 1 inteligencia stays illustrated
+PASS profile 1 inteligencia preserves campaign
+PASS profile reversible 1 inteligencia
+PASS profile 1 tutorial stays illustrated
+PASS profile 1 tutorial preserves campaign
+PASS profile reversible 1 tutorial
+PASS profile 1 pausa stays illustrated
+PASS profile 1 pausa preserves campaign
+PASS profile reversible 1 pausa
+PASS profile 1 guardados stays illustrated
+PASS profile 1 guardados preserves campaign
+PASS profile reversible 1 guardados
+PASS profile reload 1
+PASS profile 2 despacho stays illustrated
+PASS profile 2 despacho preserves campaign
+PASS profile reversible 2 despacho
+PASS profile 2 documento stays illustrated
+PASS profile 2 documento preserves campaign
+PASS profile reversible 2 documento
+PASS profile 2 resultado stays illustrated
+PASS profile 2 resultado preserves campaign
+PASS profile reversible 2 resultado
+PASS profile 2 mapa stays illustrated
+PASS profile 2 mapa preserves campaign
+PASS guided contextual tools mapa
+PASS profile reversible 2 mapa
+PASS profile 2 dialogo stays illustrated
+PASS profile 2 dialogo preserves campaign
+PASS guided contextual tools dialogo
+PASS profile reversible 2 dialogo
+PASS profile 2 dossier stays illustrated
+PASS profile 2 dossier preserves campaign
+PASS profile reversible 2 dossier
+PASS profile 2 inteligencia stays illustrated
+PASS profile 2 inteligencia preserves campaign
+PASS guided contextual tools inteligencia
+PASS profile reversible 2 inteligencia
+PASS profile 2 tutorial stays illustrated
+PASS profile 2 tutorial preserves campaign
+PASS profile reversible 2 tutorial
+PASS profile 2 pausa stays illustrated
+PASS profile 2 pausa preserves campaign
+PASS profile reversible 2 pausa
+PASS profile 2 guardados stays illustrated
+PASS profile 2 guardados preserves campaign
+PASS profile reversible 2 guardados
+PASS profile reload 2
+PASS profile 3 despacho stays illustrated
+PASS profile 3 despacho preserves campaign
+PASS speech worker ready despacho
+PASS narration includes live content and choices despacho
+PASS automatic live narration includes choices despacho
+PASS speech worker accepted current request despacho
+PASS speech latest content despacho
+PASS profile reversible 3 despacho
+PASS profile 3 documento stays illustrated
+PASS profile 3 documento preserves campaign
+PASS speech worker ready documento
+PASS narration includes live content and choices documento
+PASS automatic live narration includes choices documento
+PASS speech worker accepted current request documento
+PASS speech latest content documento
+PASS profile reversible 3 documento
+PASS profile 3 resultado stays illustrated
+PASS profile 3 resultado preserves campaign
+PASS speech worker ready resultado
+PASS narration includes live content and choices resultado
+PASS automatic live narration includes choices resultado
+PASS speech worker accepted current request resultado
+PASS speech latest content resultado
+PASS profile reversible 3 resultado
+PASS profile 3 mapa stays illustrated
+PASS profile 3 mapa preserves campaign
+PASS speech worker ready mapa
+PASS narration includes live content and choices mapa
+PASS automatic live narration includes choices mapa
+PASS speech worker accepted current request mapa
+PASS speech latest content mapa
+PASS profile reversible 3 mapa
+PASS profile 3 dialogo stays illustrated
+PASS profile 3 dialogo preserves campaign
+PASS speech worker ready dialogo
+PASS narration includes live content and choices dialogo
+PASS automatic live narration includes choices dialogo
+PASS speech worker accepted current request dialogo
+PASS speech latest content dialogo
+PASS profile reversible 3 dialogo
+PASS profile 3 dossier stays illustrated
+PASS profile 3 dossier preserves campaign
+PASS speech worker ready dossier
+PASS narration includes live content and choices dossier
+PASS automatic live narration includes choices dossier
+PASS speech worker accepted current request dossier
+PASS speech latest content dossier
+PASS profile reversible 3 dossier
+PASS profile 3 inteligencia stays illustrated
+PASS profile 3 inteligencia preserves campaign
+PASS speech worker ready inteligencia
+PASS narration includes live content and choices inteligencia
+PASS automatic live narration includes choices inteligencia
+PASS speech worker accepted current request inteligencia
+PASS speech latest content inteligencia
+PASS profile reversible 3 inteligencia
+PASS profile 3 tutorial stays illustrated
+PASS profile 3 tutorial preserves campaign
+PASS speech worker ready tutorial
+PASS narration includes live content and choices tutorial
+PASS automatic live narration includes choices tutorial
+PASS speech worker accepted current request tutorial
+PASS speech latest content tutorial
+PASS profile reversible 3 tutorial
+PASS profile 3 pausa stays illustrated
+PASS profile 3 pausa preserves campaign
+PASS speech worker ready pausa
+PASS narration includes live content and choices pausa
+PASS automatic live narration includes choices pausa
+PASS speech worker accepted current request pausa
+PASS speech latest content pausa
+PASS profile reversible 3 pausa
+PASS profile 3 guardados stays illustrated
+PASS profile 3 guardados preserves campaign
+PASS speech worker ready guardados
+PASS narration includes live content and choices guardados
+PASS automatic live narration includes choices guardados
+PASS speech worker accepted current request guardados
+PASS speech latest content guardados
+PASS profile reversible 3 guardados
+PASS profile reload 3
+PASS combination 5 usable documento
+PASS combination 5 usable dialogo
+PASS combination 5 usable inteligencia
+PASS combination 3 usable documento
+PASS combination 3 usable dialogo
+PASS combination 3 usable inteligencia
+PASS combination 12 usable documento
+PASS combination 12 usable dialogo
+PASS combination 12 usable inteligencia
+PASS combination 15 usable documento
+PASS combination 15 usable dialogo
+PASS combination 15 usable inteligencia
+PASS actual 1280x720
+PASS visual scale 0.75 despacho
+PASS scroll text fits 0.75 despacho
+PASS visual scale 0.75 documento
+PASS scroll text fits 0.75 documento
+PASS visual scale 0.75 resultado
+PASS scroll text fits 0.75 resultado
+PASS visual scale 0.75 mapa
+PASS scroll text fits 0.75 mapa
+PASS visual scale 0.75 dialogo
+PASS scroll text fits 0.75 dialogo
+PASS visual scale 0.75 dossier
+PASS scroll text fits 0.75 dossier
+PASS visual scale 0.75 inteligencia
+PASS scroll text fits 0.75 inteligencia
+PASS visual scale 0.75 tutorial
+PASS scroll text fits 0.75 tutorial
+PASS visual scale 0.75 pausa
+PASS scroll text fits 0.75 pausa
+PASS visual scale 0.75 guardados
+PASS scroll text fits 0.75 guardados
+PASS visual scale 1 despacho
+PASS scroll text fits 1 despacho
+PASS visual scale 1 documento
+PASS scroll text fits 1 documento
+PASS visual scale 1 resultado
+PASS scroll text fits 1 resultado
+PASS visual scale 1 mapa
+PASS scroll text fits 1 mapa
+PASS visual scale 1 dialogo
+PASS scroll text fits 1 dialogo
+PASS visual scale 1 dossier
+PASS scroll text fits 1 dossier
+PASS visual scale 1 inteligencia
+PASS scroll text fits 1 inteligencia
+PASS visual scale 1 tutorial
+PASS scroll text fits 1 tutorial
+PASS visual scale 1 pausa
+PASS scroll text fits 1 pausa
+PASS visual scale 1 guardados
+PASS scroll text fits 1 guardados
+PASS visual scale 1.25 despacho
+PASS scroll text fits 1.25 despacho
+PASS visual scale 1.25 documento
+PASS scroll text fits 1.25 documento
+PASS visual scale 1.25 resultado
+PASS scroll text fits 1.25 resultado
+PASS visual scale 1.25 mapa
+PASS scroll text fits 1.25 mapa
+PASS visual scale 1.25 dialogo
+PASS scroll text fits 1.25 dialogo
+PASS visual scale 1.25 dossier
+PASS scroll text fits 1.25 dossier
+PASS visual scale 1.25 inteligencia
+PASS scroll text fits 1.25 inteligencia
+PASS visual scale 1.25 tutorial
+PASS scroll text fits 1.25 tutorial
+PASS visual scale 1.25 pausa
+PASS scroll text fits 1.25 pausa
+PASS visual scale 1.25 guardados
+PASS scroll text fits 1.25 guardados
+PASS visual scale 1.5 despacho
+PASS scroll text fits 1.5 despacho
+PASS visual scale 1.5 documento
+PASS scroll text fits 1.5 documento
+PASS visual scale 1.5 resultado
+PASS scroll text fits 1.5 resultado
+PASS visual scale 1.5 mapa
+PASS scroll text fits 1.5 mapa
+PASS visual scale 1.5 dialogo
+PASS scroll text fits 1.5 dialogo
+PASS visual scale 1.5 dossier
+PASS scroll text fits 1.5 dossier
+PASS visual scale 1.5 inteligencia
+PASS scroll text fits 1.5 inteligencia
+PASS visual scale 1.5 tutorial
+PASS scroll text fits 1.5 tutorial
+PASS visual scale 1.5 pausa
+PASS scroll text fits 1.5 pausa
+PASS visual scale 1.5 guardados
+PASS scroll text fits 1.5 guardados
+PASS visual scale 1.75 despacho
+PASS scroll text fits 1.75 despacho
+PASS visual scale 1.75 documento
+PASS scroll text fits 1.75 documento
+PASS visual scale 1.75 resultado
+PASS scroll text fits 1.75 resultado
+PASS visual scale 1.75 mapa
+PASS scroll text fits 1.75 mapa
+PASS visual scale 1.75 dialogo
+PASS scroll text fits 1.75 dialogo
+PASS diplomatic layout actually reserves enlarged controls
+PASS questions reflow exists
+PASS visual scale 1.75 dossier
+PASS scroll text fits 1.75 dossier
+PASS visual scale 1.75 inteligencia
+PASS scroll text fits 1.75 inteligencia
+PASS visual scale 1.75 tutorial
+PASS scroll text fits 1.75 tutorial
+PASS visual scale 1.75 pausa
+PASS scroll text fits 1.75 pausa
+PASS visual scale 1.75 guardados
+PASS scroll text fits 1.75 guardados
+COMPLETE 322 PASS; automated Play Mode, no physical input/hearing evaluation

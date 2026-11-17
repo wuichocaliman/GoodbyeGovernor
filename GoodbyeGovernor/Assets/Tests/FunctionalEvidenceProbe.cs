@@ -16,13 +16,13 @@ public sealed class FunctionalEvidenceProbe:MonoBehaviour {
  string Fonts(Transform t)=>string.Join("|",t.GetComponentsInChildren<Text>().Select(x=>x.name+":"+x.fontSize));
  void Shot(string name){var tex=ScreenCapture.CaptureScreenshotAsTexture();if(tex!=null){File.WriteAllBytes("Logs/FunctionalVisual/"+name+".png",tex.EncodeToPNG());Destroy(tex);}}
  IEnumerator Start(){Application.logMessageReceived+=Err;Directory.CreateDirectory("Logs/FunctionalVisual");yield return null;yield return null;a=AccessController.Instance;g=a.GetComponent<DespachoGame>();m=a.GetComponent<DeskMenus>();
- Check(DeskMenus.Version=="v0.9.12-prototipo","actual version v0910");Check(!P.narration&&!P.readingView&&P.textScale==1&&!D.highContrast,"fresh isolated defaults");a.ShowSettings();yield return new WaitForSecondsRealtime(3);yield return Tick();
+ Check(DeskMenus.Version=="v0.9.13-prototipo","actual version v0910");Check(!P.narration&&!P.readingView&&P.textScale==1&&!D.highContrast,"fresh isolated defaults");a.ShowSettings();yield return new WaitForSecondsRealtime(3);yield return Tick();
  var inventory=new Inventory();foreach(string cat in new[]{"Inicio","Visual","Motor","Cognitiva","Audio","Controles","Glosario","Restaurar"}){a.OpenCategory(cat);yield return Tick();foreach(var e in Entries().Where(e=>!e.text.StartsWith("Volver a ")))inventory.rows.Add(new Row{category=cat,name=e.text,description=e.description??"",value=e.value??"",action=e.action!=null,enabled=e.enabled});}File.WriteAllText("Logs/Functional-controls.json",JsonUtility.ToJson(inventory,true));
  D.tutorial=true;D.autosave=false;m.Resume();g.StartFromMenu();Call("ShowOffice");yield return Tick();yield return new WaitForSecondsRealtime(.3f);
  var tutor=TutorialManager.Instance;Check(tutor.IsActive,"tutorial active in real campaign");var frame=(Image[])typeof(TutorialManager).GetField("frame",F).GetValue(tutor);float alpha=frame[0].color.a;yield return new WaitForSecondsRealtime(.19f);Check(Mathf.Abs(alpha-frame[0].color.a)>.001f,"tutorial frame pulse changes alpha normally");
  string tutorialPalette=Palette(tutor.transform);var body=(Text)typeof(TutorialManager).GetField("body",F).GetValue(tutor);Color bodyColor=body.color;int bodyFont=body.fontSize;
  P.reduceFlashes=true;yield return Tick();Check(frame.All(x=>x.color.a==1),"reduce flashes makes real tutorial frame static");yield return new WaitForSecondsRealtime(.2f);Check(frame.All(x=>x.color.a==1),"tutorial pulse remains static");P.reduceFlashes=false;yield return Tick();Check(frame[0].color.a<1,"tutorial pulse restored");
- D.highContrast=true;P.textScale=1.75f;yield return Tick();Check(body.color==bodyColor&&body.fontSize==bodyFont,"LIMIT illustrated tutorial text color and size unchanged by contrast/text scale");D.highContrast=false;P.textScale=1;D.tutorial=false;yield return Tick();
+ D.highContrast=true;P.textScale=1.75f;yield return Tick();Check(body.GetComponent<GameplayTextAccess>().Display.color==Color.white&&body.GetComponent<GameplayTextAccess>().Display.fontSize>bodyFont,"illustrated tutorial displayed text uses contrast and text scale");D.highContrast=false;P.textScale=1;D.tutorial=false;yield return Tick();
  // Exact real-game colors and fonts, after rerendering each screen.
  var country=((List<Country>)Get("countries")).First();
  foreach(string screen in new[]{"office","map","visit"}){
@@ -31,7 +31,7 @@ public sealed class FunctionalEvidenceProbe:MonoBehaviour {
   string colors=Palette(GameUI),fonts=Fonts(GameUI);Shot(screen+"-normal");
   D.highContrast=true;P.textScale=1.75f;if(screen=="office")Call("ShowOffice");else if(screen=="map")Call("ShowMap");else Call("ShowVisit");yield return Tick();
   if(screen=="office"){var d=g.GetComponentInChildren<DeskDocument>();if(!d.CanDecide){d.AccessSelect();d.AccessPlace();yield return new WaitForSecondsRealtime(.4f);}}
-  Check(Palette(GameUI)==colors,"LIMIT "+screen+" illustrated graphics colors unchanged by high contrast");Check(Fonts(GameUI)==fonts,"LIMIT "+screen+" illustrated text sizes unchanged at 175 percent");Shot(screen+"-contrast-text175");
+  Check(Palette(GameUI)!=colors,""+screen+" local high contrast changes displayed palette");Check(Fonts(GameUI)!=fonts,""+screen+" displayed text enlarged at 175 percent");Shot(screen+"-contrast-text175");
  }
  Call("ShowOffice");yield return Tick();D.highContrast=false;P.textScale=1;m.ShowPause();yield return Tick();string normal="";
  // Menus use their own canvas; compare actually rendered graphics after reconstruction.

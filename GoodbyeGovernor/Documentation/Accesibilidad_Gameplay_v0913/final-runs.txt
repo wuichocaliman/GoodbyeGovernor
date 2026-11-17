@@ -1,0 +1,3 @@
+GameplayCoverageRunner.Run exit=0
+GameplayCoverageRunner.Restart exit=0
+ProfileGameplayRunner.RunCombined exit=1

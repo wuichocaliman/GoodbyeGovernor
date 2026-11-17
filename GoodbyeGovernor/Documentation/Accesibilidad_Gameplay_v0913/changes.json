@@ -1,0 +1,36 @@
+{
+  "changed": [
+    "Assets/Tests/AccessibilityMeaningProbe.cs",
+    "Assets/Tests/CategoriesLayoutProbe.cs",
+    "Assets/Tests/FunctionalEvidenceProbe.cs",
+    "Assets/Tests/ProfileGameplayProbe.cs",
+    "Assets/Tests/ProfilesLayoutProbe.cs",
+    "Assets/Scripts/ElDespacho/AccessController.cs",
+    "Assets/Scripts/ElDespacho/AccessSettingsView.cs",
+    "Assets/Scripts/ElDespacho/DeskMenus.cs",
+    "Assets/Scripts/ElDespacho/DespachoGame.cs",
+    "Assets/Scripts/ElDespacho/DespachoGame.Office.cs",
+    "Assets/Scripts/ElDespacho/Tutorial/TutorialManager.cs",
+    "CHANGELOG.md"
+  ],
+  "new": [
+    "Assets/Tests/GameplayCoverageProbe.cs",
+    "Assets/Tests/GameplayCoverageProbe.cs.meta",
+    "Assets/Tests/GameplayProfilePersistence.cs",
+    "Assets/Tests/GameplayProfilePersistence.cs.meta",
+    "Assets/Scripts/ElDespacho/DiplomaticAccessLayout.cs",
+    "Assets/Scripts/ElDespacho/DiplomaticAccessLayout.cs.meta",
+    "Assets/Scripts/ElDespacho/GameplayGuidanceNote.cs",
+    "Assets/Scripts/ElDespacho/GameplayGuidanceNote.cs.meta",
+    "Assets/Scripts/ElDespacho/GameplayIndicatorLayout.cs",
+    "Assets/Scripts/ElDespacho/GameplayIndicatorLayout.cs.meta",
+    "Assets/Scripts/ElDespacho/GameplayMapSidebar.cs",
+    "Assets/Scripts/ElDespacho/GameplayMapSidebar.cs.meta",
+    "Assets/Scripts/ElDespacho/GameplayScrollTools.cs",
+    "Assets/Scripts/ElDespacho/GameplayScrollTools.cs.meta",
+    "Assets/Scripts/ElDespacho/GameplayTextAccess.cs",
+    "Assets/Scripts/ElDespacho/GameplayTextAccess.cs.meta",
+    "Assets/Scripts/ElDespacho/GameplayVisitLayout.cs",
+    "Assets/Scripts/ElDespacho/GameplayVisitLayout.cs.meta"
+  ]
+}

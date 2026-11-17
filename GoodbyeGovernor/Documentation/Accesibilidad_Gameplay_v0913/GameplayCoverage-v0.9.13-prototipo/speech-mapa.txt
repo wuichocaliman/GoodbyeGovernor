@@ -1,0 +1,5 @@
+[=] Estabilidad 50 / 100: atención. [S] Seguridad 45 / 100: atención. [$] Prosperidad 45 / 100: atención. Año 1 de 4.. Aurelia (tú). Lindmark. Pavonia. Tarvessa. ???. ???. ???. ???. ???. ???. ???. ???. ???. ???. ???. ???. MAPA DEL MUNDO. Elige un país con el ratón.. Tu país y tu bloque. Ya visitado. Sin visitar. Posible amenaza. Posible aliado. Ojo: amenaza y aliado son sospechas, no verdades.. Agenda del año 1
+
+• Lindmark: pendiente
+• Pavonia: pendiente
+• Tarvessa: pendiente. Opciones disponibles: Lindmark - [+] Posible aliado. Pavonia - [?] Sin visitar. Tarvessa - [!] Posible amenaza. VOLVER AL DESPACHO. PAUSA · ESC. Desplazar texto: PAUSA · ESC

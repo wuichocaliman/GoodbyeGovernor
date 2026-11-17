@@ -1,0 +1,93 @@
+PASS actual version v0910
+PASS fresh isolated defaults
+PASS tutorial active in real campaign
+PASS tutorial frame pulse changes alpha normally
+PASS reduce flashes makes real tutorial frame static
+PASS tutorial pulse remains static
+PASS tutorial pulse restored
+PASS illustrated tutorial displayed text uses contrast and text scale
+PASS office local high contrast changes displayed palette
+PASS office displayed text enlarged at 175 percent
+PASS map local high contrast changes displayed palette
+PASS map displayed text enlarged at 175 percent
+PASS visit local high contrast changes displayed palette
+PASS visit displayed text enlarged at 175 percent
+PASS pause menu contrast changes actual graphic colors
+PASS reader labels match real country values and thresholds
+PASS expanded labels reverse when all suppliers off
+PASS symbols independently supplies labels
+PASS preview document opens without changing campaign
+PASS preview notification leaves campaign unchanged
+PASS preview explicitly uses fixture 65/48/30, not actual 23/59/82
+PASS actual accessible font size 0.75
+PASS accessible text fits at 0.75
+PASS actual accessible font size 1
+PASS accessible text fits at 1
+PASS actual accessible font size 1.25
+PASS accessible text fits at 1.25
+PASS actual accessible font size 1.5
+PASS accessible text fits at 1.5
+PASS actual accessible font size 1.75
+PASS accessible text fits at 1.75
+PASS interface scale changes card/icon geometry without font change
+PASS all preview and layout changes preserve complete campaign snapshot
+PASS Wiggle fixture moves without reduction
+PASS reduce flashes suppresses real Wiggle component
+PASS Wiggle reduction reversible
+PASS toggle available Alto contraste
+PASS toggle activates actual property Alto contraste
+PASS toggle reverses Alto contraste
+PASS toggle available Indicadores con etiquetas
+PASS toggle activates actual property Indicadores con etiquetas
+PASS toggle reverses Indicadores con etiquetas
+PASS toggle available Reducir destellos
+PASS toggle activates actual property Reducir destellos
+PASS toggle reverses Reducir destellos
+PASS toggle available Seleccionar documentos con clics
+PASS toggle activates actual property Seleccionar documentos con clics
+PASS toggle reverses Seleccionar documentos con clics
+PASS toggle available Navegación por teclado
+PASS toggle activates actual property Navegación por teclado
+PASS toggle reverses Navegación por teclado
+PASS toggle available Botones y zonas más grandes
+PASS toggle activates actual property Botones y zonas más grandes
+PASS toggle reverses Botones y zonas más grandes
+PASS toggle available Reducir animaciones
+PASS toggle activates actual property Reducir animaciones
+PASS toggle reverses Reducir animaciones
+PASS toggle available Instrucciones sencillas
+PASS toggle activates actual property Instrucciones sencillas
+PASS toggle reverses Instrucciones sencillas
+PASS toggle available Ayudas de navegación
+PASS toggle activates actual property Ayudas de navegación
+PASS toggle reverses Ayudas de navegación
+PASS toggle available Símbolos explicativos
+PASS toggle activates actual property Símbolos explicativos
+PASS toggle reverses Símbolos explicativos
+PASS toggle available Glosario disponible
+PASS toggle activates actual property Glosario disponible
+PASS toggle reverses Glosario disponible
+PASS toggle available Narración del sistema
+PASS toggle activates actual property Narración del sistema
+PASS toggle reverses Narración del sistema
+PASS toggle available Audio mono
+PASS toggle activates actual property Audio mono
+PASS toggle reverses Audio mono
+PASS toggle available Reducir sonidos agudos
+PASS toggle activates actual property Reducir sonidos agudos
+PASS toggle reverses Reducir sonidos agudos
+PASS toggle available Avisos visuales
+PASS toggle activates actual property Avisos visuales
+PASS toggle reverses Avisos visuales
+PASS slider actual value Volumen maestro
+PASS slider reverses Volumen maestro
+PASS slider actual value Efectos de sonido
+PASS slider reverses Efectos de sonido
+PASS slider actual value Interfaz
+PASS slider reverses Interfaz
+PASS slider actual value Volumen de narración
+PASS slider reverses Volumen de narración
+PASS all cyclic values return to original Tamaño de texto
+PASS all cyclic values return to original Escala de interfaz
+PASS all cyclic values return to original Velocidad de voz
+COMPLETE 92 PASS; measured rendered properties and campaign state, screenshots are automated game captures

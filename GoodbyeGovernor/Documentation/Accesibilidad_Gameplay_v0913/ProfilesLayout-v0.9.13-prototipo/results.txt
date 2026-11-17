@@ -1,0 +1,21 @@
+PASS four profiles rendered
+PASS two columns at normal viewport
+PASS redundant panels removed
+PASS compact footer rendered
+PASS all visible text fits allocated geometry
+PASS focus belongs to selected control, not overlay
+PASS focus inherits same viewport mask
+PASS focus bounds match selected control
+PASS keyboard reveals next focused control
+PASS all visible text fits allocated geometry
+PASS all visible text fits allocated geometry
+PASS all visible text fits allocated geometry
+PASS 175 percent uses single column
+PASS renderer culls every focus edge when selected button is outside viewport
+PASS keyboard restores visible focus edges
+PASS shared audio focus inherits mask without altering controls
+PASS actual Game View renders at 1280x720
+PASS small resolution switches to single column
+PASS all visible text fits allocated geometry
+PASS all visible text fits allocated geometry
+COMPLETE 20 PASS; Unity Play Mode, simulated focus/scroll; no physical device

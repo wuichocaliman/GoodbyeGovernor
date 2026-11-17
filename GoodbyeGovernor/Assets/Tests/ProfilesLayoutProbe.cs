@@ -1,7 +1,7 @@
 ﻿#if UNITY_EDITOR
 using System;using System.IO;using System.Linq;using System.Collections;using System.Collections.Generic;using System.Reflection;using UnityEditor;using UnityEngine;using UnityEngine.UI;using ElDespacho;
 public class ProfilesLayoutProbe:MonoBehaviour {
- const BindingFlags F=BindingFlags.Instance|BindingFlags.NonPublic;AccessController a;string dir;List<string> log=new List<string>();bool fixedVersion=>DeskMenus.Version=="v0.9.12-prototipo";Transform UI=>a.transform.Find("Accessibility");
+ const BindingFlags F=BindingFlags.Instance|BindingFlags.NonPublic;AccessController a;string dir;List<string> log=new List<string>();bool fixedVersion=>DeskMenus.Version=="v0.9.13-prototipo";Transform UI=>a.transform.Find("Accessibility");
  void Check(bool b,string s){log.Add((b?"PASS ":"FAIL ")+s);File.WriteAllLines(dir+"/results.txt",log);if(!b)throw new Exception(s);}
  IEnumerator Tick(){a.Refresh();yield return null;yield return null;yield return null;Canvas.ForceUpdateCanvases();}
  IEnumerator Shot(string n){yield return new WaitForEndOfFrame();var t=ScreenCapture.CaptureScreenshotAsTexture();File.WriteAllBytes(dir+"/"+n+".png",t.EncodeToPNG());Destroy(t);}

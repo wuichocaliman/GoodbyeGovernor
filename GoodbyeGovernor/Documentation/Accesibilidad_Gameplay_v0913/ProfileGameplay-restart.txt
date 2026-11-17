@@ -1,0 +1,1 @@
+PASS full preferences and both profiles survive separate process

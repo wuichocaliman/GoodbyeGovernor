@@ -1,0 +1,7 @@
+﻿#if UNITY_EDITOR
+using System;using System.IO;using ElDespacho;using UnityEditor;using UnityEngine;
+public static class GameplayProfilePersistence {
+ public static void Prepare(){var root=Path.Combine(Path.GetTempPath(),"DespachoProfilePersistence-"+Guid.NewGuid().ToString("N"));Directory.CreateDirectory(root);for(int i=0;i<4;i++){DeskPreferences.TestDirectory=Path.Combine(root,i.ToString());DeskPreferences.Load();AccessPreferences.Load();AccessPreferences.Reset();AccessPreferences.Current.ToggleProfile(i,true);AccessPreferences.Current.Save();DeskPreferences.Current.Save();File.WriteAllText(Path.Combine(root,i+".json"),JsonUtility.ToJson(AccessPreferences.Current));}File.WriteAllText("Logs/GameplayProfiles-persistence-dir.txt",root);EditorApplication.Exit(0);}
+ public static void Verify(){var root=File.ReadAllText("Logs/GameplayProfiles-persistence-dir.txt");string result="";for(int i=0;i<4;i++){DeskPreferences.TestDirectory=Path.Combine(root,i.ToString());DeskPreferences.Load();AccessPreferences.Load();bool ok=JsonUtility.ToJson(AccessPreferences.Current)==File.ReadAllText(Path.Combine(root,i+".json"));result+=(ok?"PASS":"FAIL")+" profile "+i+" separate process exact preferences\n";if(!ok){File.WriteAllText("Logs/GameplayProfiles-persistence.txt",result);EditorApplication.Exit(1);return;}}File.WriteAllText("Logs/GameplayProfiles-persistence.txt",result);EditorApplication.Exit(0);}
+}
+#endif

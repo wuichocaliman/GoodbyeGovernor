@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -20,7 +20,7 @@ namespace ElDespacho {
   DespachoGame game;DeskMenus menus; Canvas canvas;RectTransform root,content,focusRect;ScrollRect scroll;Image focus;Text notice;
   List<Entry> source=new List<Entry>(), controls=new List<Entry>();List<RectTransform> rows=new List<RectTransform>();
   public readonly AccessSpeech Speech=new AccessSpeech();
-  string layoutContext=""; int focused=-1;string signature="",page="";float nextScan;bool force=true;bool reader;bool lastNarration;string lastTutorial="";
+  string layoutContext=""; int focused=-1;string signature="",page="";float nextScan;bool force=true;bool reader;bool announceAgain;bool lastNarration;string lastTutorial="";
   public StampTool SelectedStamp {get;private set;}
   Canvas alertCanvas;Text alertText;float alertUntil;
   public string CustomPage=>page;
@@ -38,11 +38,12 @@ namespace ElDespacho {
 #endif
    Speech.Dispose();if(Instance==this)Instance=null;}
   void Build(){var go=new GameObject("Accessibility",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler),typeof(GraphicRaycaster));go.transform.SetParent(transform,false);canvas=go.GetComponent<Canvas>();canvas.renderMode=RenderMode.ScreenSpaceOverlay;canvas.sortingOrder=700;root=(RectTransform)go.transform;var sc=go.GetComponent<CanvasScaler>();sc.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;sc.referenceResolution=new Vector2(1920,1080);sc.matchWidthOrHeight=.5f;canvas.enabled=false;}
-  public bool IsSource(Transform t){if(t.IsChildOf(root))return false;var c=t.GetComponentInParent<Canvas>();if(c==null||!c.enabled||!c.gameObject.activeInHierarchy)return false;if(c.sortingOrder==100 && menus.IsVisible)return false;return c.sortingOrder==100||c.sortingOrder==400||c.sortingOrder==500||c.sortingOrder==300;}
+  public bool IsSource(Transform t){if(t.IsChildOf(root)||t.GetComponentsInParent<CanvasGroup>().Any(g=>g.alpha<=.01f))return false;var c=t.GetComponentInParent<Canvas>();if(c==null||!c.enabled||!c.gameObject.activeInHierarchy)return false;if(c.sortingOrder==100 && menus.IsVisible)return false;return c.sortingOrder==100||c.sortingOrder==400||c.sortingOrder==500||c.sortingOrder==300;}
   public List<Entry> Snapshot(){
    var list=new List<Entry>();
    if(reader)list.Add(new Entry("[X] Volver al modo visual · F2 o ESC",()=>SetReadingView(false)));
    if(P.navigationHelp)list.Add(new Entry(menus.IsVisible?"[>] Elija una opción. ESC vuelve a la pantalla anterior.":game.ScreenName=="Despacho"?"[>] Abra el expediente, lea y elija un sello. Después, continúe. También puede abrir el mapa.":game.ScreenName=="Mapa"?"[>] Elija un país disponible. Las marcas de amenaza y aliado son sospechas.":"[>] Lea la información. Elija una pregunta, una pestaña o una decisión."));
+   if(P.navigationHelp&&!menus.IsVisible)list.Add(new Entry(GameplayContextHelp()));
    if(P.glossary)list.Add(new Entry("[?] Consultar símbolos y términos",()=>{page="Glosario";Refresh();}));
    if(!menus.IsVisible&&game.HasSession && (P.independentColor||P.symbols||P.narration)) foreach(var indicator in game.AccessIndicators().Split(new[]{". "},StringSplitOptions.RemoveEmptyEntries))list.Add(new Entry(indicator));
    foreach(var t in game.GetComponentsInChildren<Text>(false)){
@@ -52,7 +53,7 @@ namespace ElDespacho {
    }
    foreach(var b in game.GetComponentsInChildren<Button>(false)){
     if(!IsSource(b.transform)||!b.enabled)continue;
-    string label=string.Join(" ",b.GetComponentsInChildren<Text>().Select(t=>Plain(t.text)));
+    string label=string.Join(" ",b.GetComponentsInChildren<Text>().Where(t=>t.enabled).Select(t=>Plain(t.text)));
     var semantic=b.GetComponent<AccessName>();if(semantic!=null)label=semantic.label;
     if(string.IsNullOrWhiteSpace(label))label=b.name;
     var button=b;list.Add(new Entry(label,()=>{if(button!=null&&button.IsActive()&&button.IsInteractable())button.onClick.Invoke();},b.transform,b.IsInteractable()));
@@ -67,12 +68,13 @@ namespace ElDespacho {
     foreach(var s in game.GetComponentsInChildren<StampTool>())if(s.AccessAvailable){var stamp=s;list.Add(new Entry("[S] Seleccionar sello: "+Plain(s.GetComponent<AccessName>()!=null?s.GetComponent<AccessName>().label:string.Join(" ",s.GetComponentsInChildren<Text>().Select(t=>t.text))),()=>SelectStamp(stamp),s.transform));}
     if(SelectedStamp!=null)list.Add(new Entry("[V] Aplicar sello seleccionado al expediente",()=>{var s=SelectedStamp;SelectedStamp=null;s.AccessApply();}));
    }
+   foreach(var text in game.GetComponentsInChildren<GameplayTextAccess>())if(IsSource(text.transform)&&text.Scroll!=null&&text.Scroll.enabled&&text.Scroll.content.rect.height>text.Scroll.viewport.rect.height+2){var area=text.Scroll;list.Add(new Entry("Desplazar texto: "+Plain(text.GetComponent<Text>().text).Split('\n')[0],()=>area.verticalNormalizedPosition=area.verticalNormalizedPosition>.05f?Mathf.Max(0,area.verticalNormalizedPosition-.5f):1,area.transform));}
    return list;
   }
   void Update(){
-   if(alertCanvas!=null)alertCanvas.enabled=P.visualSounds&&!canvas.enabled&&Time.unscaledTime<alertUntil;
+   if(alertCanvas!=null)alertCanvas.enabled=(P.visualSounds||P.navigationHelp)&&!canvas.enabled&&Time.unscaledTime<alertUntil;
    if(SelectedStamp!=null&&!SelectedStamp.AccessAvailable)SelectedStamp=null;
-   if(!P.narration&&lastNarration)Speech.Stop();lastNarration=P.narration;
+   if(P.narration&&!lastNarration){announceAgain=true;force=true;}if(!P.narration&&lastNarration)Speech.Stop();lastNarration=P.narration;
    if(EventSystem.current!=null && (P.keyboard || page!="" || reader))EventSystem.current.sendNavigationEvents=false;
    if(!P.keyboard&&page==""&&!reader&&EventSystem.current!=null)EventSystem.current.sendNavigationEvents=true;
 #if ENABLE_INPUT_SYSTEM
@@ -80,7 +82,7 @@ namespace ElDespacho {
    if(k!=null){
     if(Press("f1"))ShowReference();
     if(Press("f2"))SetReadingView(!reader);
-    if(Press("f3"))Speech.Say(string.Join(". ",Snapshot().Where(x=>x.action==null).Select(x=>x.text)),true);
+    if(Press("f3"))Speech.Say(NarrationSnapshot(),true);
     if(KeyPressed(P.repeatKey))Speech.Repeat();if(KeyPressed(P.stopKey))Speech.Stop();
     if(P.keyboard || page!="" || reader){if(Press("tab")||Press("downArrow"))MoveFocus(k.shiftKey.isPressed?-1:1);if(Press("upArrow"))MoveFocus(-1);if(Press("enter")||Press("space"))Activate();if(Press("leftArrow"))AdjustFocused(-1);if(Press("rightArrow"))AdjustFocused(1);}
     if(canvas.enabled&&scroll!=null){if(Press("pageDown"))scroll.verticalNormalizedPosition-=.2f;if(Press("pageUp"))scroll.verticalNormalizedPosition+=.2f;}
@@ -97,6 +99,7 @@ namespace ElDespacho {
   bool KeyPressed(int n)=>Press("f"+n);
 #endif
   void LateUpdate(){
+   UpdateGameplayPresentation();
    if(SettingsPointerDrag)return;
    if(Time.unscaledTime<nextScan&&!force){DrawFocus();return;}nextScan=Time.unscaledTime+.15f;
    var list=page!=""?SettingsEntries():Snapshot();string sig=Speech.Ready+"|"+Speech.Error+"|"+Speech.Voice+"|"+page+"|"+JsonUtility.ToJson(P)+"|"+DeskPreferences.Current.highContrast+"|"+string.Join("|",list.Select(x=>x.text+":"+x.enabled));
@@ -107,10 +110,9 @@ namespace ElDespacho {
     bool changed=sig!=signature;signature=sig;source=list;force=false;
     canvas.enabled=show;
     if(show)Render(list);else {controls=list.Where(x=>x.action!=null&&x.enabled).ToList();if(focused>=controls.Count)focused=-1;}
-    if(changed&&P.narration)Speech.Say((page!=""?"Accesibilidad. ":menus.IsVisible?menus.PageName+". ":game.ScreenName+". ")+string.Join(". ",list.Where(x=>x.action==null).Select(x=>x.text)));
+    if(changed&&P.narration)Speech.Say((page!=""?"Accesibilidad. ":menus.IsVisible?menus.PageName+". ":game.ScreenName+". ")+string.Join(". ",list.Where(x=>x.action==null).Select(x=>x.text))+". Opciones disponibles: "+string.Join(". ",list.Where(x=>x.action!=null&&x.enabled).Select(x=>x.text)),announceAgain);announceAgain=false;
    }
-   var tutorial=TutorialManager.Instance;
-   if(tutorial!=null && tutorial.IsActive && tutorial.ActiveId!=lastTutorial){lastTutorial=tutorial.ActiveId;if(P.narration){var s=tutorial.Steps.First(x=>x.persistentId==lastTutorial);Speech.Say(TutorialLessons.Text(s,game.TutorialQuestions));}}
+   // Visible tutorial text already belongs to the single screen narration; do not interrupt it with a second utterance.
    DrawFocus();
   }
   public void Refresh(){force=true;}
@@ -127,7 +129,7 @@ namespace ElDespacho {
   public void ShowReference(){if(!menus.IsVisible&&game.HasSession)menus.ShowPause();page="Controles";Refresh();}
   public void Notify(string message){
    if(P.visualSounds||P.navigationHelp){if(notice!=null)notice.text=message;}
-   if(P.visualSounds&&!canvas.enabled){
+   if((P.visualSounds||P.navigationHelp)&&!canvas.enabled){
     if(alertCanvas==null){var go=new GameObject("AccessibilityNotice",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler));go.transform.SetParent(transform,false);alertCanvas=go.GetComponent<Canvas>();alertCanvas.renderMode=RenderMode.ScreenSpaceOverlay;alertCanvas.sortingOrder=740;var scaler=go.GetComponent<CanvasScaler>();scaler.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;scaler.referenceResolution=new Vector2(1920,1080);scaler.matchWidthOrHeight=.5f;
      var panel=Kit.Panel(go.transform,Color.black,new Vector2(.2f,.02f),new Vector2(.8f,.02f));panel.raycastTarget=false;panel.rectTransform.pivot=new Vector2(.5f,0);
      alertText=Kit.Label(panel.transform,"",24,Color.white,TextAnchor.MiddleCenter,Vector2.zero,Vector2.one,new Vector2(20,12),new Vector2(-20,-12));alertText.raycastTarget=false;
@@ -139,7 +141,7 @@ namespace ElDespacho {
   public static void Cue(string message){Instance?.Notify(message);}
   public void MoveFocus(int direction){if(controls.Count==0)return;focused=(focused+direction+controls.Count)%controls.Count;var e=controls[focused];Speech.Say(e.text);RevealFocused();DrawFocus();}
   void RevealFocused(){
-   if(!canvas.enabled||focused<0||focused>=controls.Count)return;
+   if(focused<0||focused>=controls.Count)return;
    var target=controls[focused].target as RectTransform;if(target==null)return;
    var container=target.GetComponentInParent<ScrollRect>();if(container==null)return;
    Canvas.ForceUpdateCanvases();

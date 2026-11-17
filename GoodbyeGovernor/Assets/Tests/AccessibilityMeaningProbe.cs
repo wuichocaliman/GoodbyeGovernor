@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+﻿#if UNITY_EDITOR
 using System;using System.IO;using System.Linq;using System.Collections;using System.Collections.Generic;using System.Reflection;using UnityEngine;using UnityEngine.UI;using UnityEditor;using ElDespacho;
 public sealed class AccessibilityMeaningProbe:MonoBehaviour {
  const BindingFlags F=BindingFlags.Instance|BindingFlags.NonPublic;AccessController a;DeskMenus menus;DespachoGame game;List<string> lines=new List<string>(),inventory=new List<string>();
@@ -30,7 +30,7 @@ public sealed class AccessibilityMeaningProbe:MonoBehaviour {
  a.SetReadingView(true);yield return Tick();var bg=UI.GetChild(0).GetComponent<Image>();Color normal=bg.color;D.highContrast=true;yield return Tick();Check(UI.GetChild(UI.childCount-1).GetComponent<Image>().color==Color.black&&normal!=Color.black,"reader contrast consumes same property and changes pixels");
  // Different sizes: text product vs target minimum, and limits in native layouts.
  a.ClosePanels();P.textScale=1;P.interfaceScale=1;menus.ShowSettings(1);yield return Tick();int nativeFont=NativeText("Brillo").fontSize;P.textScale=1.75f;menus.ShowSettings(1);yield return Tick();Check(NativeText("Brillo").fontSize==nativeFont,"LIMIT general settings text does not follow accessibility text scale");
- menus.ShowLesson(0);yield return Tick();int lessonFont=NativeText("Presidente,").fontSize;P.textScale=1;menus.ShowLesson(0);yield return Tick();Check(NativeText("Presidente,").fontSize==lessonFont,"LIMIT lesson text does not follow accessibility text scale");
+ menus.ShowLesson(0);yield return Tick();int lessonFont=NativeText("Presidente,").GetComponent<GameplayTextAccess>().Display.fontSize;P.textScale=1;menus.ShowLesson(0);yield return Tick();Check(NativeText("Presidente,").GetComponent<GameplayTextAccess>().Display.fontSize<lessonFont,"lesson displayed text follows accessibility text scale");
  a.OpenCategory("Visual");yield return Tick();int accessFont=UI.GetComponentsInChildren<Text>().First(t=>t.text=="Alto contraste").fontSize;P.textScale=1.75f;yield return Tick();Check(UI.GetComponentsInChildren<Text>().First(t=>t.text=="Alto contraste").fontSize>accessFont,"accessibility text visibly scales");
  P.textScale=1;P.interfaceScale=1;a.SetReadingView(true);yield return Tick();int readerFont=UI.GetComponentInChildren<ScrollRect>().content.GetComponentInChildren<Text>().fontSize;P.interfaceScale=1.2f;yield return Tick();Check(UI.GetComponentInChildren<ScrollRect>().content.GetComponentInChildren<Text>().fontSize==readerFont,"interface scale leaves reader font independent");
  // Stored reader preference is metadata, not an opener or layout option.

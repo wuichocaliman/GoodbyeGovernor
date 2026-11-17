@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
@@ -158,6 +158,7 @@ namespace ElDespacho
                 new Vector2(0, 0.30f), new Vector2(1, 0.80f), default, default, FontStyle.Bold);
             Kit.Bar(rt, v, Kit.IndicatorColor(v), new Vector2(0.10f, 0.10f), new Vector2(0.90f, 0.24f));
             Pin(rt);
+            rt.gameObject.AddComponent<GameplayIndicatorLayout>();
         }
 
         static void Pin(Transform paper)

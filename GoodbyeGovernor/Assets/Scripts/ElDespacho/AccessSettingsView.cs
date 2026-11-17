@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -37,7 +37,7 @@ namespace ElDespacho {
     Action("Restaurar accesibilidad","", "gear",()=>OpenCategory("Restaurar"),"Restaurar accesibilidad");
    }else if(page=="Visual"){
     Toggle("Alto contraste","Mejora la diferencia entre el texto y el fondo.","eye",DeskPreferences.Current.highContrast,()=>DeskPreferences.Current.highContrast=!DeskPreferences.Current.highContrast);
-    Action("Tamaño de texto","Amplía las letras de Accesibilidad y del lector. La portada adapta el tamaño al espacio; las notas del asesor conservan su tamaño.","eye",()=>Set(()=>P.textScale=Cycle(P.textScale,new[]{.75f,1f,1.25f,1.5f,1.75f})),Mathf.RoundToInt(P.textScale*100)+" %");
+    Action("Tamaño de texto","Amplía los textos funcionales del juego, Accesibilidad y el lector. Los textos largos se desplazan dentro de su panel; la portada mantiene su ajuste al espacio.","eye",()=>Set(()=>P.textScale=Cycle(P.textScale,new[]{.75f,1f,1.25f,1.5f,1.75f})),Mathf.RoundToInt(P.textScale*100)+" %");
     Action("Escala de interfaz","Amplía los espacios, símbolos y controles de Accesibilidad y del lector. Para cambiar las letras, utiliza Tamaño de texto.","eye",()=>Set(()=>P.interfaceScale=Cycle(P.interfaceScale,new[]{.8f,.9f,1f,1.1f,1.2f})),Mathf.RoundToInt(P.interfaceScale*100)+" %");
     Toggle("Indicadores con etiquetas","Añade nombres y estado de los indicadores al lector. Símbolos y narración también muestran esas etiquetas.","=",P.independentColor,()=>P.independentColor=!P.independentColor);
     Toggle("Reducir destellos","Elimina el pulso del tutorial y reduce los temblores de la interfaz.","eye",P.reduceFlashes,()=>P.reduceFlashes=!P.reduceFlashes);
@@ -46,7 +46,7 @@ namespace ElDespacho {
    }else if(page=="Motor"){
     Toggle("Seleccionar documentos con clics","Pulsa un documento y después la zona de lectura. No hace falta arrastrarlo. Desactivado: arrastra el documento.","cursor",P.simpleDocuments,()=>SetDemoMode());
     Toggle("Navegación por teclado","TAB elige; INTRO activa; las flechas izquierda y derecha ajustan los volúmenes.","cursor",P.keyboard,()=>P.keyboard=!P.keyboard);
-    Toggle("Botones y zonas más grandes","Activa controles amplios en la vista de lectura.","cursor",P.largeTargets,()=>P.largeTargets=!P.largeTargets);
+    Toggle("Botones y zonas más grandes","Amplía las zonas de documentos, sellos y botones pequeños del juego, además del lector.","cursor",P.largeTargets,()=>P.largeTargets=!P.largeTargets);
     Toggle("Reducir animaciones","Simplifica la apertura y el archivo de documentos y elimina temblores.","cursor",DeskPreferences.Current.reduceMotion,()=>DeskPreferences.Current.reduceMotion=!DeskPreferences.Current.reduceMotion);
     Action("Controles y atajos","Consulta los controles y cambia las teclas de repetir y detener voz.","cursor",()=>OpenCategory("Controles"),"Consultar");
     Info("Movimiento de cámara","Este prototipo no tiene movimiento de cámara.","cursor");

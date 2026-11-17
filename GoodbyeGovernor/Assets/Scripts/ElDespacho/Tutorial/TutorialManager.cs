@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -219,6 +219,14 @@ namespace ElDespacho
             if(game.ScreenName=="Visita") { b.x=size.x*.44f; b.y=250;pos=new Vector2(size.x*.03f,size.y*.38f); }
             if(game.ScreenName=="Mapa") { b.x=size.x*.18f;b.y=380;pos=new Vector2(size.x*.80f,size.y*.18f); }
             if(menus.IsVisible) { b=new Vector2(size.x*.42f,205);pos=new Vector2(size.x*.54f,size.y*.045f); }
+            float accessScale=Mathf.Max(1,AccessPreferences.Current.textScale);
+            // Reserve separate title, scrolling body, hint and control bands.
+            header.rectTransform.anchorMin=new Vector2(0,1);header.rectTransform.anchorMax=Vector2.one;
+            header.rectTransform.offsetMin=new Vector2(16,-62*accessScale);header.rectTransform.offsetMax=new Vector2(-16,-10);
+            body.rectTransform.offsetMin=new Vector2(16,78*accessScale);body.rectTransform.offsetMax=new Vector2(-16,-62*accessScale);
+            hint.rectTransform.anchorMax=new Vector2(1,0);hint.rectTransform.offsetMin=new Vector2(16,52*accessScale);hint.rectTransform.offsetMax=new Vector2(-16,76*accessScale);
+            foreach(var button in bubble.GetComponentsInChildren<Button>()) {var r=(RectTransform)button.transform;r.offsetMin=new Vector2(r.offsetMin.x,12);r.offsetMax=new Vector2(r.offsetMax.x,44*accessScale);}
+            b.y=Mathf.Max(b.y,220*accessScale);
             bubble.sizeDelta=b;
             bubble.anchorMin=bubble.anchorMax=Vector2.zero;
             bubble.anchoredPosition=pos;

@@ -1,0 +1,29 @@
+PASS OFF click does not select or open; drag remains required
+PASS interaction profile enables clicks and large targets
+PASS document has enlarged pointer surface
+PASS document enlarged area reaches beyond original bounds
+PASS click in added document area selects
+PASS ON real input click selects without opening
+PASS ESC route cancels selection
+PASS second mouse input click opens without dragging
+PASS stamp enlarged area exists
+PASS click in added stamp area selects
+PASS stamp click previews without deciding
+PASS cancel stamp without deciding
+PASS paper click executes decision through original rules
+PASS duplicate decision rejected
+PASS next document available after result
+PASS interaction profile restores prior large-target preference
+PASS OFF again requires dragging
+PASS guided profile enables four supports without enabling tutorial globally
+PASS guided adviser integrated into illustrated office
+PASS guided note explains next action and all indicators
+PASS symbols and glossary visible without reader or active tutorial
+PASS help mouse input opens actual tutorial consultation
+PASS glossary mouse input opens actual consultation
+PASS consultations preserve campaign and tutorial progress
+PASS guided presentation leaves campaign unchanged
+PASS guided profile reversible
+PASS guided buttons removed on reversal
+PASS profiles do not open reading view
+COMPLETE real Play Mode with simulated InputSystem mouse; no physical device or comprehension test

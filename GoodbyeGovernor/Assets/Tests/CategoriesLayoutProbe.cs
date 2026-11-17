@@ -1,7 +1,7 @@
 ﻿#if UNITY_EDITOR
 using System;using System.IO;using System.Linq;using System.Collections;using System.Collections.Generic;using System.Reflection;using UnityEditor;using UnityEngine;using UnityEngine.UI;using ElDespacho;
 public class CategoriesLayoutProbe:MonoBehaviour {
- const BindingFlags F=BindingFlags.Instance|BindingFlags.NonPublic;AccessController a;string dir;List<string> log=new List<string>();bool Updated=>DeskMenus.Version=="v0.9.12-prototipo";Transform UI=>a.transform.Find("Accessibility");
+ const BindingFlags F=BindingFlags.Instance|BindingFlags.NonPublic;AccessController a;string dir;List<string> log=new List<string>();bool Updated=>DeskMenus.Version=="v0.9.13-prototipo";Transform UI=>a.transform.Find("Accessibility");
  List<AccessController.Entry> Controls=>(List<AccessController.Entry>)typeof(AccessController).GetField("controls",F).GetValue(a);
  RectTransform Focus=>(RectTransform)typeof(AccessController).GetField("focusRect",F).GetValue(a);
  void Check(bool b,string s){log.Add((b?"PASS ":"FAIL ")+s);File.WriteAllLines(dir+"/results.txt",log);if(!b)throw new Exception(s);}

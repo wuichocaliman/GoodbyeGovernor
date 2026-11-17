@@ -1,0 +1,3 @@
+PASS: 8 real user preference/save files unchanged (SHA-256).
+PASS: QualitySettings restored byte-for-byte from pre-v0913 backup.
+Tests used temporary storage; no user preferences reset.
