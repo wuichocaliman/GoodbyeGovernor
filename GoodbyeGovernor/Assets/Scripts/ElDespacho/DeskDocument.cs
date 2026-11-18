@@ -10,7 +10,7 @@ namespace ElDespacho
     public sealed class DeskDocument : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
     {
-        enum Phase { Pile, Dragging, Returning, Opening, Open, Dismissing }
+        enum Phase { Pile, Dragging, Guided, Returning, Opening, Open, Dismissing }
         Phase phase;
         RectTransform sheet, desk, readingZone;
         Image paper, shadow, zone;
@@ -33,6 +33,20 @@ namespace ElDespacho
         public Color zoneActive = new Color(0.53f, 0.45f, 0.24f, 1f);
         public string hintIdle = "ZONA DE LECTURA\nArrastra aquí el documento de la pila";
         public string hintActive = "SUELTA PARA ABRIR EL EXPEDIENTE";
+        /// <summary>
+        /// Si es true, el expediente no se ve en la pila: aparece bajo el ratón al pulsar la pila (se saca
+        /// de la bandeja) y vuelve a «guardarse» si se suelta fuera de la zona de lectura.
+        /// </summary>
+        public bool hiddenInPile;
+        /// <summary>Con hiddenInPile: escala del área invisible que se puede pulsar sobre la pila (0 = closedScale).</summary>
+        public float hiddenPileScale;
+        /// <summary>Con hiddenInPile: gráfico que se ilumina al pasar el ratón por la pila (p. ej. la bandeja).</summary>
+        public Graphic pileHighlight;
+        /// <summary>Se llama cuando el expediente sale de la pila (al cogerlo) y cuando vuelve a ella.</summary>
+        public Action leftPile, backInPile;
+        CanvasGroup sheetGroup;
+        Coroutine pop;
+        float RestScale => hiddenInPile && hiddenPileScale > 0 ? hiddenPileScale : closedScale;
         public bool CanDecide => phase == Phase.Open;
         /// <summary>Se lanza cuando el jugador coge un expediente de la pila (lo usa el tutorial).</summary>
         public static event Action Grabbed;
@@ -64,7 +78,9 @@ namespace ElDespacho
             sheet.sizeDelta = Vector2.Scale(desk.rect.size, openSize);
             phase = alreadyOpen ? Phase.Open : Phase.Pile;
             sheet.anchoredPosition = alreadyOpen ? Vector2.zero : PilePosition;
-            sheet.localScale = Vector3.one * (alreadyOpen ? 1f : closedScale);
+            sheet.localScale = Vector3.one * (alreadyOpen ? 1f : RestScale);
+            if (hiddenInPile) sheetGroup = gameObject.AddComponent<CanvasGroup>();
+            SetPileVisible(alreadyOpen);
             sheet.localRotation = Quaternion.Euler(0, 0, alreadyOpen ? 0 : pileAngle);
             cover.SetActive(!alreadyOpen);
             content.SetActive(alreadyOpen);
@@ -86,7 +102,18 @@ namespace ElDespacho
             sheet.localRotation = Quaternion.identity;
             paper.color = Pal.Paper;
             shadow.color = new Color(0, 0, 0, 0.48f);
+            if (hiddenInPile)
+            {
+                // Se saca un expediente de la bandeja: aparece bajo el ratón y crece un poco
+                SetPileVisible(true);
+                PileHover(false);
+                sheet.anchoredPosition = local;
+                pointerOffset = Vector2.zero;
+                if (pop != null) StopCoroutine(pop);
+                pop = StartCoroutine(Pop());
+            }
             Sfx.Play(Sfx.Paper, 0.35f);
+            leftPile?.Invoke();
             Grabbed?.Invoke();
         }
         public void OnBeginDrag(PointerEventData e) { }
@@ -104,6 +131,7 @@ namespace ElDespacho
             if (phase != Phase.Dragging || e.pointerId != pointerId ||
                 e.button != PointerEventData.InputButton.Left) return;
             bool accepted = IsOverTray(e);
+            if (pop != null) { StopCoroutine(pop); pop = null; }
             AnimatePlacement(accepted);
         }
         void AnimatePlacement(bool accepted) {
@@ -112,7 +140,7 @@ namespace ElDespacho
             phase = accepted ? Phase.Opening : Phase.Returning;
             Sfx.Play(Sfx.Paper, 0.3f);
             StartCoroutine(Move(accepted ? Vector2.zero : PilePosition,
-                accepted ? 1f : closedScale, accepted ? 0 : pileAngle, 0.22f, () =>
+                accepted ? 1f : ReturnScale, accepted ? 0 : pileAngle, 0.22f, () =>
                 {
                     shadow.color = new Color(0, 0, 0, 0.28f);
                     if (accepted)
@@ -121,19 +149,87 @@ namespace ElDespacho
                         content.SetActive(true);
                         contentInput.interactable = contentInput.blocksRaycasts = true;
                         phase = Phase.Open;
+                        Haptics.DocumentFits(); // golpe corto al encajar en el vade (solo con mando)
                         onOpened?.Invoke();
                     }
-                    else phase = Phase.Pile;
+                    else { phase = Phase.Pile; GoBackToPile(); }
                 }));
         }
+        /// <summary>Al volver a la bandeja, el expediente oculto se encoge hacia dentro y desaparece.</summary>
+        float ReturnScale => hiddenInPile ? closedScale * 0.6f : closedScale;
+        void GoBackToPile()
+        {
+            backInPile?.Invoke();
+            if (!hiddenInPile) return;
+            SetPileVisible(false);
+            sheet.localScale = Vector3.one * RestScale;
+        }
+        void SetPileVisible(bool visible)
+        {
+            if (sheetGroup == null) return;
+            sheetGroup.alpha = visible ? 1f : 0f; // invisible pero se sigue pudiendo pulsar
+        }
+        void PileHover(bool on)
+        {
+            if (pileHighlight != null) pileHighlight.color = on ? new Color(1f, 0.92f, 0.76f, 1f) : Color.white;
+        }
+        IEnumerator Pop()
+        {
+            float duration = DeskPreferences.AnimationDuration(0.12f);
+            Vector3 from = Vector3.one * closedScale * 0.6f, to = Vector3.one * closedScale;
+            for (float t = 0; t < duration; t += DeskPreferences.GameDelta)
+            {
+                sheet.localScale = Vector3.Lerp(from, to, Mathf.SmoothStep(0, 1, t / duration));
+                yield return null;
+            }
+            sheet.localScale = to;
+            pop = null;
+        }
+        // ───── Mando: el expediente viaja de la bandeja al vade según el gatillo (0..1) ─────
+        public bool GuidedAvailable => phase == Phase.Pile && !accessSelected && !DeskPreferences.Paused;
+        public bool IsGuided => phase == Phase.Guided;
+        /// <summary>Saca el expediente de la pila para moverlo con el mando. False si ahora no se puede.</summary>
+        public bool BeginGuided()
+        {
+            if (!GuidedAvailable) return false;
+            StopAllCoroutines();
+            phase = Phase.Guided;
+            desk.SetAsLastSibling();
+            sheet.SetAsLastSibling();
+            SetPileVisible(true);
+            PileHover(false);
+            paper.color = Pal.Paper;
+            shadow.color = new Color(0, 0, 0, 0.48f);
+            Sfx.Play(Sfx.Paper, 0.35f);
+            leftPile?.Invoke();
+            Grabbed?.Invoke();
+            SetGuidedProgress(0);
+            return true;
+        }
+        /// <summary>0 = en la bandeja, 1 = sobre la zona de lectura. No abre nada: eso lo hace CommitGuided.</summary>
+        public void SetGuidedProgress(float t)
+        {
+            if (phase != Phase.Guided) return;
+            float e = Mathf.SmoothStep(0, 1, Mathf.Clamp01(t));
+            float startScale = hiddenInPile ? closedScale * 0.6f : closedScale;
+            sheet.anchoredPosition = Vector2.Lerp(PilePosition, Vector2.zero, e);
+            sheet.localScale = Vector3.one * Mathf.Lerp(startScale, closedScale * 1.25f, e);
+            sheet.localRotation = Quaternion.Euler(0, 0, Mathf.Lerp(pileAngle, 0, e));
+            Highlight(t >= 0.6f);
+        }
+        /// <summary>Gatillo a fondo: se abre igual que al soltarlo con el ratón en la zona de lectura.</summary>
+        public void CommitGuided() { if (phase == Phase.Guided) AnimatePlacement(true); }
+        /// <summary>Gatillo suelto antes del fondo: vuelve a la bandeja.</summary>
+        public void CancelGuided() { if (phase == Phase.Guided) AnimatePlacement(false); }
+
         bool accessSelected;
         public bool AccessSelected=>accessSelected;
         public bool AccessAvailable=>phase==Phase.Pile;
         public bool AccessOnSheet(Vector2 p)=>RectTransformUtility.RectangleContainsScreenPoint(sheet,p) || (GetComponent<AccessHitPadding>()?.Contains(p) ?? false);
         public bool AccessOnTray(Vector2 p)=>RectTransformUtility.RectangleContainsScreenPoint(readingZone,p);
-        public void AccessSelect(){if(DeskPreferences.Paused||phase!=Phase.Pile)return;accessSelected=true;Highlight(true);hint.text="[D] EXPEDIENTE SELECCIONADO\nPulse aquí para abrir. ESC cancela.";Grabbed?.Invoke();AccessController.Cue("Expediente seleccionado. Pulse la zona de lectura.");}
+        public void AccessSelect(){if(DeskPreferences.Paused||phase!=Phase.Pile)return;accessSelected=true;if(hiddenInPile){SetPileVisible(true);sheet.localScale=Vector3.one*closedScale;}leftPile?.Invoke();Highlight(true);hint.text="[D] EXPEDIENTE SELECCIONADO\nPulse aquí para abrir. ESC cancela.";Grabbed?.Invoke();AccessController.Cue("Expediente seleccionado. Pulse la zona de lectura.");}
         public void AccessPlace(){if(!accessSelected||DeskPreferences.Paused||phase!=Phase.Pile)return;AnimatePlacement(true);}
-        public void AccessCancel(){if(!accessSelected)return;accessSelected=false;Highlight(false);AccessController.Cue("Selección cancelada");}
+        public void AccessCancel(){if(!accessSelected)return;accessSelected=false;GoBackToPile();Highlight(false);AccessController.Cue("Selección cancelada");}
         public void Dismiss(Action finished)
         {
             if (phase != Phase.Open) return;
@@ -182,24 +278,30 @@ namespace ElDespacho
         }
         public void OnPointerEnter(PointerEventData e)
         {
-            if (phase == Phase.Pile) paper.color = Color.Lerp(Pal.Paper, Color.white, 0.22f);
+            if (phase != Phase.Pile) return;
+            if (hiddenInPile) PileHover(true);
+            else paper.color = Color.Lerp(Pal.Paper, Color.white, 0.22f);
         }
         public void OnPointerExit(PointerEventData e)
         {
-            if (phase == Phase.Pile) paper.color = Pal.Paper;
+            if (phase != Phase.Pile) return;
+            if (hiddenInPile) PileHover(false);
+            else paper.color = Pal.Paper;
         }
         public void CancelDrag() {AccessCancel();OnApplicationFocus(false);}
 
         void OnApplicationFocus(bool focused)
         {
-            if (focused || phase != Phase.Dragging) return;
+            if (focused || (phase != Phase.Dragging && phase != Phase.Guided)) return;
             phase = Phase.Returning;
             Highlight(false);
-            StartCoroutine(Move(PilePosition, closedScale, pileAngle, 0.18f, () =>
+            if (pop != null) { StopCoroutine(pop); pop = null; }
+            StartCoroutine(Move(PilePosition, ReturnScale, pileAngle, 0.18f, () =>
             {
                 paper.color = Pal.Paper;
                 shadow.color = new Color(0, 0, 0, 0.28f);
                 phase = Phase.Pile;
+                GoBackToPile();
             }));
         }
         void OnDisable() => StopAllCoroutines();

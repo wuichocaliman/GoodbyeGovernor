@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace ElDespacho
 {
-    // Extends the existing spotlight overlay; game rules stay in DespachoGame.
+    // Extends the existing spotlight overlay (with a dark backdrop); game rules stay in DespachoGame.
     public class TutorialManager : MonoBehaviour
     {
         public static TutorialManager Instance { get; private set; }
@@ -17,6 +17,10 @@ namespace ElDespacho
         readonly Image[] blockers=new Image[4], frame=new Image[4];
         Text header, body, hint; Button next; CanvasGroup noteAlpha; float noteShownAt;
         const float FrameThickness=3;
+        // Fondo oscuro para llevar la mirada del jugador: más oscuro alrededor del objeto destacado,
+        // algo menos cuando el paso no destaca nada. No bloquea clics (nadie se queda atascado).
+        const float DimWithFocus = 0.72f, DimWithoutFocus = 0.5f;
+        float dim; bool lastHole;
         public bool IsActive=>current>=0 && overlay!=null && overlay.GetComponent<Canvas>().enabled;
         public string ActiveId=>current>=0?steps[current].persistentId:"";
         public TutorialStepData[] Steps=>steps;
@@ -83,6 +87,11 @@ namespace ElDespacho
             noteAlpha.alpha=(DeskPreferences.Current.reduceMotion || AccessPreferences.Current.reduceFlashes)?1:Mathf.Lerp(.65f,1,(Time.unscaledTime-noteShownAt)/.18f);
             float alpha=(DeskPreferences.Current.reduceMotion || AccessPreferences.Current.reduceFlashes)?1:.7f+.3f*Mathf.Abs(Mathf.Sin(Time.unscaledTime*2));
             foreach(var f in frame)f.color=Kit.WithAlpha(Kit.Hex("#C6A24F"),alpha);
+            // Oscurecer el resto de la pantalla (con un fundido corto); con el menú de pausa abierto no se oscurece
+            float targetDim=menus.IsVisible?0f:(lastHole?DimWithFocus:DimWithoutFocus);
+            bool instant=DeskPreferences.Current.reduceMotion || AccessPreferences.Current.reduceFlashes;
+            dim=instant?targetDim:Mathf.MoveTowards(dim,targetDim,Time.unscaledDeltaTime*3f);
+            foreach(var b in blockers)b.color=new Color(0,0,0,dim);
         }
         public bool ExplainDiplomacy() {
             if(!ready || !DeskPreferences.Current.tutorial || Progress.Resolved("relations"))return false;
@@ -133,6 +142,7 @@ namespace ElDespacho
             var step = steps[current];
             var size = overlay.rect.size;
             bool hasHole = TryGetHole(step, size, out var hole);
+            lastHole = hasHole;
 
             if (!hasHole)
             {

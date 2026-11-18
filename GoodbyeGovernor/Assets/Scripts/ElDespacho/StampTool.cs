@@ -44,7 +44,7 @@ namespace ElDespacho
         public void OnPointerDown(PointerEventData e)
         {
             if (DeskPreferences.Paused) return;
-            if (used || dragging || e.button != PointerEventData.InputButton.Left) return;
+            if (used || dragging || guided || e.button != PointerEventData.InputButton.Left) return;
             if(AccessPreferences.Current.simpleDocuments){AccessController.Instance?.SelectStamp(this);return;}
             if (!Local(area, e, out var local)) return;
             StopAllCoroutines();
@@ -93,7 +93,59 @@ namespace ElDespacho
             StartCoroutine(GoHome());
         }
 
-        public bool AccessAvailable=>!used && !dragging && isActiveAndEnabled;
+        // ───── Mando: el sello baja hacia el papel según el gatillo (0..1) ─────
+        bool guided;
+        Vector2 guidedMark;
+        public bool IsGuided => guided;
+        public bool GuidedAvailable => !used && !dragging && !guided && isActiveAndEnabled && self != null && !DeskPreferences.Paused;
+        public bool BeginGuided()
+        {
+            if (!GuidedAvailable) return false;
+            StopAllCoroutines();
+            guided = true;
+            self.SetAsLastSibling();
+            // Dónde quedará la marca: zona baja del papel, con algo de azar (como al sellar a mano)
+            var r = target.rect;
+            guidedMark = new Vector2(UnityEngine.Random.Range(-r.width * 0.18f, r.width * 0.18f),
+                                     UnityEngine.Random.Range(-r.height * 0.30f, -r.height * 0.12f));
+            onHover?.Invoke(true);
+            Sfx.Play(Sfx.Click, 0.6f);
+            return true;
+        }
+        public void SetGuidedProgress(float t)
+        {
+            if (!guided) return;
+            float e = Mathf.SmoothStep(0, 1, Mathf.Clamp01(t));
+            // El centro del sello va hacia la marca, un poco por encima para que sea el pie el que toque el papel
+            var world = target.TransformPoint(guidedMark);
+            var goal = (Vector2)area.InverseTransformPoint(world) - area.rect.center + new Vector2(0, self.rect.height * 0.38f);
+            self.anchoredPosition = Vector2.Lerp(home, goal, e);
+            self.localScale = Vector3.one * (1f + 0.12f * Mathf.Sin(e * Mathf.PI));
+            self.localRotation = Quaternion.Euler(0, 0, -6f * e);
+            targetImage.color = t >= 0.6f ? Color.Lerp(targetIdle, Color.white, 0.35f) : targetIdle;
+        }
+        public void CommitGuided()
+        {
+            if (!guided) return;
+            guided = false;
+            targetImage.color = targetIdle;
+            self.localScale = Vector3.one;
+            self.localRotation = Quaternion.identity;
+            used = true;
+            onStamped?.Invoke(guidedMark);
+        }
+        public void CancelGuided()
+        {
+            if (!guided) return;
+            guided = false;
+            targetImage.color = targetIdle;
+            self.localScale = Vector3.one;
+            self.localRotation = Quaternion.identity;
+            onHover?.Invoke(false);
+            StartCoroutine(GoHome());
+        }
+
+        public bool AccessAvailable=>!used && !dragging && !guided && isActiveAndEnabled;
         public bool AccessOnTool(Vector2 p)=>RectTransformUtility.RectangleContainsScreenPoint(self,p) || (GetComponent<AccessHitPadding>()?.Contains(p) ?? false);
         public bool AccessContains(Vector2 p)=>RectTransformUtility.RectangleContainsScreenPoint(target,p);
         public void AccessPreview(){if(AccessAvailable)onHover?.Invoke(true);}
@@ -124,6 +176,7 @@ namespace ElDespacho
 
         void OnApplicationFocus(bool focused)
         {
+            if (!focused && guided) { CancelGuided(); return; }
             if (focused || !dragging) return;
             dragging = false;
             targetImage.color = targetIdle;

@@ -1,0 +1,42 @@
+GOODBYE GOVERNOR · Texto para la página de itch.io
+(Pega cada bloque en la descripción, en este orden, insertando las imágenes donde se indica.)
+
+[imagen: Titulo_Que_es.png]
+
+Acabas de tomar posesión como presidente de Aurelia. Tienes cuatro años de mandato, una mesa llena de expedientes y dos sellos: APROBADO y DENEGADO.
+
+Cada decisión mueve tres cosas que el país no perdona: la Estabilidad, la Seguridad y la Prosperidad. Si alguna se hunde, por la ventana del despacho lo verás: primero nubes, luego humo, y al final la ciudad en llamas.
+
+[imagen: Titulo_Como_se_juega.png]
+[imagen: Como_se_juega_960x336.png]
+
+1. Lee el expediente. Cada año llegan cinco asuntos a tu mesa: ministros, generales y espías que te piden una respuesta.
+2. Aprueba o deniega. Arrastra el sello. Cada sí y cada no tiene un coste.
+3. Viaja y negocia. Visita a los líderes del mundo, hazles preguntas y decide: alianza o cortar lazos.
+4. Lee La Gaceta. Las consecuencias llegan... a veces años después.
+
+[imagen: Titulo_Caracteristicas.png]
+
+- Un mandato de 4 años con decisiones que se arrastran de un año a otro.
+- 15 países con líderes que pueden decir la verdad, mentir o estar mal informados.
+- Rumores e informes de inteligencia que no siempre son fiables: un dato de hace tres años puede engañarte.
+- Alianzas, sanciones y rivalidades: cada país que eliges cambia lo que piensan sus vecinos.
+- Un despacho en pixel art que refleja cómo va tu país.
+
+[imagen: Titulo_Capturas.png]
+(Las capturas se suben aparte, en «Screenshots», en la columna derecha de «Edit game».)
+
+[imagen: Titulo_Creditos.png]
+
+Diseño y programación: Wuichocaliman
+Arte: (tu nombre o el del equipo)
+
+------------------------------------------------------------
+COLORES DEL TEMA («Edit theme»)
+Fondo (BG)              #4B2E1E  + imagen Fondo_Mosaico_192.png en repetición
+Fondo del contenido     #F3E7CF
+Texto                   #2B2B2B
+Enlaces                 #7A1F2A
+Botones                 #C6A24F
+Imagen de cabecera      Banner_Tablon_960x300.png o Banner_Mesa_960x300.png
+Portada (Cover image)   Portada_630x500.png  (en «Edit game»)

@@ -88,9 +88,33 @@ namespace ElDespacho
             menus = gameObject.AddComponent<DeskMenus>();
             menus.Initialize(this, root);
             gameObject.AddComponent<AccessController>();
+            gameObject.AddComponent<GamepadInput>().Initialize(this, menus); // mando + vibración (el ratón sigue igual)
             NewGame();
             ShowTitle();
         }
+
+        // ───────────── Ajustes: vibración del mando ─────────────
+
+        /// <summary>
+        /// Botón «VIBRACIÓN: SÍ / NO» para el apartado de Ajustes. El menú de Ajustes es el mismo desde la
+        /// pantalla de título y desde la pausa, así que sirve para los dos. La preferencia va a PlayerPrefs;
+        /// al desactivarla se para cualquier vibración en curso y se omiten los pulsos siguientes.
+        /// </summary>
+        internal static Button BuildVibrationToggle(Transform parent, Vector2 aMin, Vector2 aMax, int fontSize, Color background)
+        {
+            var b = Kit.MakeButton(parent, VibrationLabel, fontSize, background, Pal.Cream, null, aMin, aMax);
+            b.name = "VibrationToggle";
+            b.onClick.AddListener(() =>
+            {
+                Sfx.Play(Sfx.Click);
+                Haptics.Enabled = !Haptics.Enabled;
+                foreach (var t in b.GetComponentsInChildren<Text>()) if (t.text.StartsWith("VIBRACIÓN")) t.text = VibrationLabel;
+                if (Haptics.Enabled) Haptics.PaperTouch(); // un toque para notar que vuelve (solo si se juega con mando)
+            });
+            return b;
+        }
+
+        static string VibrationLabel => "VIBRACIÓN: " + (Haptics.Enabled ? "SÍ" : "NO");
 
         void NewGame()
         {
@@ -180,6 +204,7 @@ namespace ElDespacho
                 Destroy(child);
             }
             deskDocument = null;
+            Haptics.Stop(); // al cambiar de pantalla no puede quedar ningún motor encendido
         }
 
         Image Background(Color c) => Kit.Panel(root, c, Vector2.zero, Vector2.one, default, default, "Background");
@@ -380,8 +405,8 @@ namespace ElDespacho
             cardResultText = yes ? k.yesResult : k.noResult;
             cardResultEffect = eff;
             news.Insert(0, $"<b>{(yes ? k.yesLabel : k.noLabel)} a {k.who}</b>\n{cardResultText}");
-            Sfx.Play(Sfx.Thunk);
             ShowOffice();
+            Sfx.Play(Sfx.Thunk); // después de reconstruir: así el golpe del sello no se corta al limpiar la pantalla
         }
 
         void ArchiveCard()
@@ -713,10 +738,26 @@ namespace ElDespacho
             mapOpenedThisYear = true;
             Clear();
             Background(Pal.Wood);
+            // Mapa ilustrado («el corcho ampliado»): si están los sprites del pack, el mapa va clavado en un corcho
+            var corkArt = Art.Get("Mapa/Mapa_Corcho");
+            var worldArt = Art.Get("Mapa/Mapa_Mundo");
+            bool artMap = corkArt != null && worldArt != null;
+            if (artMap)
+            {
+                var cork = Kit.Rect(root, "Cork", Vector2.zero, Vector2.one).gameObject.AddComponent<Image>();
+                cork.sprite = corkArt;
+                cork.raycastTarget = false;
+            }
             BuildHud();
 
-            var mapFrame = Kit.Panel(root, Pal.WoodLight, new Vector2(0.015f, 0.03f), new Vector2(0.78f, 0.885f), default, default, "MapFrame");
-            var map = Kit.Panel(mapFrame.transform, Pal.Ocean, Vector2.zero, Vector2.one, new Vector2(12, 12), new Vector2(-12, -12), "Map");
+            var mapFrame = Kit.Panel(root, artMap ? Color.clear : Pal.WoodLight, new Vector2(artMap ? 0.20f : 0.015f, 0.03f), new Vector2(0.78f, 0.885f), default, default, "MapFrame");
+            var map = Kit.Panel(mapFrame.transform, Pal.Ocean, Vector2.zero, Vector2.one,
+                artMap ? Vector2.zero : new Vector2(12, 12), artMap ? Vector2.zero : new Vector2(-12, -12), "Map");
+            if (artMap)
+            {
+                map.sprite = worldArt;
+                map.color = Color.white;
+            }
             map.gameObject.AddComponent<RectMask2D>();
             var m = map.transform;
 
@@ -727,8 +768,12 @@ namespace ElDespacho
                 (0.84f, 0.27f, 330), (0.12f, 0.36f, 330), (0.47f, 0.84f, 330), (0.80f, 0.80f, 300),
                 (0.28f, 0.35f, 300), (0.10f, 0.62f, 250), (0.62f, 0.38f, 260), (0.30f, 0.93f, 200),
             };
-            foreach (var l in land) Kit.Dot(m, Pal.Land, new Vector2(l.x, l.y), l.size * 0.72f);
-            foreach (var l in land) Kit.Dot(m, Kit.Hex("#d5c696"), new Vector2(l.x, l.y), l.size * 0.62f);
+            if (!artMap) // con arte, las tierras ya están dibujadas en Mapa_Mundo
+            {
+                foreach (var l in land) Kit.Dot(m, Pal.Land, new Vector2(l.x, l.y), l.size * 0.72f);
+                foreach (var l in land) Kit.Dot(m, Kit.Hex("#d5c696"), new Vector2(l.x, l.y), l.size * 0.62f);
+            }
+            else Pin(mapFrame.transform);
 
             // Líneas del bloque: de Aurelia a cada aliado
             Canvas.ForceUpdateCanvases();
@@ -772,8 +817,11 @@ namespace ElDespacho
                     future ? 0.35f : 1f, available ? 62 : 54);
             }
 
+            if (artMap) BuildMapCards((RectTransform)m);
+
             // Barra lateral: leyenda y pendientes
             var side = Kit.Panel(root, Pal.Paper, new Vector2(0.79f, 0.03f), new Vector2(0.985f, 0.885f), default, default, "Side");
+            if (artMap && UseArt(side, "Mapa/Mapa_Lateral")) Pin(side.transform);
             side.gameObject.AddComponent<GameplayMapSidebar>();
             var st = side.transform;
             Kit.Label(st, "MAPA DEL MUNDO", 26, Pal.Ink, TextAnchor.UpperCenter, Vector2.zero, Vector2.one, new Vector2(10, 0), new Vector2(-10, -16), FontStyle.Bold);
@@ -812,16 +860,27 @@ namespace ElDespacho
             }
             Kit.Label(st, sb.ToString(), 20, Pal.Ink, TextAnchor.UpperLeft, new Vector2(0.08f, 0.17f), new Vector2(0.95f, 0.55f), default, default, FontStyle.Normal, true);
 
-            Kit.MakeButton(st, "VOLVER AL DESPACHO", 22, Pal.WoodMid, Pal.Cream, () =>
+            var back = Kit.MakeButton(st, "VOLVER AL DESPACHO", 22, Pal.WoodMid, Pal.Cream, () =>
             {
                 Sfx.Play(Sfx.Click);
                 ShowOffice();
-            }, new Vector2(0.08f, 0.03f), new Vector2(0.92f, 0.12f));
+            }, new Vector2(0.08f, artMap ? 0.04f : 0.03f), new Vector2(0.92f, artMap ? 0.095f : 0.12f));
+            if (artMap && UseArt(back.GetComponent<Image>(), "UI/Boton_Laton"))
+            {
+                var shade = back.transform.Find("Shade");
+                if (shade != null) shade.gameObject.SetActive(false);
+                foreach (var t in back.GetComponentsInChildren<Text>()) t.color = Pal.Ink; // texto oscuro sobre el latón
+            }
         }
 
         void Node(Transform map, string label, Vector2 pos, Color col, string badge, Color badgeCol,
             UnityEngine.Events.UnityAction onClick, float alpha, float size)
         {
+            if (Art.Get("Mapa/Mapa_Mundo") != null && Art.MapIcon("?") != null)
+            {
+                PinNode(map, label, pos, badge, onClick, alpha);
+                return;
+            }
             var ring = Kit.Dot(map, Kit.WithAlpha(Pal.Wood, 0.8f * alpha), pos, size + 8, "NodeRing");
             var dot = Kit.Dot(map, Kit.WithAlpha(col, alpha), pos, size, "Node");
             if (onClick != null)
@@ -852,6 +911,113 @@ namespace ElDespacho
             var lbl = Kit.Label(map, label, 20, Kit.WithAlpha(Pal.Ink, Mathf.Max(alpha, 0.6f)), TextAnchor.UpperCenter, pos, pos,
                 new Vector2(-110, -size / 2f - 52), new Vector2(110, -size / 2f - 4), FontStyle.Bold);
             lbl.horizontalOverflow = HorizontalWrapMode.Overflow;
+        }
+
+        /// <summary>
+        /// País en el mapa ilustrado: el icono del pack hace de chincheta y el nombre va en una etiqueta de papel.
+        /// Los países de años futuros son chinchetas apagadas con «???».
+        /// </summary>
+        void PinNode(Transform map, string label, Vector2 pos, string badge, UnityEngine.Events.UnityAction onClick, float alpha)
+        {
+            bool future = string.IsNullOrEmpty(badge);
+            float size = future ? 36 : badge == "B" && label.Contains("(tú)") ? 64 : 48; // iconos de 16 px a x3 (Aurelia a x4)
+            var sprite = future ? Art.Get("Despacho/Chincheta") : Art.MapIcon(badge);
+
+            if (onClick != null) // halo dorado: países que esperan visita
+                Kit.Dot(map, Kit.WithAlpha(Pal.Gold, 0.55f), pos, size + 18, "NodeRing");
+            var icon = sprite != null ? Art.Icon(map, sprite, pos, size, future ? 0.55f : alpha, "Node")
+                                      : Kit.Dot(map, Kit.WithAlpha(Pal.Gray, alpha), pos, size, "Node");
+            if (onClick != null)
+            {
+                icon.raycastTarget = true;
+                var b = icon.gameObject.AddComponent<Button>();
+                icon.gameObject.AddComponent<AccessName>().label = AccessController.Plain(label) + " - " + (badge == "!" ? "[!] Posible amenaza" : badge == "+" ? "[+] Posible aliado" : badge == "B" ? "[A] Tu bloque" : badge == "i" ? "[V] Visitado" : "[?] Sin visitar");
+                var cb = b.colors;
+                cb.highlightedColor = new Color(1f, 1f, 1f, 0.75f);
+                cb.pressedColor = new Color(0.7f, 0.7f, 0.7f, 1f);
+                b.colors = cb;
+                b.onClick.AddListener(() => { Sfx.Play(Sfx.Click); onClick(); });
+            }
+
+            if (future)
+            {
+                var q = Kit.Label(map, "???", 16, Kit.WithAlpha(Pal.InkSoft, 0.7f), TextAnchor.UpperCenter, pos, pos,
+                    new Vector2(-40, -size / 2f - 22), new Vector2(40, -size / 2f), FontStyle.Bold);
+                q.horizontalOverflow = HorizontalWrapMode.Overflow;
+                return;
+            }
+            var tagRt = Kit.Rect(map, "NodeTag", pos, pos);
+            tagRt.sizeDelta = new Vector2(176, label.Contains("\n") ? 48 : 30);
+            tagRt.anchoredPosition = new Vector2(0, -size / 2f - tagRt.sizeDelta.y / 2f - 2);
+            var tag = tagRt.gameObject.AddComponent<Image>();
+            tag.color = Kit.WithAlpha(Pal.Cream, 0.92f * alpha);
+            tag.raycastTarget = false;
+            Kit.Label(tagRt, label, 18, Kit.WithAlpha(Pal.Ink, Mathf.Max(alpha, 0.6f)), TextAnchor.MiddleCenter,
+                Vector2.zero, Vector2.one, new Vector2(4, 0), new Vector2(-4, 0), FontStyle.Bold, true);
+        }
+
+        /// <summary>Fichas clavadas a la izquierda con los países del año, unidas con hilo rojo a su sitio en el mapa.</summary>
+        void BuildMapCards(RectTransform map)
+        {
+            // De arriba abajo según su sitio en el mapa, para que los hilos no se crucen
+            var list = ThisYear.OrderByDescending(k => k.mapPos.y).ToList();
+            var rootRt = (RectTransform)root;
+            Canvas.ForceUpdateCanvases();
+            var corners = new Vector3[4];
+            map.GetWorldCorners(corners); // 0 = abajo a la izquierda, 2 = arriba a la derecha
+            for (int i = 0; i < list.Count && i < 4; i++)
+            {
+                var c = list[i];
+                bool available = c.decision == Decision.Ninguna;
+                string badge = c.decision == Decision.Alianza ? "B" : c.decision == Decision.Corte ? "i"
+                             : c.rumor == Rumor.Amenaza ? "!" : c.rumor == Rumor.Aliado ? "+" : "?";
+                string state = c.decision == Decision.Alianza ? "Alianza: tu bloque"
+                             : c.decision == Decision.Corte ? (c.attacked ? "En ruinas" : "Lazos cortados")
+                             : c.rumor == Rumor.Amenaza ? "Rumor: posible amenaza"
+                             : c.rumor == Rumor.Aliado ? "Rumor: posible aliado" : "Pendiente de visita";
+                Color stateCol = c.decision != Decision.Ninguna ? Pal.InkSoft : c.rumor == Rumor.Amenaza ? Pal.Red
+                               : c.rumor == Rumor.Aliado ? Kit.Hex("#2f4b3a") : Pal.InkSoft;
+
+                float top = 0.86f - i * 0.205f;
+                var card = Kit.Panel(root, Pal.Cream, new Vector2(0.012f, top - 0.185f), new Vector2(0.19f, top), default, default, "MapCard");
+                UseArt(card, "Mapa/Ficha_Pais");
+                var ct = card.transform;
+                var icon = Art.MapIcon(badge);
+                if (icon != null) Art.Icon(ct, icon, new Vector2(0.13f, 0.72f), 40, available ? 1f : 0.6f, "CardIcon");
+                Kit.Label(ct, c.name.ToUpperInvariant(), 24, Pal.Ink, TextAnchor.MiddleLeft, new Vector2(0.25f, 0.58f), new Vector2(0.95f, 0.92f), default, default, FontStyle.Bold, true);
+                Kit.Label(ct, c.leader, 16, Pal.InkSoft, TextAnchor.MiddleLeft, new Vector2(0.06f, 0.34f), new Vector2(0.95f, 0.56f), default, default, FontStyle.Normal, true);
+                Kit.Label(ct, state, 16, stateCol, TextAnchor.MiddleLeft, new Vector2(0.06f, 0.10f), new Vector2(0.95f, 0.32f), default, default, FontStyle.Bold, true);
+                if (available)
+                {
+                    card.raycastTarget = true;
+                    var b = card.gameObject.AddComponent<Button>();
+                    card.gameObject.AddComponent<AccessName>().label = c.name + " - " + state;
+                    var target = c;
+                    b.onClick.AddListener(() => { Sfx.Play(Sfx.Click); StartVisit(target); });
+                }
+                Pin(ct);
+
+                // Hilo rojo desde el borde derecho de la ficha hasta el país (se para antes del icono)
+                var cardRt = card.rectTransform;
+                Vector3 fromWorld = cardRt.TransformPoint(new Vector3(cardRt.rect.xMax, cardRt.rect.center.y, 0));
+                Vector3 toWorld = new Vector3(Mathf.Lerp(corners[0].x, corners[2].x, c.mapPos.x),
+                                              Mathf.Lerp(corners[0].y, corners[2].y, c.mapPos.y), corners[0].z);
+                Vector2 a = rootRt.InverseTransformPoint(fromWorld), bb = rootRt.InverseTransformPoint(toWorld);
+                MapThread(rootRt, a, bb - (bb - a).normalized * 30f);
+            }
+        }
+
+        /// <summary>Hilo rojo entre dos puntos en coordenadas locales del padre.</summary>
+        static void MapThread(RectTransform parent, Vector2 a, Vector2 b)
+        {
+            var rt = Kit.Rect(parent, "Thread", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
+            Vector2 d = b - a;
+            rt.sizeDelta = new Vector2(d.magnitude, 4);
+            rt.anchoredPosition = (a + b) / 2f - parent.rect.center;
+            rt.localEulerAngles = new Vector3(0, 0, Mathf.Atan2(d.y, d.x) * Mathf.Rad2Deg);
+            var img = rt.gameObject.AddComponent<Image>();
+            img.color = Kit.Hex("#a82a24");
+            img.raycastTarget = false;
         }
 
         static void Line(Transform parent, Vector2 a, Vector2 b, Vector2 size, Color col, float width)

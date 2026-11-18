@@ -1,4 +1,38 @@
-﻿## v0.10.1-prototipo — Arte del corcho, la mesa y La Gaceta (2026-11-17)
+﻿## v0.10.6-prototipo — Interruptor «VIBRACIÓN: SÍ / NO» en PlayerPrefs (2026-11-18)
+
+- Nuevo botón `VIBRACIÓN: SÍ / NO`, generado por `DespachoGame.BuildVibrationToggle` y colocado en Ajustes › Controles. El menú de Ajustes es el mismo desde la pantalla de título y desde la pausa, así que el ajuste está en los dos.
+- La preferencia se guarda en PlayerPrefs (`eldespacho_vibracion`, 1/0) mediante `Haptics.Enabled` en `Kit.cs`. La primera vez toma el valor anterior de settings.json (activada por defecto). La intensidad (100 / 70 / 40 %) sigue en settings.json.
+- Al desactivarla se paran los motores en el acto y se descartan los pulsos pendientes; los siguientes pulsos y la tensión de los gatillos se omiten.
+- Prueba del mando ampliada: 27 de 27 (nuevas: desactivar para los motores, sin pulsos con el ajuste apagado, el botón muestra SÍ/NO y guarda en PlayerPrefs). La prueba restaura el valor real de PlayerPrefs al terminar.
+
+## v0.10.5-prototipo — Mando (Xbox / Steam Deck) y vibración háptica (2026-11-18)
+
+- Esquema híbrido: cruceta / stick izquierdo y A para menús, mapa, visitas y mesa; B vuelve; Start abre la pausa. En la mesa, R2 saca el expediente de la bandeja según la presión y, abierto, L2 baja DENEGADO y R2 APROBADO; solo cuenta a fondo (≥ 95 %). LB / RB mantenidos hacen lo mismo para mandos con gatillos digitales. Stick derecho: textos largos.
+- Seguridad de decisión: un gatillo digital tarda 0,3 s en confirmar; anti-repetición (hay que soltar todo tras abrir o sellar); los dos gatillos a la vez no eligen nada; el foco por defecto nunca cae en una decisión irreversible.
+- Foco: en cada pantalla (título, despacho, mapa, visita, resultados, pausa, La Gaceta, tutorial) se selecciona un botón válido y un marco dorado lo muestra. Se recuerda el último botón de cada pantalla. Con el modo teclado de Accesibilidad, el mando mueve su mismo foco.
+- Vibración (`Haptics` en `Kit.cs`, ligada a los sonidos): papel, tensión progresiva del gatillo, encaje del expediente, golpe seco del sello y pulso grave en alertas. Se para al limpiar la pantalla, pausar, perder el foco, usar ratón o teclado, desconectar el mando, desactivar el juego y salir; cada pulso dura como máximo 1 s. Ajustes › Controles: «Vibración del mando» (activada por defecto) e intensidad.
+- El ratón no cambia: al moverlo, el mando deja de mandar, se cancela su acción y desaparece el foco.
+- Archivos: nuevo `GamepadInput.cs`; cambios en `DeskDocument.cs` y `StampTool.cs` (modo guiado), `Kit.cs` (Haptics), `DeskPreferences.cs` (vibración), `DeskMenus.cs` (Start, B, página Controles) y `DespachoGame.cs` (alta del mando, parada en `Clear`, golpe del sello tras reconstruir).
+- Pruebas: nueva `Tools › El Despacho › Validate gamepad` con mando virtual y carpetas temporales: 22 de 22. Flujo con ratón (`Validate document flow`): 32 de 32. No verificado con un mando físico ni con Steam Input en la Steam Deck.
+- Tabla de controles: Documentacion/El_Despacho_Controles_Mando_v0.10.5.md.
+
+## v0.10.4-prototipo — Fondo oscuro en el tutorial (2026-11-18)
+
+- El tutorial oscurece la pantalla para llevar la mirada del jugador: negro al 72 % alrededor del objeto destacado (que queda iluminado, con su marco dorado) y al 50 % en los pasos que no destacan nada. La nota de Julián Paz queda por encima.
+- Aparece con un fundido corto (instantáneo con «Reducir movimiento» o «Reducir destellos»). Con el menú de pausa abierto no se oscurece, para no tapar el menú.
+- Sigue sin bloquear clics fuera del foco, como antes: si un paso pide una acción en otro sitio, el jugador no se queda atascado.
+- Cambio en `Tutorial/TutorialManager.cs` (los cuatro paneles que rodean el foco pasan de transparentes a negro semitransparente).
+- Probado en Unity Play Mode: compila y el tutorial en el menú de pausa no oscurece el menú. Pendiente de ver con una partida nueva (la partida guardada ya tenía el tutorial casi terminado).
+
+## v0.10.3-prototipo — El expediente sale de la bandeja al arrastrarlo (2026-11-18)
+
+- El expediente cerrado ya no se ve encima de la bandeja. Al pulsar la bandeja y arrastrar, aparece un expediente bajo el ratón (con un pequeño crecimiento) y se lleva al vade como antes.
+- Si se suelta fuera de la zona de lectura, vuelve a la bandeja, se encoge y desaparece. Al pasar el ratón por la bandeja, esta se ilumina un poco.
+- `DeskDocument`: nuevas opciones `hiddenInPile`, `hiddenPileScale` y `pileHighlight` (por defecto apagadas: el despacho antiguo no cambia). El área invisible que se pulsa cubre toda la bandeja. En modo de documentos simplificado (accesibilidad), el expediente se muestra al seleccionarlo y se vuelve a guardar al cancelar.
+- El contador de pendientes de la bandeja descuenta el expediente en cuanto se saca (y lo vuelve a sumar si regresa a la bandeja). El dibujo de la bandeja (llena / media / poca / vacía) y la burbuja se actualizan a la vez, sin reconstruir la pantalla. `DeskDocument` avisa con `leftPile` y `backInPile`.
+- Probado en Unity Play Mode: sacar el expediente (2 → 1), soltarlo fuera del vade (vuelve y 1 → 2) y llevarlo al vade (se abre y queda en 1). Consola sin errores.
+
+## v0.10.1-prototipo — Arte del corcho, la mesa y La Gaceta (2026-11-17)
 
 - Integradas las piezas que faltaban del despacho: `Ficha_Indicador`, `Recorte_Prensa`, `Informe_Confidencial`, `Mapa_Clavado`, `Chincheta`, `Reloj_Esfera` + `Reloj_Marco`, `Nota_Asesor`, `Placa_Nombre` y `Papel_Expediente` (Art/Despacho), y `Boton_Laton` (Art/UI). Cada una sustituye al dibujo por código solo si el PNG existe (`UseArt`); si falta, se ve como antes.
 - La Gaceta abierta con maquetación de portada: `Gaceta_Abierta`, noticia principal con ilustración según el tema (`Gaceta_Ilustracion_Economia/Exterior/Politica`), dos breves en columnas, «Más noticias» con scroll, sello `Sello_Nuevo` en lo no leído y botón DOBLAR EL PERIÓDICO.

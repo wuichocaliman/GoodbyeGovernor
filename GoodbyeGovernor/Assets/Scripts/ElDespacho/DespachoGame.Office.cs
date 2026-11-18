@@ -484,23 +484,54 @@ namespace ElDespacho
             }
         }
 
+        // Bandeja de expedientes: se actualiza al coger un expediente (sale de la bandeja) y si vuelve a ella
+        Image trayArt;
+        GameObject trayBadge;
+        Text trayBadgeNumber;
+
+        /// <summary>Expedientes que quedan en la bandeja. El actual cuenta solo mientras sigue dentro.</summary>
+        int TrayCount(bool currentInTray) =>
+            CardsDoneThisYear ? 0 : Mathf.Max(0, CardsPerYear - cardsThisYear) + (currentInTray && currentCard != null && !cardAnswered ? 1 : 0);
+
         RectTransform BuildDeskTray(Transform stage)
         {
-            var sprite = Art.Get("Despacho/Bandeja_Expedientes");
             var tray = At(stage, "PaperStack", 254, 124, 64, 48);
-            var img = tray.gameObject.AddComponent<Image>();
-            img.raycastTarget = false;
-            if (sprite != null) img.sprite = sprite; else img.color = Pal.WoodMid;
+            trayArt = tray.gameObject.AddComponent<Image>();
+            trayArt.raycastTarget = false;
 
-            // Número de expedientes pendientes sobre el círculo rojo dibujado en la bandeja
-            int pendingCards = CardsDoneThisYear ? 0 : Mathf.Max(0, CardsPerYear - cardsThisYear) + (currentCard != null && !cardAnswered ? 1 : 0);
-            var badge = AtIn(tray, 64, 48, "PendingBadge", 51, 1, 12, 12);
-            if (sprite == null) Kit.Dot(badge, Kit.Hex("#b8322b"), new Vector2(0.5f, 0.5f), 64);
-            Kit.Label(badge, pendingCards.ToString(), 32, Color.white, TextAnchor.MiddleCenter, Vector2.zero, Vector2.one,
+            // Número de expedientes pendientes en la burbuja roja (sprite aparte); con la bandeja vacía no se muestra
+            var badge = AtIn(tray, 64, 48, "PendingBadge", 51, 0, 13, 13);
+            var bubble = Art.Get("Despacho/Burbuja_Pendientes");
+            if (bubble != null)
+            {
+                var bi = badge.gameObject.AddComponent<Image>();
+                bi.sprite = bubble;
+                bi.raycastTarget = false;
+            }
+            else Kit.Dot(badge, Kit.Hex("#b8322b"), new Vector2(0.46f, 0.54f), 64);
+            var num = AtIn(badge, 13, 13, "PendingNumber", 0, 0, 12, 12);
+            trayBadgeNumber = Kit.Label(num, "", 32, Color.white, TextAnchor.MiddleCenter, Vector2.zero, Vector2.one,
                 new Vector2(-10, 0), new Vector2(10, 0), FontStyle.Bold);
+            trayBadge = badge.gameObject;
+
             Kit.Label(At(stage, "TrayLabel", 252, 172, 68, 7), "EXPEDIENTES", 17, Pal.Cream, TextAnchor.MiddleCenter,
                 Vector2.zero, Vector2.one, default, default, FontStyle.Bold);
+            RefreshTray(TrayCount(!documentOpened));
             return tray;
+        }
+
+        void RefreshTray(int pendingCards)
+        {
+            if (trayArt == null) return;
+            // La bandeja se va vaciando: llena, a medias, casi vacía y vacía (si falta un estado, se usa la llena)
+            string trayPath = pendingCards <= 0 ? "Despacho/Bandeja_Expedientes_Vacia"
+                            : pendingCards <= CardsPerYear * 2 / 5 ? "Despacho/Bandeja_Expedientes_Poca"
+                            : pendingCards <= CardsPerYear * 3 / 5 ? "Despacho/Bandeja_Expedientes_Media"
+                            : "Despacho/Bandeja_Expedientes";
+            var sprite = Art.Get(trayPath) ?? Art.Get("Despacho/Bandeja_Expedientes");
+            if (sprite != null) trayArt.sprite = sprite; else trayArt.color = Pal.WoodMid;
+            trayBadge.SetActive(pendingCards > 0);
+            trayBadgeNumber.text = pendingCards.ToString();
         }
 
         // ───────────── Vade: el expediente y los sellos ─────────────
@@ -525,7 +556,9 @@ namespace ElDespacho
             var trayHint = Kit.Label(zone.transform, "", 30, Pal.Cream, TextAnchor.MiddleCenter,
                 new Vector2(0.25f, 0.3f), new Vector2(0.75f, 0.7f), default, default, FontStyle.Bold, true);
 
-            var pileSpot = At(stage, "PileSpot", 262, 120, 48, 26);
+            // Centro de la bandeja: el expediente sale de aquí al pulsarla (no se ve encima mientras espera)
+            var pileSpot = At(stage, "PileSpot", 256, 122, 60, 46);
+            var trayImage = stage.Find("PaperStack")?.GetComponent<Image>();
 
             var sheet = Kit.Panel(desk, Pal.Paper, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), default, default, "DeskDocument");
             sheet.color = new Color(0, 0, 0, 0); // la superficie la pinta PaperSurface
@@ -608,7 +641,13 @@ namespace ElDespacho
             deskDocument = sheet.gameObject.AddComponent<DeskDocument>();
             deskDocument.pileAnchor = pileSpot;
             deskDocument.closedScale = 0.40f;
-            deskDocument.pileAngle = -4f;
+            deskDocument.pileAngle = 0f;
+            deskDocument.hiddenInPile = true;
+            deskDocument.hiddenPileScale = 0.62f; // el área invisible que se pulsa cubre toda la bandeja
+            deskDocument.pileHighlight = trayImage;
+            // Al sacar el expediente de la bandeja se descuenta de los pendientes; si vuelve, se suma otra vez
+            deskDocument.leftPile = () => RefreshTray(TrayCount(false));
+            deskDocument.backInPile = () => RefreshTray(TrayCount(true));
             deskDocument.zoneIdle = new Color(1, 1, 1, 0);
             deskDocument.zoneActive = new Color(1f, 0.95f, 0.75f, 0.14f);
             deskDocument.hintIdle = "Arrastra un expediente\nde la bandeja hasta el vade";

@@ -30,6 +30,8 @@ namespace ElDespacho
         UnityAction back;
         Coroutine fade;
         public bool IsVisible => visible;
+        /// <summary>Mismo efecto que pulsar ESC (lo usa el botón B del mando dentro de los menús).</summary>
+        public void RequestBack() => escapeRequested = true;
         public string PageName => pageName;
         DeskPreferences prefs => DeskPreferences.Current;
         // The illustrated title keeps native buttons and honours saved text size.
@@ -39,6 +41,7 @@ namespace ElDespacho
             game=owner;
 #if ENABLE_INPUT_SYSTEM
             escapeAction=new UnityEngine.InputSystem.InputAction("Pause",UnityEngine.InputSystem.InputActionType.Button,"<Keyboard>/escape");
+            UnityEngine.InputSystem.InputActionSetupExtensions.AddBinding(escapeAction,"<Gamepad>/start"); // mando: Start = pausa / volver, igual que ESC
             escapeAction.performed += _ => escapeRequested=true;
             escapeAction.Enable();
 #endif
@@ -301,7 +304,9 @@ namespace ElDespacho
                 Button($"AUTOGUARDADO CADA {prefs.autosaveMinutes} MIN",()=>{prefs.autosaveMinutes=prefs.autosaveMinutes==1?3:prefs.autosaveMinutes==3?5:1;Persist();ShowSettings(2);},.35f,.40f,.91f,.48f);
                 Label("Idioma: español\nTexto instantáneo, como en el juego original.\nLa guía se guarda con cada campaña.\nRepita las lecciones desde Cómo jugar.",24,Pal.Cream,.35f,.22f,.91f,.37f);
             } else if(category==3) {
-                Label("Ratón izquierdo: coger, arrastrar y soltar\nESC: abrir pausa / volver\n\nEl papel y los sellos siguen el cursor 1:1.\nNo se altera su precisión con una sensibilidad artificial.",27,Pal.Cream,.35f,.34f,.91f,.68f);
+                Label("Ratón izquierdo: coger, arrastrar y soltar · ESC: pausa / volver\n\nMando: cruceta o stick izquierdo para moverse, A para pulsar, B para volver, Start para la pausa.\nR2 (o mantener RB): sacar el expediente de la bandeja.\nCon el expediente abierto: L2 / LB = DENEGADO, R2 / RB = APROBADO. Hay que llegar al fondo; si sueltas antes, no se sella.\nStick derecho: desplazar textos largos.",19,Pal.Cream,.35f,.54f,.91f,.76f);
+                DeskMenuSkin.Apply(DespachoGame.BuildVibrationToggle(page,new Vector2(.35f,.44f),new Vector2(.91f,.52f),Mathf.RoundToInt(23*MenuTextScale),prefs.highContrast?Color.black:Kit.Hex("#25392f")));
+                Button($"INTENSIDAD DE VIBRACIÓN: {Mathf.RoundToInt(prefs.vibrationStrength*100)} %",()=>{prefs.vibrationStrength=prefs.vibrationStrength>0.85f?0.7f:prefs.vibrationStrength>0.55f?0.4f:1f;Persist();ShowSettings(3);},.35f,.33f,.91f,.40f);
                 Button("RESTABLECER AJUSTES",()=>Confirm("RESTABLECER AJUSTES","Se restauran los ajustes generales, incluidos contraste y movimiento. Las demás preferencias de accesibilidad y los guardados se conservan.",()=>{DeskPreferences.Reset();desiredWidth=prefs.width;desiredHeight=prefs.height;desiredFullscreen=prefs.fullscreen;Persist();ShowSettings(3);},()=>ShowSettings(3)),.35f,.23f,.91f,.31f);
             } else {
                 Label("Selecciona un apartado de la izquierda para ajustar el juego.\n\nLos cambios se guardan automáticamente.",28,Pal.Cream,.35f,.35f,.91f,.65f);

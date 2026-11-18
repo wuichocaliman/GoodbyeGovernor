@@ -10,6 +10,10 @@ namespace ElDespacho
         public bool fullscreen=true, vsync=true, tutorial=true, autosave=true, reduceMotion=false, highContrast=false;
         public int width=1920, height=1080, fps=60, autosaveMinutes=3, dragThreshold=8;
         public float menuTextScale=1f;
+        /// <summary>Intensidad de la vibración del mando (0 a 1). El SÍ / NO se guarda en PlayerPrefs (Haptics.Enabled);
+        /// «vibration» solo se usa como valor inicial la primera vez.</summary>
+        public bool vibration=true;
+        public float vibrationStrength=1f;
         public static DeskPreferences Current { get; private set; } = new DeskPreferences();
         public static bool Paused { get; internal set; }
         public static float GameDelta => Paused ? 0 : Time.unscaledDeltaTime;
@@ -39,7 +43,7 @@ namespace ElDespacho
         void Clamp()
         {
             master=Mathf.Clamp01(master); effects=Mathf.Clamp01(effects); ui=Mathf.Clamp01(ui);
-            brightness=Mathf.Clamp(brightness,0.65f,1.15f); menuTextScale=Mathf.Clamp(menuTextScale,1f,1.2f);
+            brightness=Mathf.Clamp(brightness,0.65f,1.15f); vibrationStrength=Mathf.Clamp01(vibrationStrength); menuTextScale=Mathf.Clamp(menuTextScale,1f,1.2f);
             width=Mathf.Clamp(width,800,7680); height=Mathf.Clamp(height,600,4320);
             fps=Mathf.Clamp(fps,30,240); autosaveMinutes=Mathf.Clamp(autosaveMinutes,1,15); dragThreshold=Mathf.Clamp(dragThreshold,0,30);
         }

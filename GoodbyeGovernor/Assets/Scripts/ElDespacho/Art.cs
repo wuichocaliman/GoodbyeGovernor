@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace ElDespacho
@@ -110,6 +111,21 @@ namespace ElDespacho
             button.spriteState = state;
             if (onClick != null) button.onClick.AddListener(onClick);
 
+            // Flecha del estado seleccionado: sprite aparte, centrada a la izquierda, para que el 9-slice no la estire
+            var arrowSprite = Get("UI/UI_FlechaOpcion");
+            if (arrowSprite != null)
+            {
+                var art = Kit.Rect(img.transform, "Arrow", new Vector2(0, 0.5f), new Vector2(0, 0.5f));
+                art.pivot = new Vector2(0, 0.5f);
+                art.sizeDelta = arrowSprite.rect.size * PixelScale;
+                art.anchoredPosition = new Vector2(5 * PixelScale, -0.5f * PixelScale); // el triángulo (sin la sombra) queda centrado
+                var arrow = art.gameObject.AddComponent<Image>();
+                arrow.sprite = arrowSprite;
+                arrow.raycastTarget = false;
+                arrow.enabled = false;
+                img.gameObject.AddComponent<OptionArrow>().arrow = arrow;
+            }
+
             // Margen izquierdo amplio para no tapar la flecha del estado seleccionado
             Kit.Label(img.transform, text, 20, Pal.Cream, TextAnchor.MiddleLeft, Vector2.zero, Vector2.one,
                 new Vector2(13 * PixelScale, 3 * PixelScale), new Vector2(-4 * PixelScale, -3 * PixelScale), FontStyle.Bold, true);
@@ -124,5 +140,17 @@ namespace ElDespacho
             if (button.targetGraphic != null) button.targetGraphic.color = new Color(1, 1, 1, alpha);
             foreach (var t in button.GetComponentsInChildren<Text>()) t.color = Kit.WithAlpha(t.color, button.interactable ? 1f : 0.6f);
         }
+    }
+
+    /// <summary>Enseña la flecha del botón de opción solo mientras el ratón está encima (como el sprite seleccionado).</summary>
+    public class OptionArrow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    {
+        public Image arrow;
+        Button button;
+
+        void Awake() => button = GetComponent<Button>();
+        public void OnPointerEnter(PointerEventData e) { if (arrow != null) arrow.enabled = button == null || button.interactable; }
+        public void OnPointerExit(PointerEventData e) { if (arrow != null) arrow.enabled = false; }
+        void OnDisable() { if (arrow != null) arrow.enabled = false; }
     }
 }

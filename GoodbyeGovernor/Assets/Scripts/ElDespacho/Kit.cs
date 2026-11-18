@@ -258,6 +258,115 @@ namespace ElDespacho
     }
 
     /// <summary>Sonidos sintetizados por código (no requiere assets).</summary>
+    /// <summary>
+    /// Vibración del mando (motor grave «low» y motor fino «high», de 0 a 1) sincronizada con los sonidos y la mesa.
+    /// Solo vibra si se está usando un mando, la opción está activada y el juego no está en pausa.
+    /// Seguridad: cada pulso dura como mucho 1 s; la tensión del gatillo caduca si no se renueva cada frame;
+    /// Stop() resetea todos los mandos y se llama al limpiar la pantalla, perder el foco, pasar a ratón/teclado,
+    /// desconectar el mando, desactivar el juego y salir.
+    /// </summary>
+    public static class Haptics
+    {
+        struct Step { public float low, high, time; }
+        static readonly System.Collections.Generic.List<Step> queue = new System.Collections.Generic.List<Step>();
+        static Step[] pending; static int pendingFrame = -1;
+        static float stepEnds = -1, tension, tensionUntil, lastLow = -1, lastHigh = -1;
+        const float MaxStep = 1f;
+
+        // ── Ajuste «Vibración: SÍ / NO» (PlayerPrefs) ──
+        const string PrefsKey = "eldespacho_vibracion";
+        static int enabledCache = -1;
+        /// <summary>
+        /// Vibración activada o no. Se guarda en PlayerPrefs; la primera vez toma el valor que hubiera en
+        /// settings.json (activada por defecto). Al desactivarla se paran los motores en el acto y se omiten los pulsos.
+        /// </summary>
+        public static bool Enabled
+        {
+            get
+            {
+                if (enabledCache < 0) enabledCache = PlayerPrefs.GetInt(PrefsKey, DeskPreferences.Current.vibration ? 1 : 0) != 0 ? 1 : 0;
+                return enabledCache == 1;
+            }
+            set
+            {
+                enabledCache = value ? 1 : 0;
+                PlayerPrefs.SetInt(PrefsKey, enabledCache);
+                PlayerPrefs.Save();
+                if (!value) { pending = null; Stop(); }
+            }
+        }
+
+        static bool Allowed => Enabled && GamepadInput.UsingGamepad &&
+                               GamepadInput.ActivePad != null && !DeskPreferences.Paused;
+
+        /// <summary>Secuencia de pasos (grave, fino, segundos). Sustituye a la que estuviera sonando.</summary>
+        public static void Play(params (float low, float high, float seconds)[] steps)
+        {
+            if (!Allowed) return;
+            pending = new Step[steps.Length];
+            for (int i = 0; i < steps.Length; i++)
+                pending[i] = new Step { low = steps[i].low, high = steps[i].high, time = Mathf.Min(steps[i].seconds, MaxStep) };
+            pendingFrame = Time.frameCount;
+        }
+
+        // ── Perfil del juego ──
+        public static void PaperTouch() => Play((0f, 0.12f, 0.04f));                                  // coger papel
+        public static void StampHit() => Play((0.9f, 0.5f, 0.055f), (0f, 0f, 0.03f), (0.2f, 0f, 0.04f)); // golpe seco + eco
+        public static void DocumentFits() => Play((0.55f, 0.25f, 0.07f));                             // expediente encaja
+        public static void Released() => Play((0f, 0.08f, 0.03f));                                    // se suelta antes del fondo
+        public static void CriticalAlert() => Play((0.75f, 0f, 0.18f), (0f, 0f, 0.12f), (0.75f, 0f, 0.18f)); // pulso grave doble
+
+        /// <summary>Tensión progresiva del gatillo (0..1). Hay que llamarla cada frame; si no, se apaga sola.</summary>
+        public static void Tension(float t)
+        {
+            if (!Allowed) { tension = 0; return; }
+            tension = Mathf.Clamp01(t);
+            tensionUntil = Time.unscaledTime + 0.1f;
+        }
+
+        public static void ForSound(AudioClip clip)
+        {
+            if (clip == null || clip == Sfx.Click) return;
+            if (clip == Sfx.Paper) PaperTouch();
+            else if (clip == Sfx.Thunk) StampHit();
+            else if (clip == Sfx.Low) CriticalAlert();
+        }
+
+        /// <summary>Aplica la vibración del frame. Lo llama GamepadInput en LateUpdate (después de la lógica del juego).</summary>
+        public static void Tick()
+        {
+            var pad = GamepadInput.ActivePad;
+            if (!Allowed || pad == null) { pending = null; if (lastLow != 0 || lastHigh != 0) Stop(); return; }
+            float now = Time.unscaledTime;
+            if (pending != null) { queue.Clear(); queue.AddRange(pending); pending = null; stepEnds = -1; }
+            float low = 0, high = 0;
+            if (queue.Count > 0)
+            {
+                if (stepEnds < 0) stepEnds = now + queue[0].time;
+                while (queue.Count > 0 && now >= stepEnds) { queue.RemoveAt(0); if (queue.Count > 0) stepEnds += queue[0].time; }
+                if (queue.Count > 0) { low = queue[0].low; high = queue[0].high; }
+            }
+            if (now < tensionUntil) high = Mathf.Max(high, 0.04f + 0.22f * tension * tension); else tension = 0;
+            float k = Mathf.Clamp01(DeskPreferences.Current.vibrationStrength);
+            low *= k; high *= k;
+            if (Mathf.Abs(low - lastLow) > 0.01f || Mathf.Abs(high - lastHigh) > 0.01f)
+            {
+                pad.SetMotorSpeeds(low, high);
+                lastLow = low; lastHigh = high;
+            }
+        }
+
+        /// <summary>Para todos los motores ya. Un pulso pedido en este mismo frame (p. ej. el sello justo antes de
+        /// reconstruir la pantalla) se conserva y empieza en el siguiente Tick.</summary>
+        public static void Stop()
+        {
+            queue.Clear(); stepEnds = -1; tension = 0; tensionUntil = 0;
+            if (pendingFrame != Time.frameCount) pending = null;
+            lastLow = lastHigh = 0;
+            foreach (var p in UnityEngine.InputSystem.Gamepad.all) p.ResetHaptics();
+        }
+    }
+
     public static class Sfx
     {
         static AudioSource _src;
@@ -298,6 +407,7 @@ namespace ElDespacho
         {
             if(AccessPreferences.Current.visualSounds && clip!=null && clip!=Click) AccessController.Cue(clip==Paper?"[D] Documento manipulado":clip==Thunk?"[V] Acción registrada":"[!] Aviso importante; revise el resultado visible");
             if (_src != null && clip != null) _src.PlayOneShot(clip, volume * (clip == Click ? DeskPreferences.Current.ui : DeskPreferences.Current.effects));
+            Haptics.ForSound(clip); // cada sonido importante tiene su vibración (solo si se está jugando con mando)
         }
     }
 
