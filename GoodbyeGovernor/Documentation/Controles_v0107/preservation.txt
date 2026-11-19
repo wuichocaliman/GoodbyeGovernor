@@ -1,0 +1,4 @@
+PASS: 8 real save/preference files identical, including file set and SHA-256.
+PASS: QualitySettings.asset restored byte-for-byte from verified current backup.
+PlayerPrefs vibration restored by isolated regression (including original key absence).
+Backup: C:\Users\User\Documents\Codex\work\controls-v0107\Backup_antes_v0107.zip

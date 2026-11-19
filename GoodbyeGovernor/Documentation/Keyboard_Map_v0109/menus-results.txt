@@ -1,0 +1,59 @@
+PASS main menu boots in actual Unity Play Mode
+PASS both supplied backgrounds imported
+PASS Continue disabled without saves
+PASS button enabled: CARGAR PARTIDA
+PASS four empty load slots disabled
+PASS button enabled: VOLVER
+PASS button enabled: AJUSTES
+PASS settings navigation
+PASS settings category 0
+PASS settings category 1
+PASS settings category 2
+PASS settings category 3
+PASS settings category 4
+PASS preferences persisted through disk reload
+PASS button enabled: CÓMO JUGAR
+PASS help opens
+PASS button enabled: VOLVER
+PASS button enabled: CRÉDITOS
+PASS credits open
+PASS button enabled: VOLVER
+PASS button enabled: NUEVA PARTIDA
+PASS new game starts existing introduction
+PASS assume office keeps established flow
+PASS pausing during drag returns paper without deciding
+PASS Escape through Input System opens pause
+PASS opening freezes while paused
+PASS document opens after drop/resume
+PASS pause freezes time and presentation
+PASS button enabled: GUARDAR PARTIDA
+PASS manual slot stores open document
+PASS button enabled: CONTINUAR
+PASS resume restores previous time scale
+PASS authored chained card queues normally
+PASS button enabled: VOLVER AL MENÚ PRINCIPAL
+PASS button enabled: CANCELAR
+PASS return confirmation cancels safely
+PASS button enabled: VOLVER AL MENÚ PRINCIPAL
+PASS button enabled: CONFIRMAR
+PASS return to main menu
+PASS Continue enabled with valid save
+PASS button enabled: CONTINUAR
+PASS Continue restores result and stamp without duplicate effects
+PASS next chained document closed after load
+PASS visit reload preserves questions and dialogue
+PASS diplomatic consequences never reapply on load
+PASS pending events drains and all country states round-trip
+PASS corrupt slot rejected
+PASS corrupt read leaves active game untouched
+PASS atomic overwrite retains previous backup
+PASS dedicated autosave slot round-trip
+PASS autoguardado timer fires during play
+PASS autoguardado timer stops in pause
+PASS random draw sequence restored exactly
+PASS finished mandate loads its ending without replaying year effects
+PASS defeat remains defeat after reload
+PASS existing document regression suite completes
+PASS zero runtime errors
+PASS zero runtime warnings
+COMPLETE 58 PASS

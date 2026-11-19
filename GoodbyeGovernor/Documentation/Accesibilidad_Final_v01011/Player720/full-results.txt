@@ -1,0 +1,209 @@
+PASS actual player resolution 1280x720
+PASS startup main menu and no forced reader
+PASS fresh arrows default OFF
+PASS Windows speech ready: Microsoft Helena Desktop|es-ES
+PASS speech live rate and mute configuration
+PASS speech repeat accepted
+PASS speech stop accepted
+PASS speech volume combines voice and master
+PASS narration OFF rejects new speech
+PASS effects OFF mutes real source samples
+PASS effects ON produces real source samples
+PASS UI OFF mutes real source samples
+PASS UI ON produces real source samples
+PASS mono real sample processing
+PASS high frequency attenuation sample processing
+PASS master controls actual AudioListener
+PASS paper sound has visible notification
+PASS combined settings preserve campaign despacho
+PASS combined settings remain illustrated despacho
+PASS actual visible presentation changes despacho
+PASS adapted text present despacho
+PASS text not shrunk despacho
+PASS full text fits scroll content despacho
+PASS speech receives current screen despacho
+PASS context glossary visible despacho
+PASS context glossary opens despacho
+PASS glossary narrated from current page despacho
+PASS glossary restores origin and state despacho
+PASS OFF restores without campaign change despacho
+PASS symbol OFF restores labels despacho
+PASS combined settings preserve campaign documento
+PASS combined settings remain illustrated documento
+PASS actual visible presentation changes documento
+PASS adapted text present documento
+PASS text not shrunk documento
+PASS full text fits scroll content documento
+PASS speech receives current screen documento
+PASS context glossary visible documento
+PASS context glossary opens documento
+PASS glossary narrated from current page documento
+PASS glossary restores origin and state documento
+PASS OFF restores without campaign change documento
+PASS symbol OFF restores labels documento
+PASS combined settings preserve campaign resultado
+PASS combined settings remain illustrated resultado
+PASS actual visible presentation changes resultado
+PASS adapted text present resultado
+PASS text not shrunk resultado
+PASS full text fits scroll content resultado
+PASS speech receives current screen resultado
+PASS context glossary visible resultado
+PASS context glossary opens resultado
+PASS glossary narrated from current page resultado
+PASS glossary restores origin and state resultado
+PASS OFF restores without campaign change resultado
+PASS symbol OFF restores labels resultado
+PASS combined settings preserve campaign mapa
+PASS combined settings remain illustrated mapa
+PASS actual visible presentation changes mapa
+PASS adapted text present mapa
+PASS text not shrunk mapa
+PASS full text fits scroll content mapa
+PASS speech receives current screen mapa
+PASS context glossary visible mapa
+PASS context glossary opens mapa
+PASS glossary narrated from current page mapa
+PASS glossary restores origin and state mapa
+PASS OFF restores without campaign change mapa
+PASS symbol OFF restores labels mapa
+PASS combined settings preserve campaign dialogo
+PASS combined settings remain illustrated dialogo
+PASS actual visible presentation changes dialogo
+PASS adapted text present dialogo
+PASS text not shrunk dialogo
+PASS full text fits scroll content dialogo
+PASS speech receives current screen dialogo
+PASS context glossary visible dialogo
+PASS context glossary opens dialogo
+PASS glossary narrated from current page dialogo
+PASS glossary restores origin and state dialogo
+PASS OFF restores without campaign change dialogo
+PASS symbol OFF restores labels dialogo
+PASS combined settings preserve campaign dossier
+PASS combined settings remain illustrated dossier
+PASS actual visible presentation changes dossier
+PASS adapted text present dossier
+PASS text not shrunk dossier
+PASS full text fits scroll content dossier
+PASS speech receives current screen dossier
+PASS context glossary visible dossier
+PASS context glossary opens dossier
+PASS glossary narrated from current page dossier
+PASS glossary restores origin and state dossier
+PASS OFF restores without campaign change dossier
+PASS symbol OFF restores labels dossier
+PASS combined settings preserve campaign inteligencia
+PASS combined settings remain illustrated inteligencia
+PASS actual visible presentation changes inteligencia
+PASS adapted text present inteligencia
+PASS text not shrunk inteligencia
+PASS full text fits scroll content inteligencia
+PASS speech receives current screen inteligencia
+PASS context glossary visible inteligencia
+PASS context glossary opens inteligencia
+PASS glossary narrated from current page inteligencia
+PASS glossary restores origin and state inteligencia
+PASS OFF restores without campaign change inteligencia
+PASS symbol OFF restores labels inteligencia
+PASS combined settings preserve campaign comercio
+PASS combined settings remain illustrated comercio
+PASS actual visible presentation changes comercio
+PASS adapted text present comercio
+PASS text not shrunk comercio
+PASS full text fits scroll content comercio
+PASS speech receives current screen comercio
+PASS context glossary visible comercio
+PASS context glossary opens comercio
+PASS glossary narrated from current page comercio
+PASS glossary restores origin and state comercio
+PASS OFF restores without campaign change comercio
+PASS symbol OFF restores labels comercio
+PASS combined settings preserve campaign region
+PASS combined settings remain illustrated region
+PASS actual visible presentation changes region
+PASS adapted text present region
+PASS text not shrunk region
+PASS full text fits scroll content region
+PASS speech receives current screen region
+PASS context glossary visible region
+PASS context glossary opens region
+PASS glossary narrated from current page region
+PASS glossary restores origin and state region
+PASS OFF restores without campaign change region
+PASS symbol OFF restores labels region
+PASS combined settings preserve campaign tutorial
+PASS combined settings remain illustrated tutorial
+PASS actual visible presentation changes tutorial
+PASS adapted text present tutorial
+PASS text not shrunk tutorial
+PASS full text fits scroll content tutorial
+PASS speech receives current screen tutorial
+PASS context glossary visible tutorial
+PASS context glossary opens tutorial
+PASS glossary narrated from current page tutorial
+PASS glossary restores origin and state tutorial
+PASS OFF restores without campaign change tutorial
+PASS symbol OFF restores labels tutorial
+PASS combined settings preserve campaign pausa
+PASS combined settings remain illustrated pausa
+PASS actual visible presentation changes pausa
+PASS adapted text present pausa
+PASS text not shrunk pausa
+PASS full text fits scroll content pausa
+PASS speech receives current screen pausa
+PASS OFF restores without campaign change pausa
+PASS symbol OFF restores labels pausa
+PASS combined settings preserve campaign guardados
+PASS combined settings remain illustrated guardados
+PASS actual visible presentation changes guardados
+PASS adapted text present guardados
+PASS text not shrunk guardados
+PASS full text fits scroll content guardados
+PASS speech receives current screen guardados
+PASS OFF restores without campaign change guardados
+PASS symbol OFF restores labels guardados
+PASS combined settings preserve campaign anual
+PASS combined settings remain illustrated anual
+PASS actual visible presentation changes anual
+PASS adapted text present anual
+PASS text not shrunk anual
+PASS full text fits scroll content anual
+PASS speech receives current screen anual
+PASS context glossary visible anual
+PASS context glossary opens anual
+PASS glossary narrated from current page anual
+PASS glossary restores origin and state anual
+PASS OFF restores without campaign change anual
+PASS symbol OFF restores labels anual
+PASS combined settings preserve campaign fin
+PASS combined settings remain illustrated fin
+PASS actual visible presentation changes fin
+PASS adapted text present fin
+PASS text not shrunk fin
+PASS full text fits scroll content fin
+PASS speech receives current screen fin
+PASS context glossary visible fin
+PASS context glossary opens fin
+PASS glossary narrated from current page fin
+PASS glossary restores origin and state fin
+PASS OFF restores without campaign change fin
+PASS symbol OFF restores labels fin
+PASS combined settings preserve campaign mandato
+PASS combined settings remain illustrated mandato
+PASS actual visible presentation changes mandato
+PASS adapted text present mandato
+PASS text not shrunk mandato
+PASS full text fits scroll content mandato
+PASS speech receives current screen mandato
+PASS context glossary visible mandato
+PASS context glossary opens mandato
+PASS glossary narrated from current page mandato
+PASS glossary restores origin and state mandato
+PASS OFF restores without campaign change mandato
+PASS symbol OFF restores labels mandato
+PASS F2 opens reader explicitly
+PASS F2 returns to visual
+PASS campaign save works
+PASS load preserves options and visual mode
+COMPLETE technical virtual input/callback audit; no physical hearing or human understanding test

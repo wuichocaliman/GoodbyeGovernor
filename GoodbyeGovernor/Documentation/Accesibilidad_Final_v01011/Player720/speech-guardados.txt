@@ -1,0 +1,5 @@
+[>] Elija una opción. ESC vuelve a la pantalla anterior.. REPÚBLICA DE AURELIA  /  PRESIDENCIA. v0.10.11-prototipo. ARCHIVAR EL MANDATO. Tres expedientes manuales y un autoguardado independiente.. AUTOGUARDADO
+Vacío. SLOT 1
+Vacío. SLOT 2
+Vacío. SLOT 3
+Vacío. Opciones disponibles: GUARDAR. GUARDAR. GUARDAR. VOLVER

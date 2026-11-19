@@ -1,0 +1,206 @@
+PASS navigation help independent of symbols
+PASS preview reflects simple instructions
+PASS preview leaves campaign unchanged
+PASS keyboard reaches Glosario político
+PASS visible focus: Glosario político
+PASS consult glossary with contextual glossary OFF
+PASS glossary defines indicators and alliance
+PASS glossary returns to originating category
+PASS keyboard reaches Instrucciones sencillas
+PASS visible focus: Instrucciones sencillas
+PASS keyboard reaches Instrucciones sencillas
+PASS visible focus: Instrucciones sencillas
+PASS real UI switch changes state: Instrucciones sencillas
+PASS keyboard reaches Instrucciones sencillas
+PASS visible focus: Instrucciones sencillas
+PASS Space reverses switch: Instrucciones sencillas
+PASS keyboard reaches Ayudas de navegación
+PASS visible focus: Ayudas de navegación
+PASS keyboard reaches Ayudas de navegación
+PASS visible focus: Ayudas de navegación
+PASS real UI switch changes state: Ayudas de navegación
+PASS keyboard reaches Ayudas de navegación
+PASS visible focus: Ayudas de navegación
+PASS Space reverses switch: Ayudas de navegación
+PASS keyboard reaches Símbolos explicativos
+PASS visible focus: Símbolos explicativos
+PASS keyboard reaches Símbolos explicativos
+PASS visible focus: Símbolos explicativos
+PASS real UI switch changes state: Símbolos explicativos
+PASS keyboard reaches Símbolos explicativos
+PASS visible focus: Símbolos explicativos
+PASS Space reverses switch: Símbolos explicativos
+PASS keyboard reaches Glosario disponible
+PASS visible focus: Glosario disponible
+PASS keyboard reaches Glosario disponible
+PASS visible focus: Glosario disponible
+PASS real UI switch changes state: Glosario disponible
+PASS keyboard reaches Glosario disponible
+PASS visible focus: Glosario disponible
+PASS Space reverses switch: Glosario disponible
+PASS independent combination 0
+PASS combination preserves campaign 0
+PASS context glossary visibility 0
+PASS indicator symbols follow preference 0
+PASS independent combination 1
+PASS combination preserves campaign 1
+PASS context glossary visibility 1
+PASS indicator symbols follow preference 1
+PASS independent combination 2
+PASS combination preserves campaign 2
+PASS context glossary visibility 2
+PASS indicator symbols follow preference 2
+PASS independent combination 3
+PASS combination preserves campaign 3
+PASS context glossary visibility 3
+PASS indicator symbols follow preference 3
+PASS independent combination 4
+PASS combination preserves campaign 4
+PASS context glossary visibility 4
+PASS indicator symbols follow preference 4
+PASS independent combination 5
+PASS combination preserves campaign 5
+PASS context glossary visibility 5
+PASS indicator symbols follow preference 5
+PASS independent combination 6
+PASS combination preserves campaign 6
+PASS context glossary visibility 6
+PASS indicator symbols follow preference 6
+PASS independent combination 7
+PASS combination preserves campaign 7
+PASS context glossary visibility 7
+PASS indicator symbols follow preference 7
+PASS independent combination 8
+PASS combination preserves campaign 8
+PASS context glossary visibility 8
+PASS indicator symbols follow preference 8
+PASS independent combination 9
+PASS combination preserves campaign 9
+PASS context glossary visibility 9
+PASS indicator symbols follow preference 9
+PASS independent combination 10
+PASS combination preserves campaign 10
+PASS context glossary visibility 10
+PASS indicator symbols follow preference 10
+PASS independent combination 11
+PASS combination preserves campaign 11
+PASS context glossary visibility 11
+PASS indicator symbols follow preference 11
+PASS independent combination 12
+PASS combination preserves campaign 12
+PASS context glossary visibility 12
+PASS indicator symbols follow preference 12
+PASS independent combination 13
+PASS combination preserves campaign 13
+PASS context glossary visibility 13
+PASS indicator symbols follow preference 13
+PASS independent combination 14
+PASS combination preserves campaign 14
+PASS context glossary visibility 14
+PASS indicator symbols follow preference 14
+PASS independent combination 15
+PASS combination preserves campaign 15
+PASS context glossary visibility 15
+PASS indicator symbols follow preference 15
+PASS mouse opens adviser glossary
+PASS context glossary returns to office unchanged
+PASS keyboard reaches Consultar símbolos
+PASS visible focus: Consultar símbolos
+PASS reader contextual glossary opens
+PASS glossary returns directly to reader
+PASS keyboard reaches Seleccionar expediente
+PASS visible focus: Seleccionar expediente
+PASS selected document hint identifies target
+PASS keyboard reaches Colocar expediente
+PASS visible focus: Colocar expediente
+PASS opened document explains decision
+PASS stamp selection uses action symbol not security
+PASS stamp confirmation uses action symbol not visited
+PASS stamp hint explains confirmation
+PASS keyboard reaches Aplicar sello
+PASS visible focus: Aplicar sello
+PASS result hint explains continuation
+PASS map guidance preserves uncertainty
+PASS diplomacy help explains reports
+PASS OFF removes extra diplomatic hint
+PASS diplomatic help changes no campaign state
+PASS narrative untouched by simple language
+PASS keyboard reaches Tutorial y ayudas contextuales
+PASS visible focus: Tutorial y ayudas contextuales
+PASS tutorial button opens manual
+PASS 12 lessons and 18 notes
+PASS complete normal manual note 0
+PASS keyboard reaches SIGUIENTE
+PASS visible focus: SIGUIENTE
+PASS complete normal manual note 1
+PASS keyboard reaches SIGUIENTE
+PASS visible focus: SIGUIENTE
+PASS complete normal manual note 2
+PASS keyboard reaches SIGUIENTE
+PASS visible focus: SIGUIENTE
+PASS complete normal manual note 3
+PASS keyboard reaches SIGUIENTE
+PASS visible focus: SIGUIENTE
+PASS complete normal manual note 4
+PASS keyboard reaches SIGUIENTE
+PASS visible focus: SIGUIENTE
+PASS complete normal manual note 5
+PASS keyboard reaches SIGUIENTE
+PASS visible focus: SIGUIENTE
+PASS complete normal manual note 6
+PASS keyboard reaches SIGUIENTE
+PASS visible focus: SIGUIENTE
+PASS complete normal manual note 7
+PASS keyboard reaches SIGUIENTE
+PASS visible focus: SIGUIENTE
+PASS complete normal manual note 8
+PASS keyboard reaches SIGUIENTE
+PASS visible focus: SIGUIENTE
+PASS complete normal manual note 9
+PASS keyboard reaches SIGUIENTE
+PASS visible focus: SIGUIENTE
+PASS complete normal manual note 10
+PASS keyboard reaches SIGUIENTE
+PASS visible focus: SIGUIENTE
+PASS complete normal manual note 11
+PASS keyboard reaches SIGUIENTE
+PASS visible focus: SIGUIENTE
+PASS complete normal manual note 12
+PASS keyboard reaches SIGUIENTE
+PASS visible focus: SIGUIENTE
+PASS complete normal manual note 13
+PASS keyboard reaches SIGUIENTE
+PASS visible focus: SIGUIENTE
+PASS complete normal manual note 14
+PASS keyboard reaches SIGUIENTE
+PASS visible focus: SIGUIENTE
+PASS complete normal manual note 15
+PASS keyboard reaches SIGUIENTE
+PASS visible focus: SIGUIENTE
+PASS complete normal manual note 16
+PASS keyboard reaches SIGUIENTE
+PASS visible focus: SIGUIENTE
+PASS complete normal manual note 17
+PASS simple manual lesson 0
+PASS simple manual lesson 1
+PASS simple manual lesson 2
+PASS simple manual lesson 3
+PASS simple manual lesson 4
+PASS simple manual lesson 5
+PASS simple manual lesson 6
+PASS simple manual lesson 7
+PASS simple manual lesson 8
+PASS simple manual lesson 9
+PASS simple manual lesson 10
+PASS simple manual lesson 11
+PASS keyboard reaches ATRÁS
+PASS visible focus: ATRÁS
+PASS tutorial arrows retain visible focus
+PASS ESC returns to twelve lesson index
+PASS consulting all notes preserves tutorial and campaign
+PASS keyboard reaches Glosario político
+PASS visible focus: Glosario político
+PASS 175 percent glossary scrolls
+PASS keyboard scroll moves glossary
+PASS enlarged glossary returns correctly
+COMPLETE simulated Keyboard/Mouse and callbacks in Unity Play Mode; human comprehension not tested

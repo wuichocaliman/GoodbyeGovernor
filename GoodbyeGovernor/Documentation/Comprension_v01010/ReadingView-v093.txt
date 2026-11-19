@@ -1,0 +1,142 @@
+PASS normal boot
+PASS boot: no reader overlay
+PASS boot: original game canvas enabled
+PASS title configuration 0: no reader overlay
+PASS title configuration 0: original game canvas enabled
+PASS main artwork 0
+PASS new mandate confirmation 0
+PASS introduction 0: no reader overlay
+PASS introduction 0: original game canvas enabled
+PASS office entered 0
+PASS office 0: no reader overlay
+PASS office 0: original game canvas enabled
+PASS physical closed document 0
+PASS document opens via real interaction handlers 0
+PASS opened document 0: no reader overlay
+PASS opened document 0: original game canvas enabled
+PASS world map 0
+PASS map 0: no reader overlay
+PASS map 0: original game canvas enabled
+PASS country visit 0
+PASS portrait panel preserved 0
+PASS diplomacy 0: no reader overlay
+PASS diplomacy 0: original game canvas enabled
+PASS return to office 0
+PASS office return 0: no reader overlay
+PASS office return 0: original game canvas enabled
+PASS explicit reading view 0
+PASS visible exit action 0
+PASS reader exited 0: no reader overlay
+PASS reader exited 0: original game canvas enabled
+PASS reader round trip leaves campaign unchanged 0
+PASS ESC exits reading view 0
+PASS ESC exit 0: no reader overlay
+PASS ESC exit 0: original game canvas enabled
+PASS load from reader 0: no reader overlay
+PASS load from reader 0: original game canvas enabled
+PASS preferences unchanged through new/load/reader 0
+PASS title configuration 1: no reader overlay
+PASS title configuration 1: original game canvas enabled
+PASS main artwork 1
+PASS new mandate confirmation 1
+PASS introduction 1: no reader overlay
+PASS introduction 1: original game canvas enabled
+PASS office entered 1
+PASS office 1: no reader overlay
+PASS office 1: original game canvas enabled
+PASS physical closed document 1
+PASS document opens via real interaction handlers 1
+PASS opened document 1: no reader overlay
+PASS opened document 1: original game canvas enabled
+PASS world map 1
+PASS map 1: no reader overlay
+PASS map 1: original game canvas enabled
+PASS country visit 1
+PASS portrait panel preserved 1
+PASS diplomacy 1: no reader overlay
+PASS diplomacy 1: original game canvas enabled
+PASS return to office 1
+PASS office return 1: no reader overlay
+PASS office return 1: original game canvas enabled
+PASS explicit reading view 1
+PASS visible exit action 1
+PASS reader exited 1: no reader overlay
+PASS reader exited 1: original game canvas enabled
+PASS reader round trip leaves campaign unchanged 1
+PASS ESC exits reading view 1
+PASS ESC exit 1: no reader overlay
+PASS ESC exit 1: original game canvas enabled
+PASS load from reader 1: no reader overlay
+PASS load from reader 1: original game canvas enabled
+PASS preferences unchanged through new/load/reader 1
+PASS title configuration 2: no reader overlay
+PASS title configuration 2: original game canvas enabled
+PASS main artwork 2
+PASS new mandate confirmation 2
+PASS introduction 2: no reader overlay
+PASS introduction 2: original game canvas enabled
+PASS office entered 2
+PASS office 2: no reader overlay
+PASS office 2: original game canvas enabled
+PASS physical closed document 2
+PASS document opens via real interaction handlers 2
+PASS opened document 2: no reader overlay
+PASS opened document 2: original game canvas enabled
+PASS world map 2
+PASS map 2: no reader overlay
+PASS map 2: original game canvas enabled
+PASS country visit 2
+PASS portrait panel preserved 2
+PASS diplomacy 2: no reader overlay
+PASS diplomacy 2: original game canvas enabled
+PASS return to office 2
+PASS office return 2: no reader overlay
+PASS office return 2: original game canvas enabled
+PASS explicit reading view 2
+PASS visible exit action 2
+PASS reader exited 2: no reader overlay
+PASS reader exited 2: original game canvas enabled
+PASS reader round trip leaves campaign unchanged 2
+PASS ESC exits reading view 2
+PASS ESC exit 2: no reader overlay
+PASS ESC exit 2: original game canvas enabled
+PASS load from reader 2: no reader overlay
+PASS load from reader 2: original game canvas enabled
+PASS preferences unchanged through new/load/reader 2
+PASS title configuration 3: no reader overlay
+PASS title configuration 3: original game canvas enabled
+PASS main artwork 3
+PASS new mandate confirmation 3
+PASS introduction 3: no reader overlay
+PASS introduction 3: original game canvas enabled
+PASS office entered 3
+PASS office 3: no reader overlay
+PASS office 3: original game canvas enabled
+PASS physical closed document 3
+PASS document opens via real interaction handlers 3
+PASS opened document 3: no reader overlay
+PASS opened document 3: original game canvas enabled
+PASS world map 3
+PASS map 3: no reader overlay
+PASS map 3: original game canvas enabled
+PASS country visit 3
+PASS portrait panel preserved 3
+PASS diplomacy 3: no reader overlay
+PASS diplomacy 3: original game canvas enabled
+PASS return to office 3
+PASS office return 3: no reader overlay
+PASS office return 3: original game canvas enabled
+PASS explicit reading view 3
+PASS visible exit action 3
+PASS reader exited 3: no reader overlay
+PASS reader exited 3: original game canvas enabled
+PASS reader round trip leaves campaign unchanged 3
+PASS ESC exits reading view 3
+PASS ESC exit 3: no reader overlay
+PASS ESC exit 3: original game canvas enabled
+PASS load from reader 3: no reader overlay
+PASS load from reader 3: original game canvas enabled
+PASS preferences unchanged through new/load/reader 3
+PASS F2 input event explicitly opens reader
+PASS second F2 input event exits reader
+COMPLETE 141 PASS; full transitions in Unity Play Mode using UI callbacks and pointer event handlers, no physical input claim

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Linq;
 namespace ElDespacho {
  public static class AccessLanguage {
   public static string Tutorial(TutorialStepData s,int questions){
@@ -25,19 +26,20 @@ namespace ElDespacho {
    }}
    if(s.persistentId=="grab"||s.persistentId=="open"){
     if(AccessPreferences.Current.simpleDocuments)t="1. Pulse el expediente. 2. Pulse la zona de lectura para abrirlo. Pulse fuera o ESC para cancelar.";
-    if(AccessPreferences.Current.keyboard)t+=" Con teclado: seleccione el expediente con TAB y pulse INTRO; vuelva a pulsar INTRO para colocarlo.";
+    if(AccessPreferences.Current.keyboard)t+=" Con teclado: flechas o TAB para seleccionar; INTRO abre la selección y otro INTRO coloca el expediente.";
    }
    if(s.persistentId=="decision"&&(AccessPreferences.Current.simpleDocuments||AccessPreferences.Current.keyboard))t+=" Seleccione un sello y confirme sobre el expediente o con la acción Aplicar sello seleccionado.";
    if(AccessPreferences.Current.simpleDocuments){
     if(s.persistentId=="grab")t="Pulse el expediente de la bandeja derecha. Quedará seleccionado. No necesita arrastrarlo.";
     if(s.persistentId=="open")t="Pulse la zona de lectura iluminada para abrirlo. ESC cancela la selección.";
-    if(s.persistentId=="decision")t="Lea la petición. Pulse un sello para ver sus consecuencias. Pulse el papel para confirmar. ESC cancela.";
+    if(s.persistentId=="decision")t="Lea la petición. APROBADO es SÍ y DENEGADO es NO; algunas cartas tienen otras respuestas. Pulse un sello para ver sus consecuencias y el papel para confirmar. ESC cancela.";
    }
-   return (AccessPreferences.Current.symbols?"[D] ":"")+t;
+   string symbol=s.persistentId=="indicators"?"[=] ":new[]{"grab","open","dossier","intel","trade","region","chain"}.Contains(s.persistentId)?"[D] ":"[>] ";
+   return (AccessPreferences.Current.symbols?symbol:"")+t;
   }
  }
  public partial class DespachoGame {
-  public string AccessIndicators()=>"[=] Estabilidad "+estabilidad+" / 100: "+AccessController.Status(estabilidad)+". [S] Seguridad "+seguridad+" / 100: "+AccessController.Status(seguridad)+". [$] Prosperidad "+prosperidad+" / 100: "+AccessController.Status(prosperidad)+". Año "+year+" de 4.";
+  public string AccessIndicators()=>(AccessPreferences.Current.symbols?"[=] ":"")+"Estabilidad "+estabilidad+" / 100: "+AccessController.Status(estabilidad)+". "+(AccessPreferences.Current.symbols?"[S] ":"")+"Seguridad "+seguridad+" / 100: "+AccessController.Status(seguridad)+". "+(AccessPreferences.Current.symbols?"[$] ":"")+"Prosperidad "+prosperidad+" / 100: "+AccessController.Status(prosperidad)+". Año "+year+" de 4.";
  }
  public enum AccessAudioChannel {Music,Ambient}
  // Optional adapter for future authored music/ambient sources. No fabricated tracks.

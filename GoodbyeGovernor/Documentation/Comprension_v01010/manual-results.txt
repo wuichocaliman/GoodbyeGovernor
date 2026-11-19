@@ -1,0 +1,908 @@
+PASS 12 lessons and 18 notes preserved
+PASS actual resolution 1920
+PASS all lesson buttons 1920 1
+PASS two columns 1920 1
+PASS index labels fit 1920 1
+PASS exact note 0 1920 1
+PASS chosen text size 0 1920 1
+PASS all manual labels fit 0 1920 1
+PASS narration includes exact note 0 1920 1
+PASS full scroll content fits 0 1920 1
+PASS navigation visible 0 1920 1
+PASS navigation boundaries 0 1920 1
+PASS exact note 1 1920 1
+PASS chosen text size 1 1920 1
+PASS all manual labels fit 1 1920 1
+PASS narration includes exact note 1 1920 1
+PASS full scroll content fits 1 1920 1
+PASS navigation visible 1 1920 1
+PASS navigation boundaries 1 1920 1
+PASS exact note 2 1920 1
+PASS chosen text size 2 1920 1
+PASS all manual labels fit 2 1920 1
+PASS narration includes exact note 2 1920 1
+PASS full scroll content fits 2 1920 1
+PASS navigation visible 2 1920 1
+PASS navigation boundaries 2 1920 1
+PASS exact note 3 1920 1
+PASS chosen text size 3 1920 1
+PASS all manual labels fit 3 1920 1
+PASS narration includes exact note 3 1920 1
+PASS full scroll content fits 3 1920 1
+PASS navigation visible 3 1920 1
+PASS navigation boundaries 3 1920 1
+PASS exact note 4 1920 1
+PASS chosen text size 4 1920 1
+PASS all manual labels fit 4 1920 1
+PASS narration includes exact note 4 1920 1
+PASS full scroll content fits 4 1920 1
+PASS navigation visible 4 1920 1
+PASS navigation boundaries 4 1920 1
+PASS exact note 5 1920 1
+PASS chosen text size 5 1920 1
+PASS all manual labels fit 5 1920 1
+PASS narration includes exact note 5 1920 1
+PASS full scroll content fits 5 1920 1
+PASS navigation visible 5 1920 1
+PASS navigation boundaries 5 1920 1
+PASS exact note 6 1920 1
+PASS chosen text size 6 1920 1
+PASS all manual labels fit 6 1920 1
+PASS narration includes exact note 6 1920 1
+PASS full scroll content fits 6 1920 1
+PASS navigation visible 6 1920 1
+PASS navigation boundaries 6 1920 1
+PASS exact note 7 1920 1
+PASS chosen text size 7 1920 1
+PASS all manual labels fit 7 1920 1
+PASS narration includes exact note 7 1920 1
+PASS full scroll content fits 7 1920 1
+PASS navigation visible 7 1920 1
+PASS navigation boundaries 7 1920 1
+PASS exact note 8 1920 1
+PASS chosen text size 8 1920 1
+PASS all manual labels fit 8 1920 1
+PASS narration includes exact note 8 1920 1
+PASS full scroll content fits 8 1920 1
+PASS navigation visible 8 1920 1
+PASS navigation boundaries 8 1920 1
+PASS exact note 9 1920 1
+PASS chosen text size 9 1920 1
+PASS all manual labels fit 9 1920 1
+PASS narration includes exact note 9 1920 1
+PASS full scroll content fits 9 1920 1
+PASS navigation visible 9 1920 1
+PASS navigation boundaries 9 1920 1
+PASS exact note 10 1920 1
+PASS chosen text size 10 1920 1
+PASS all manual labels fit 10 1920 1
+PASS narration includes exact note 10 1920 1
+PASS full scroll content fits 10 1920 1
+PASS navigation visible 10 1920 1
+PASS navigation boundaries 10 1920 1
+PASS exact note 11 1920 1
+PASS chosen text size 11 1920 1
+PASS all manual labels fit 11 1920 1
+PASS narration includes exact note 11 1920 1
+PASS full scroll content fits 11 1920 1
+PASS navigation visible 11 1920 1
+PASS navigation boundaries 11 1920 1
+PASS exact note 12 1920 1
+PASS chosen text size 12 1920 1
+PASS all manual labels fit 12 1920 1
+PASS narration includes exact note 12 1920 1
+PASS full scroll content fits 12 1920 1
+PASS navigation visible 12 1920 1
+PASS navigation boundaries 12 1920 1
+PASS exact note 13 1920 1
+PASS chosen text size 13 1920 1
+PASS all manual labels fit 13 1920 1
+PASS narration includes exact note 13 1920 1
+PASS full scroll content fits 13 1920 1
+PASS navigation visible 13 1920 1
+PASS navigation boundaries 13 1920 1
+PASS exact note 14 1920 1
+PASS chosen text size 14 1920 1
+PASS all manual labels fit 14 1920 1
+PASS narration includes exact note 14 1920 1
+PASS full scroll content fits 14 1920 1
+PASS navigation visible 14 1920 1
+PASS navigation boundaries 14 1920 1
+PASS exact note 15 1920 1
+PASS chosen text size 15 1920 1
+PASS all manual labels fit 15 1920 1
+PASS narration includes exact note 15 1920 1
+PASS full scroll content fits 15 1920 1
+PASS navigation visible 15 1920 1
+PASS navigation boundaries 15 1920 1
+PASS exact note 16 1920 1
+PASS chosen text size 16 1920 1
+PASS all manual labels fit 16 1920 1
+PASS narration includes exact note 16 1920 1
+PASS full scroll content fits 16 1920 1
+PASS navigation visible 16 1920 1
+PASS navigation boundaries 16 1920 1
+PASS exact note 17 1920 1
+PASS chosen text size 17 1920 1
+PASS all manual labels fit 17 1920 1
+PASS narration includes exact note 17 1920 1
+PASS full scroll content fits 17 1920 1
+PASS navigation visible 17 1920 1
+PASS navigation boundaries 17 1920 1
+PASS back note 16 1920 1
+PASS back note 15 1920 1
+PASS back note 14 1920 1
+PASS back note 13 1920 1
+PASS back note 12 1920 1
+PASS back note 11 1920 1
+PASS back note 10 1920 1
+PASS back note 9 1920 1
+PASS back note 8 1920 1
+PASS back note 7 1920 1
+PASS back note 6 1920 1
+PASS back note 5 1920 1
+PASS back note 4 1920 1
+PASS back note 3 1920 1
+PASS back note 2 1920 1
+PASS back note 1 1920 1
+PASS back note 0 1920 1
+PASS return index 1920 1
+PASS visible simulated keyboard focus 1920 1
+PASS simulated focused activation opens lesson 1920 1
+PASS consultation preserves campaign including progress 1920 1
+PASS all lesson buttons 1920 1.5
+PASS two columns 1920 1.5
+PASS index labels fit 1920 1.5
+PASS simulated wheel scrolls index 1920 1.5
+PASS exact note 0 1920 1.5
+PASS chosen text size 0 1920 1.5
+PASS all manual labels fit 0 1920 1.5
+PASS narration includes exact note 0 1920 1.5
+PASS full scroll content fits 0 1920 1.5
+PASS navigation visible 0 1920 1.5
+PASS navigation boundaries 0 1920 1.5
+PASS exact note 1 1920 1.5
+PASS chosen text size 1 1920 1.5
+PASS all manual labels fit 1 1920 1.5
+PASS narration includes exact note 1 1920 1.5
+PASS full scroll content fits 1 1920 1.5
+PASS navigation visible 1 1920 1.5
+PASS navigation boundaries 1 1920 1.5
+PASS exact note 2 1920 1.5
+PASS chosen text size 2 1920 1.5
+PASS all manual labels fit 2 1920 1.5
+PASS narration includes exact note 2 1920 1.5
+PASS full scroll content fits 2 1920 1.5
+PASS navigation visible 2 1920 1.5
+PASS navigation boundaries 2 1920 1.5
+PASS exact note 3 1920 1.5
+PASS chosen text size 3 1920 1.5
+PASS all manual labels fit 3 1920 1.5
+PASS narration includes exact note 3 1920 1.5
+PASS full scroll content fits 3 1920 1.5
+PASS navigation visible 3 1920 1.5
+PASS navigation boundaries 3 1920 1.5
+PASS exact note 4 1920 1.5
+PASS chosen text size 4 1920 1.5
+PASS all manual labels fit 4 1920 1.5
+PASS narration includes exact note 4 1920 1.5
+PASS full scroll content fits 4 1920 1.5
+PASS navigation visible 4 1920 1.5
+PASS navigation boundaries 4 1920 1.5
+PASS exact note 5 1920 1.5
+PASS chosen text size 5 1920 1.5
+PASS all manual labels fit 5 1920 1.5
+PASS narration includes exact note 5 1920 1.5
+PASS full scroll content fits 5 1920 1.5
+PASS navigation visible 5 1920 1.5
+PASS navigation boundaries 5 1920 1.5
+PASS exact note 6 1920 1.5
+PASS chosen text size 6 1920 1.5
+PASS all manual labels fit 6 1920 1.5
+PASS narration includes exact note 6 1920 1.5
+PASS full scroll content fits 6 1920 1.5
+PASS navigation visible 6 1920 1.5
+PASS navigation boundaries 6 1920 1.5
+PASS exact note 7 1920 1.5
+PASS chosen text size 7 1920 1.5
+PASS all manual labels fit 7 1920 1.5
+PASS narration includes exact note 7 1920 1.5
+PASS full scroll content fits 7 1920 1.5
+PASS navigation visible 7 1920 1.5
+PASS navigation boundaries 7 1920 1.5
+PASS exact note 8 1920 1.5
+PASS chosen text size 8 1920 1.5
+PASS all manual labels fit 8 1920 1.5
+PASS narration includes exact note 8 1920 1.5
+PASS full scroll content fits 8 1920 1.5
+PASS navigation visible 8 1920 1.5
+PASS navigation boundaries 8 1920 1.5
+PASS exact note 9 1920 1.5
+PASS chosen text size 9 1920 1.5
+PASS all manual labels fit 9 1920 1.5
+PASS narration includes exact note 9 1920 1.5
+PASS full scroll content fits 9 1920 1.5
+PASS navigation visible 9 1920 1.5
+PASS navigation boundaries 9 1920 1.5
+PASS exact note 10 1920 1.5
+PASS chosen text size 10 1920 1.5
+PASS all manual labels fit 10 1920 1.5
+PASS narration includes exact note 10 1920 1.5
+PASS full scroll content fits 10 1920 1.5
+PASS navigation visible 10 1920 1.5
+PASS navigation boundaries 10 1920 1.5
+PASS exact note 11 1920 1.5
+PASS chosen text size 11 1920 1.5
+PASS all manual labels fit 11 1920 1.5
+PASS narration includes exact note 11 1920 1.5
+PASS full scroll content fits 11 1920 1.5
+PASS navigation visible 11 1920 1.5
+PASS navigation boundaries 11 1920 1.5
+PASS exact note 12 1920 1.5
+PASS chosen text size 12 1920 1.5
+PASS all manual labels fit 12 1920 1.5
+PASS narration includes exact note 12 1920 1.5
+PASS full scroll content fits 12 1920 1.5
+PASS navigation visible 12 1920 1.5
+PASS navigation boundaries 12 1920 1.5
+PASS exact note 13 1920 1.5
+PASS chosen text size 13 1920 1.5
+PASS all manual labels fit 13 1920 1.5
+PASS narration includes exact note 13 1920 1.5
+PASS full scroll content fits 13 1920 1.5
+PASS navigation visible 13 1920 1.5
+PASS navigation boundaries 13 1920 1.5
+PASS exact note 14 1920 1.5
+PASS chosen text size 14 1920 1.5
+PASS all manual labels fit 14 1920 1.5
+PASS narration includes exact note 14 1920 1.5
+PASS full scroll content fits 14 1920 1.5
+PASS navigation visible 14 1920 1.5
+PASS navigation boundaries 14 1920 1.5
+PASS exact note 15 1920 1.5
+PASS chosen text size 15 1920 1.5
+PASS all manual labels fit 15 1920 1.5
+PASS narration includes exact note 15 1920 1.5
+PASS full scroll content fits 15 1920 1.5
+PASS navigation visible 15 1920 1.5
+PASS navigation boundaries 15 1920 1.5
+PASS exact note 16 1920 1.5
+PASS chosen text size 16 1920 1.5
+PASS all manual labels fit 16 1920 1.5
+PASS narration includes exact note 16 1920 1.5
+PASS full scroll content fits 16 1920 1.5
+PASS navigation visible 16 1920 1.5
+PASS navigation boundaries 16 1920 1.5
+PASS exact note 17 1920 1.5
+PASS chosen text size 17 1920 1.5
+PASS all manual labels fit 17 1920 1.5
+PASS narration includes exact note 17 1920 1.5
+PASS full scroll content fits 17 1920 1.5
+PASS navigation visible 17 1920 1.5
+PASS navigation boundaries 17 1920 1.5
+PASS back note 16 1920 1.5
+PASS back note 15 1920 1.5
+PASS back note 14 1920 1.5
+PASS back note 13 1920 1.5
+PASS back note 12 1920 1.5
+PASS back note 11 1920 1.5
+PASS back note 10 1920 1.5
+PASS back note 9 1920 1.5
+PASS back note 8 1920 1.5
+PASS back note 7 1920 1.5
+PASS back note 6 1920 1.5
+PASS back note 5 1920 1.5
+PASS back note 4 1920 1.5
+PASS back note 3 1920 1.5
+PASS back note 2 1920 1.5
+PASS back note 1 1920 1.5
+PASS back note 0 1920 1.5
+PASS return index 1920 1.5
+PASS visible simulated keyboard focus 1920 1.5
+PASS simulated focused activation opens lesson 1920 1.5
+PASS consultation preserves campaign including progress 1920 1.5
+PASS all lesson buttons 1920 1.75
+PASS two columns 1920 1.75
+PASS index labels fit 1920 1.75
+PASS simulated wheel scrolls index 1920 1.75
+PASS exact note 0 1920 1.75
+PASS chosen text size 0 1920 1.75
+PASS all manual labels fit 0 1920 1.75
+PASS narration includes exact note 0 1920 1.75
+PASS full scroll content fits 0 1920 1.75
+PASS navigation visible 0 1920 1.75
+PASS navigation boundaries 0 1920 1.75
+PASS exact note 1 1920 1.75
+PASS chosen text size 1 1920 1.75
+PASS all manual labels fit 1 1920 1.75
+PASS narration includes exact note 1 1920 1.75
+PASS full scroll content fits 1 1920 1.75
+PASS navigation visible 1 1920 1.75
+PASS navigation boundaries 1 1920 1.75
+PASS exact note 2 1920 1.75
+PASS chosen text size 2 1920 1.75
+PASS all manual labels fit 2 1920 1.75
+PASS narration includes exact note 2 1920 1.75
+PASS full scroll content fits 2 1920 1.75
+PASS navigation visible 2 1920 1.75
+PASS navigation boundaries 2 1920 1.75
+PASS exact note 3 1920 1.75
+PASS chosen text size 3 1920 1.75
+PASS all manual labels fit 3 1920 1.75
+PASS narration includes exact note 3 1920 1.75
+PASS full scroll content fits 3 1920 1.75
+PASS navigation visible 3 1920 1.75
+PASS navigation boundaries 3 1920 1.75
+PASS exact note 4 1920 1.75
+PASS chosen text size 4 1920 1.75
+PASS all manual labels fit 4 1920 1.75
+PASS narration includes exact note 4 1920 1.75
+PASS full scroll content fits 4 1920 1.75
+PASS navigation visible 4 1920 1.75
+PASS navigation boundaries 4 1920 1.75
+PASS exact note 5 1920 1.75
+PASS chosen text size 5 1920 1.75
+PASS all manual labels fit 5 1920 1.75
+PASS narration includes exact note 5 1920 1.75
+PASS full scroll content fits 5 1920 1.75
+PASS navigation visible 5 1920 1.75
+PASS navigation boundaries 5 1920 1.75
+PASS exact note 6 1920 1.75
+PASS chosen text size 6 1920 1.75
+PASS all manual labels fit 6 1920 1.75
+PASS narration includes exact note 6 1920 1.75
+PASS full scroll content fits 6 1920 1.75
+PASS navigation visible 6 1920 1.75
+PASS navigation boundaries 6 1920 1.75
+PASS exact note 7 1920 1.75
+PASS chosen text size 7 1920 1.75
+PASS all manual labels fit 7 1920 1.75
+PASS narration includes exact note 7 1920 1.75
+PASS full scroll content fits 7 1920 1.75
+PASS navigation visible 7 1920 1.75
+PASS navigation boundaries 7 1920 1.75
+PASS exact note 8 1920 1.75
+PASS chosen text size 8 1920 1.75
+PASS all manual labels fit 8 1920 1.75
+PASS narration includes exact note 8 1920 1.75
+PASS full scroll content fits 8 1920 1.75
+PASS navigation visible 8 1920 1.75
+PASS navigation boundaries 8 1920 1.75
+PASS exact note 9 1920 1.75
+PASS chosen text size 9 1920 1.75
+PASS all manual labels fit 9 1920 1.75
+PASS narration includes exact note 9 1920 1.75
+PASS full scroll content fits 9 1920 1.75
+PASS navigation visible 9 1920 1.75
+PASS navigation boundaries 9 1920 1.75
+PASS exact note 10 1920 1.75
+PASS chosen text size 10 1920 1.75
+PASS all manual labels fit 10 1920 1.75
+PASS narration includes exact note 10 1920 1.75
+PASS full scroll content fits 10 1920 1.75
+PASS navigation visible 10 1920 1.75
+PASS navigation boundaries 10 1920 1.75
+PASS exact note 11 1920 1.75
+PASS chosen text size 11 1920 1.75
+PASS all manual labels fit 11 1920 1.75
+PASS narration includes exact note 11 1920 1.75
+PASS full scroll content fits 11 1920 1.75
+PASS navigation visible 11 1920 1.75
+PASS navigation boundaries 11 1920 1.75
+PASS exact note 12 1920 1.75
+PASS chosen text size 12 1920 1.75
+PASS all manual labels fit 12 1920 1.75
+PASS narration includes exact note 12 1920 1.75
+PASS full scroll content fits 12 1920 1.75
+PASS navigation visible 12 1920 1.75
+PASS navigation boundaries 12 1920 1.75
+PASS exact note 13 1920 1.75
+PASS chosen text size 13 1920 1.75
+PASS all manual labels fit 13 1920 1.75
+PASS narration includes exact note 13 1920 1.75
+PASS full scroll content fits 13 1920 1.75
+PASS navigation visible 13 1920 1.75
+PASS navigation boundaries 13 1920 1.75
+PASS exact note 14 1920 1.75
+PASS chosen text size 14 1920 1.75
+PASS all manual labels fit 14 1920 1.75
+PASS narration includes exact note 14 1920 1.75
+PASS full scroll content fits 14 1920 1.75
+PASS navigation visible 14 1920 1.75
+PASS navigation boundaries 14 1920 1.75
+PASS exact note 15 1920 1.75
+PASS chosen text size 15 1920 1.75
+PASS all manual labels fit 15 1920 1.75
+PASS narration includes exact note 15 1920 1.75
+PASS full scroll content fits 15 1920 1.75
+PASS navigation visible 15 1920 1.75
+PASS navigation boundaries 15 1920 1.75
+PASS exact note 16 1920 1.75
+PASS chosen text size 16 1920 1.75
+PASS all manual labels fit 16 1920 1.75
+PASS narration includes exact note 16 1920 1.75
+PASS full scroll content fits 16 1920 1.75
+PASS navigation visible 16 1920 1.75
+PASS navigation boundaries 16 1920 1.75
+PASS exact note 17 1920 1.75
+PASS chosen text size 17 1920 1.75
+PASS all manual labels fit 17 1920 1.75
+PASS narration includes exact note 17 1920 1.75
+PASS full scroll content fits 17 1920 1.75
+PASS navigation visible 17 1920 1.75
+PASS navigation boundaries 17 1920 1.75
+PASS back note 16 1920 1.75
+PASS back note 15 1920 1.75
+PASS back note 14 1920 1.75
+PASS back note 13 1920 1.75
+PASS back note 12 1920 1.75
+PASS back note 11 1920 1.75
+PASS back note 10 1920 1.75
+PASS back note 9 1920 1.75
+PASS back note 8 1920 1.75
+PASS back note 7 1920 1.75
+PASS back note 6 1920 1.75
+PASS back note 5 1920 1.75
+PASS back note 4 1920 1.75
+PASS back note 3 1920 1.75
+PASS back note 2 1920 1.75
+PASS back note 1 1920 1.75
+PASS back note 0 1920 1.75
+PASS return index 1920 1.75
+PASS visible simulated keyboard focus 1920 1.75
+PASS simulated focused activation opens lesson 1920 1.75
+PASS consultation preserves campaign including progress 1920 1.75
+PASS actual resolution 1280
+PASS all lesson buttons 1280 1
+PASS two columns 1280 1
+PASS index labels fit 1280 1
+PASS exact note 0 1280 1
+PASS chosen text size 0 1280 1
+PASS all manual labels fit 0 1280 1
+PASS narration includes exact note 0 1280 1
+PASS full scroll content fits 0 1280 1
+PASS navigation visible 0 1280 1
+PASS navigation boundaries 0 1280 1
+PASS exact note 1 1280 1
+PASS chosen text size 1 1280 1
+PASS all manual labels fit 1 1280 1
+PASS narration includes exact note 1 1280 1
+PASS full scroll content fits 1 1280 1
+PASS navigation visible 1 1280 1
+PASS navigation boundaries 1 1280 1
+PASS exact note 2 1280 1
+PASS chosen text size 2 1280 1
+PASS all manual labels fit 2 1280 1
+PASS narration includes exact note 2 1280 1
+PASS full scroll content fits 2 1280 1
+PASS navigation visible 2 1280 1
+PASS navigation boundaries 2 1280 1
+PASS exact note 3 1280 1
+PASS chosen text size 3 1280 1
+PASS all manual labels fit 3 1280 1
+PASS narration includes exact note 3 1280 1
+PASS full scroll content fits 3 1280 1
+PASS navigation visible 3 1280 1
+PASS navigation boundaries 3 1280 1
+PASS exact note 4 1280 1
+PASS chosen text size 4 1280 1
+PASS all manual labels fit 4 1280 1
+PASS narration includes exact note 4 1280 1
+PASS full scroll content fits 4 1280 1
+PASS navigation visible 4 1280 1
+PASS navigation boundaries 4 1280 1
+PASS exact note 5 1280 1
+PASS chosen text size 5 1280 1
+PASS all manual labels fit 5 1280 1
+PASS narration includes exact note 5 1280 1
+PASS full scroll content fits 5 1280 1
+PASS navigation visible 5 1280 1
+PASS navigation boundaries 5 1280 1
+PASS exact note 6 1280 1
+PASS chosen text size 6 1280 1
+PASS all manual labels fit 6 1280 1
+PASS narration includes exact note 6 1280 1
+PASS full scroll content fits 6 1280 1
+PASS navigation visible 6 1280 1
+PASS navigation boundaries 6 1280 1
+PASS exact note 7 1280 1
+PASS chosen text size 7 1280 1
+PASS all manual labels fit 7 1280 1
+PASS narration includes exact note 7 1280 1
+PASS full scroll content fits 7 1280 1
+PASS navigation visible 7 1280 1
+PASS navigation boundaries 7 1280 1
+PASS exact note 8 1280 1
+PASS chosen text size 8 1280 1
+PASS all manual labels fit 8 1280 1
+PASS narration includes exact note 8 1280 1
+PASS full scroll content fits 8 1280 1
+PASS navigation visible 8 1280 1
+PASS navigation boundaries 8 1280 1
+PASS exact note 9 1280 1
+PASS chosen text size 9 1280 1
+PASS all manual labels fit 9 1280 1
+PASS narration includes exact note 9 1280 1
+PASS full scroll content fits 9 1280 1
+PASS navigation visible 9 1280 1
+PASS navigation boundaries 9 1280 1
+PASS exact note 10 1280 1
+PASS chosen text size 10 1280 1
+PASS all manual labels fit 10 1280 1
+PASS narration includes exact note 10 1280 1
+PASS full scroll content fits 10 1280 1
+PASS navigation visible 10 1280 1
+PASS navigation boundaries 10 1280 1
+PASS exact note 11 1280 1
+PASS chosen text size 11 1280 1
+PASS all manual labels fit 11 1280 1
+PASS narration includes exact note 11 1280 1
+PASS full scroll content fits 11 1280 1
+PASS navigation visible 11 1280 1
+PASS navigation boundaries 11 1280 1
+PASS exact note 12 1280 1
+PASS chosen text size 12 1280 1
+PASS all manual labels fit 12 1280 1
+PASS narration includes exact note 12 1280 1
+PASS full scroll content fits 12 1280 1
+PASS navigation visible 12 1280 1
+PASS navigation boundaries 12 1280 1
+PASS exact note 13 1280 1
+PASS chosen text size 13 1280 1
+PASS all manual labels fit 13 1280 1
+PASS narration includes exact note 13 1280 1
+PASS full scroll content fits 13 1280 1
+PASS navigation visible 13 1280 1
+PASS navigation boundaries 13 1280 1
+PASS exact note 14 1280 1
+PASS chosen text size 14 1280 1
+PASS all manual labels fit 14 1280 1
+PASS narration includes exact note 14 1280 1
+PASS full scroll content fits 14 1280 1
+PASS navigation visible 14 1280 1
+PASS navigation boundaries 14 1280 1
+PASS exact note 15 1280 1
+PASS chosen text size 15 1280 1
+PASS all manual labels fit 15 1280 1
+PASS narration includes exact note 15 1280 1
+PASS full scroll content fits 15 1280 1
+PASS navigation visible 15 1280 1
+PASS navigation boundaries 15 1280 1
+PASS exact note 16 1280 1
+PASS chosen text size 16 1280 1
+PASS all manual labels fit 16 1280 1
+PASS narration includes exact note 16 1280 1
+PASS full scroll content fits 16 1280 1
+PASS navigation visible 16 1280 1
+PASS navigation boundaries 16 1280 1
+PASS exact note 17 1280 1
+PASS chosen text size 17 1280 1
+PASS all manual labels fit 17 1280 1
+PASS narration includes exact note 17 1280 1
+PASS full scroll content fits 17 1280 1
+PASS navigation visible 17 1280 1
+PASS navigation boundaries 17 1280 1
+PASS back note 16 1280 1
+PASS back note 15 1280 1
+PASS back note 14 1280 1
+PASS back note 13 1280 1
+PASS back note 12 1280 1
+PASS back note 11 1280 1
+PASS back note 10 1280 1
+PASS back note 9 1280 1
+PASS back note 8 1280 1
+PASS back note 7 1280 1
+PASS back note 6 1280 1
+PASS back note 5 1280 1
+PASS back note 4 1280 1
+PASS back note 3 1280 1
+PASS back note 2 1280 1
+PASS back note 1 1280 1
+PASS back note 0 1280 1
+PASS return index 1280 1
+PASS visible simulated keyboard focus 1280 1
+PASS simulated focused activation opens lesson 1280 1
+PASS consultation preserves campaign including progress 1280 1
+PASS all lesson buttons 1280 1.5
+PASS two columns 1280 1.5
+PASS index labels fit 1280 1.5
+PASS simulated wheel scrolls index 1280 1.5
+PASS exact note 0 1280 1.5
+PASS chosen text size 0 1280 1.5
+PASS all manual labels fit 0 1280 1.5
+PASS narration includes exact note 0 1280 1.5
+PASS full scroll content fits 0 1280 1.5
+PASS navigation visible 0 1280 1.5
+PASS navigation boundaries 0 1280 1.5
+PASS exact note 1 1280 1.5
+PASS chosen text size 1 1280 1.5
+PASS all manual labels fit 1 1280 1.5
+PASS narration includes exact note 1 1280 1.5
+PASS full scroll content fits 1 1280 1.5
+PASS navigation visible 1 1280 1.5
+PASS navigation boundaries 1 1280 1.5
+PASS exact note 2 1280 1.5
+PASS chosen text size 2 1280 1.5
+PASS all manual labels fit 2 1280 1.5
+PASS narration includes exact note 2 1280 1.5
+PASS full scroll content fits 2 1280 1.5
+PASS navigation visible 2 1280 1.5
+PASS navigation boundaries 2 1280 1.5
+PASS exact note 3 1280 1.5
+PASS chosen text size 3 1280 1.5
+PASS all manual labels fit 3 1280 1.5
+PASS narration includes exact note 3 1280 1.5
+PASS full scroll content fits 3 1280 1.5
+PASS navigation visible 3 1280 1.5
+PASS navigation boundaries 3 1280 1.5
+PASS exact note 4 1280 1.5
+PASS chosen text size 4 1280 1.5
+PASS all manual labels fit 4 1280 1.5
+PASS narration includes exact note 4 1280 1.5
+PASS full scroll content fits 4 1280 1.5
+PASS navigation visible 4 1280 1.5
+PASS navigation boundaries 4 1280 1.5
+PASS exact note 5 1280 1.5
+PASS chosen text size 5 1280 1.5
+PASS all manual labels fit 5 1280 1.5
+PASS narration includes exact note 5 1280 1.5
+PASS full scroll content fits 5 1280 1.5
+PASS navigation visible 5 1280 1.5
+PASS navigation boundaries 5 1280 1.5
+PASS exact note 6 1280 1.5
+PASS chosen text size 6 1280 1.5
+PASS all manual labels fit 6 1280 1.5
+PASS narration includes exact note 6 1280 1.5
+PASS full scroll content fits 6 1280 1.5
+PASS navigation visible 6 1280 1.5
+PASS navigation boundaries 6 1280 1.5
+PASS exact note 7 1280 1.5
+PASS chosen text size 7 1280 1.5
+PASS all manual labels fit 7 1280 1.5
+PASS narration includes exact note 7 1280 1.5
+PASS full scroll content fits 7 1280 1.5
+PASS navigation visible 7 1280 1.5
+PASS navigation boundaries 7 1280 1.5
+PASS exact note 8 1280 1.5
+PASS chosen text size 8 1280 1.5
+PASS all manual labels fit 8 1280 1.5
+PASS narration includes exact note 8 1280 1.5
+PASS full scroll content fits 8 1280 1.5
+PASS navigation visible 8 1280 1.5
+PASS navigation boundaries 8 1280 1.5
+PASS exact note 9 1280 1.5
+PASS chosen text size 9 1280 1.5
+PASS all manual labels fit 9 1280 1.5
+PASS narration includes exact note 9 1280 1.5
+PASS full scroll content fits 9 1280 1.5
+PASS navigation visible 9 1280 1.5
+PASS navigation boundaries 9 1280 1.5
+PASS exact note 10 1280 1.5
+PASS chosen text size 10 1280 1.5
+PASS all manual labels fit 10 1280 1.5
+PASS narration includes exact note 10 1280 1.5
+PASS full scroll content fits 10 1280 1.5
+PASS navigation visible 10 1280 1.5
+PASS navigation boundaries 10 1280 1.5
+PASS exact note 11 1280 1.5
+PASS chosen text size 11 1280 1.5
+PASS all manual labels fit 11 1280 1.5
+PASS narration includes exact note 11 1280 1.5
+PASS full scroll content fits 11 1280 1.5
+PASS navigation visible 11 1280 1.5
+PASS navigation boundaries 11 1280 1.5
+PASS exact note 12 1280 1.5
+PASS chosen text size 12 1280 1.5
+PASS all manual labels fit 12 1280 1.5
+PASS narration includes exact note 12 1280 1.5
+PASS full scroll content fits 12 1280 1.5
+PASS navigation visible 12 1280 1.5
+PASS navigation boundaries 12 1280 1.5
+PASS exact note 13 1280 1.5
+PASS chosen text size 13 1280 1.5
+PASS all manual labels fit 13 1280 1.5
+PASS narration includes exact note 13 1280 1.5
+PASS full scroll content fits 13 1280 1.5
+PASS navigation visible 13 1280 1.5
+PASS navigation boundaries 13 1280 1.5
+PASS exact note 14 1280 1.5
+PASS chosen text size 14 1280 1.5
+PASS all manual labels fit 14 1280 1.5
+PASS narration includes exact note 14 1280 1.5
+PASS full scroll content fits 14 1280 1.5
+PASS navigation visible 14 1280 1.5
+PASS navigation boundaries 14 1280 1.5
+PASS exact note 15 1280 1.5
+PASS chosen text size 15 1280 1.5
+PASS all manual labels fit 15 1280 1.5
+PASS narration includes exact note 15 1280 1.5
+PASS full scroll content fits 15 1280 1.5
+PASS navigation visible 15 1280 1.5
+PASS navigation boundaries 15 1280 1.5
+PASS exact note 16 1280 1.5
+PASS chosen text size 16 1280 1.5
+PASS all manual labels fit 16 1280 1.5
+PASS narration includes exact note 16 1280 1.5
+PASS full scroll content fits 16 1280 1.5
+PASS navigation visible 16 1280 1.5
+PASS navigation boundaries 16 1280 1.5
+PASS exact note 17 1280 1.5
+PASS chosen text size 17 1280 1.5
+PASS all manual labels fit 17 1280 1.5
+PASS narration includes exact note 17 1280 1.5
+PASS full scroll content fits 17 1280 1.5
+PASS navigation visible 17 1280 1.5
+PASS navigation boundaries 17 1280 1.5
+PASS back note 16 1280 1.5
+PASS back note 15 1280 1.5
+PASS back note 14 1280 1.5
+PASS back note 13 1280 1.5
+PASS back note 12 1280 1.5
+PASS back note 11 1280 1.5
+PASS back note 10 1280 1.5
+PASS back note 9 1280 1.5
+PASS back note 8 1280 1.5
+PASS back note 7 1280 1.5
+PASS back note 6 1280 1.5
+PASS back note 5 1280 1.5
+PASS back note 4 1280 1.5
+PASS back note 3 1280 1.5
+PASS back note 2 1280 1.5
+PASS back note 1 1280 1.5
+PASS back note 0 1280 1.5
+PASS return index 1280 1.5
+PASS visible simulated keyboard focus 1280 1.5
+PASS simulated focused activation opens lesson 1280 1.5
+PASS consultation preserves campaign including progress 1280 1.5
+PASS all lesson buttons 1280 1.75
+PASS two columns 1280 1.75
+PASS index labels fit 1280 1.75
+PASS simulated wheel scrolls index 1280 1.75
+PASS exact note 0 1280 1.75
+PASS chosen text size 0 1280 1.75
+PASS all manual labels fit 0 1280 1.75
+PASS narration includes exact note 0 1280 1.75
+PASS full scroll content fits 0 1280 1.75
+PASS navigation visible 0 1280 1.75
+PASS navigation boundaries 0 1280 1.75
+PASS exact note 1 1280 1.75
+PASS chosen text size 1 1280 1.75
+PASS all manual labels fit 1 1280 1.75
+PASS narration includes exact note 1 1280 1.75
+PASS full scroll content fits 1 1280 1.75
+PASS navigation visible 1 1280 1.75
+PASS navigation boundaries 1 1280 1.75
+PASS exact note 2 1280 1.75
+PASS chosen text size 2 1280 1.75
+PASS all manual labels fit 2 1280 1.75
+PASS narration includes exact note 2 1280 1.75
+PASS full scroll content fits 2 1280 1.75
+PASS navigation visible 2 1280 1.75
+PASS navigation boundaries 2 1280 1.75
+PASS exact note 3 1280 1.75
+PASS chosen text size 3 1280 1.75
+PASS all manual labels fit 3 1280 1.75
+PASS narration includes exact note 3 1280 1.75
+PASS full scroll content fits 3 1280 1.75
+PASS navigation visible 3 1280 1.75
+PASS navigation boundaries 3 1280 1.75
+PASS exact note 4 1280 1.75
+PASS chosen text size 4 1280 1.75
+PASS all manual labels fit 4 1280 1.75
+PASS narration includes exact note 4 1280 1.75
+PASS full scroll content fits 4 1280 1.75
+PASS navigation visible 4 1280 1.75
+PASS navigation boundaries 4 1280 1.75
+PASS exact note 5 1280 1.75
+PASS chosen text size 5 1280 1.75
+PASS all manual labels fit 5 1280 1.75
+PASS narration includes exact note 5 1280 1.75
+PASS full scroll content fits 5 1280 1.75
+PASS navigation visible 5 1280 1.75
+PASS navigation boundaries 5 1280 1.75
+PASS exact note 6 1280 1.75
+PASS chosen text size 6 1280 1.75
+PASS all manual labels fit 6 1280 1.75
+PASS narration includes exact note 6 1280 1.75
+PASS full scroll content fits 6 1280 1.75
+PASS navigation visible 6 1280 1.75
+PASS navigation boundaries 6 1280 1.75
+PASS exact note 7 1280 1.75
+PASS chosen text size 7 1280 1.75
+PASS all manual labels fit 7 1280 1.75
+PASS narration includes exact note 7 1280 1.75
+PASS full scroll content fits 7 1280 1.75
+PASS navigation visible 7 1280 1.75
+PASS navigation boundaries 7 1280 1.75
+PASS exact note 8 1280 1.75
+PASS chosen text size 8 1280 1.75
+PASS all manual labels fit 8 1280 1.75
+PASS narration includes exact note 8 1280 1.75
+PASS full scroll content fits 8 1280 1.75
+PASS navigation visible 8 1280 1.75
+PASS navigation boundaries 8 1280 1.75
+PASS exact note 9 1280 1.75
+PASS chosen text size 9 1280 1.75
+PASS all manual labels fit 9 1280 1.75
+PASS narration includes exact note 9 1280 1.75
+PASS full scroll content fits 9 1280 1.75
+PASS navigation visible 9 1280 1.75
+PASS navigation boundaries 9 1280 1.75
+PASS exact note 10 1280 1.75
+PASS chosen text size 10 1280 1.75
+PASS all manual labels fit 10 1280 1.75
+PASS narration includes exact note 10 1280 1.75
+PASS full scroll content fits 10 1280 1.75
+PASS navigation visible 10 1280 1.75
+PASS navigation boundaries 10 1280 1.75
+PASS exact note 11 1280 1.75
+PASS chosen text size 11 1280 1.75
+PASS all manual labels fit 11 1280 1.75
+PASS narration includes exact note 11 1280 1.75
+PASS full scroll content fits 11 1280 1.75
+PASS navigation visible 11 1280 1.75
+PASS navigation boundaries 11 1280 1.75
+PASS exact note 12 1280 1.75
+PASS chosen text size 12 1280 1.75
+PASS all manual labels fit 12 1280 1.75
+PASS narration includes exact note 12 1280 1.75
+PASS full scroll content fits 12 1280 1.75
+PASS navigation visible 12 1280 1.75
+PASS navigation boundaries 12 1280 1.75
+PASS exact note 13 1280 1.75
+PASS chosen text size 13 1280 1.75
+PASS all manual labels fit 13 1280 1.75
+PASS narration includes exact note 13 1280 1.75
+PASS full scroll content fits 13 1280 1.75
+PASS navigation visible 13 1280 1.75
+PASS navigation boundaries 13 1280 1.75
+PASS exact note 14 1280 1.75
+PASS chosen text size 14 1280 1.75
+PASS all manual labels fit 14 1280 1.75
+PASS narration includes exact note 14 1280 1.75
+PASS full scroll content fits 14 1280 1.75
+PASS navigation visible 14 1280 1.75
+PASS navigation boundaries 14 1280 1.75
+PASS exact note 15 1280 1.75
+PASS chosen text size 15 1280 1.75
+PASS all manual labels fit 15 1280 1.75
+PASS narration includes exact note 15 1280 1.75
+PASS full scroll content fits 15 1280 1.75
+PASS navigation visible 15 1280 1.75
+PASS navigation boundaries 15 1280 1.75
+PASS exact note 16 1280 1.75
+PASS chosen text size 16 1280 1.75
+PASS all manual labels fit 16 1280 1.75
+PASS narration includes exact note 16 1280 1.75
+PASS full scroll content fits 16 1280 1.75
+PASS navigation visible 16 1280 1.75
+PASS navigation boundaries 16 1280 1.75
+PASS exact note 17 1280 1.75
+PASS chosen text size 17 1280 1.75
+PASS all manual labels fit 17 1280 1.75
+PASS narration includes exact note 17 1280 1.75
+PASS full scroll content fits 17 1280 1.75
+PASS navigation visible 17 1280 1.75
+PASS navigation boundaries 17 1280 1.75
+PASS back note 16 1280 1.75
+PASS back note 15 1280 1.75
+PASS back note 14 1280 1.75
+PASS back note 13 1280 1.75
+PASS back note 12 1280 1.75
+PASS back note 11 1280 1.75
+PASS back note 10 1280 1.75
+PASS back note 9 1280 1.75
+PASS back note 8 1280 1.75
+PASS back note 7 1280 1.75
+PASS back note 6 1280 1.75
+PASS back note 5 1280 1.75
+PASS back note 4 1280 1.75
+PASS back note 3 1280 1.75
+PASS back note 2 1280 1.75
+PASS back note 1 1280 1.75
+PASS back note 0 1280 1.75
+PASS return index 1280 1.75
+PASS visible simulated keyboard focus 1280 1.75
+PASS simulated focused activation opens lesson 1280 1.75
+PASS consultation preserves campaign including progress 1280 1.75
+COMPLETE 907 PASS; Unity Play Mode; button events and keyboard focus simulated, no physical input test

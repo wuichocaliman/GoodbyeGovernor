@@ -1,0 +1,3 @@
+PASS: ocho archivos reales de partidas y preferencias idénticos al backup previo (SHA-256).
+PASS: QualitySettings.asset restaurado al backup previo.
+Backup verificado: C:\Users\User\Documents\Codex\work\keyboard-v0109\Backup_antes_v0109.zip

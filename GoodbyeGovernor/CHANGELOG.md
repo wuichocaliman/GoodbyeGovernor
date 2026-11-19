@@ -1,4 +1,62 @@
-﻿## v0.10.6-prototipo — Interruptor «VIBRACIÓN: SÍ / NO» en PlayerPrefs (2026-11-18)
+## v0.10.11-prototipo — Finalización técnica de accesibilidad (2026-11-19)
+
+- Instrucciones sencillas ampliadas al despacho, mapa, decisiones, informes y cierre anual, separadas de narrativa y pruebas diplomáticas. No se cambia el significado de declaraciones ni se revelan perfiles secretos.
+- Símbolos y etiquetas coherentes en indicadores, sellos, pestañas y estados públicos del mapa; pictogramas de información, acción, aprobación y rechazo. El glosario contextual se abre desde juego, visitas/informes y consulta del tutorial, y regresa al contexto original.
+- Configuración de volumen y velocidad de Windows Speech en directo; limpieza del estado al reiniciar el trabajador. F3 narra la página de ajustes/glosario abierta. Microsoft Helena Desktop es-ES detectada y solicitudes aceptadas en Editor y jugador Windows. Audición humana pendiente.
+- Espacio ampliado para títulos de indicadores y encabezado; pausa, contador y glosario separados con texto grande; fichas del mapa desplazadas para respetar el encabezado. Ayuda/glosario del asesor apilados al 150/175%. No se reduce automáticamente el tamaño elegido.
+- Unity Play Mode: recorridos combinados con 175%, contraste, símbolos, ayudas, teclado y narración; documentos, sellos, mapa, cuatro informes, tutorial, pausa, guardados y pantallas de cierre preparadas mediante API. Voz, muestras reales de efectos/interfaz, mono y filtro de agudos; geometría de escala y movimiento. Regresiones de teclado/mapa, documentos, tutorial, menús/guardados y lector.
+- Ejecutable de auditoría Windows con rutas aisladas y reinicio; compilación normal separada, sin DESPACHO_AUDIT. No publicación ni distribución. La ruta de prueba de preferencias/guardados solo se amplía bajo símbolo de compilación de auditoría; el formato y ruta normales no cambian.
+- Backup verificado, ocho archivos personales conservados por SHA-256 y configuraciones ajenas de Unity restauradas tras construir. Música/Ambiente siguen no disponibles porque no existen pistas. Mono/agudos no afectan a la voz Windows.
+- Estado: listo para evaluación con jugadores en rutas técnicas comprobadas; pendiente de validación humana, audición/dispositivos físicos, comodidad del scroll y cobertura exhaustiva de países/finales. No se certifica accesibilidad total.
+- Informe: Documentation/El_Despacho_Accesibilidad_Final_Validation.pdf. Evidencias: Documentation/Accesibilidad_Final_v01011/. Ejecutable normal: Builds/Windows/v0.10.11-prototipo/ElDespacho.exe.
+
+## v0.10.10-prototipo — Auditoría funcional de Comprensión (2026-11-19)
+
+- Ayudas de navegación del despacho independientes de Instrucciones sencillas y Símbolos; OFF retira la guía adicional. El modo de documentos por clic conserva su propia indicación. Ayuda del mapa integrada en el texto existente y sin revelar información secreta.
+- Glosario contextual regresa al despacho o lector original sin introducir pausa; desde Comprensión vuelve a esa categoría. Definiciones de indicadores y alianza añadidas. Consulta directa disponible con el acceso contextual OFF.
+- Indicadores, lector y vista previa respetan Símbolos OFF. Prefijos del tutorial según contenido; seleccionar/aplicar sello usan el símbolo de acción [>] en lugar de confundir Seguridad [S] o visitado [V].
+- Vista previa refleja instrucciones sencillas y símbolos, muestra valores de ejemplo y usa fondo oscuro localizado. Sin rediseño general. Instrucciones de sellos simplificados conservan equivalencia SÍ/NO y existencia de respuestas alternativas.
+- Instrucciones sencillas tiene alcance de tutorial; no reescribe la narrativa ni informes. Símbolos sigue teniendo cobertura parcial en la interfaz visual. Glosario contextual disponible en asesor/lector, no mediante enlaces en todos los documentos o diálogos.
+- Unity Play Mode: cuatro interruptores, 16 combinaciones, documentos/sellos/consecuencias, mapa y visita, glosario y retorno, 12 lecciones/18 notas, guía activa actualizada en directo, texto 175%, alto contraste y persistencia en proceso nuevo. Entradas virtuales, callbacks y preparación mediante API: no pruebas físicas ni evaluación humana de comprensión.
+- Regresiones de tutorial, manual (1280x720 y 1920x1080), menús/guardados, documentos y lector superadas. Recorrido principal y lector repetidos tras el ajuste final de símbolos. Sin nueva build independiente ni cobertura exhaustiva de países, informes y transiciones anuales.
+- Backup previo verificado; ocho archivos personales sin cambios por SHA-256; QualitySettings restaurado.
+- Informe: Documentation/El_Despacho_Auditoria_Comprension_v0.10.10-prototipo.pdf. Capturas y registros: Documentation/Comprension_v01010/.
+
+## v0.10.9-prototipo — Teclado opcional, mapa y estados ON/OFF (2026-11-19)
+
+- Las flechas ampliadas requieren Navegación por teclado ON también en Accesibilidad y el lector. Se evita que la navegación nativa de uGUI eluda OFF. TAB/Mayús+TAB, INTRO/Espacio y ESC siguen disponibles; izquierda/derecha conservan el ajuste de sliders enfocados. El cambio ON/OFF se aplica inmediatamente y limpia el foco anterior.
+- El mapa separa las chinchetas de las fichas duplicadas. Desde una chincheta las flechas buscan otro país conocido por posición real, distancia y alineación; sin candidato mantienen la selección. TAB permite llegar a los controles laterales. No se identifican países futuros.
+- Contorno con sombra y blanco en alto contraste; ayuda del lateral con nombre público, disponibilidad/bloqueo y acción. Los nodos sin acción no permiten visitar; una selección consume su activación una sola vez. Se conserva la posibilidad preexistente de reabrir visitas pendientes, sin cambiar reglas diplomáticas.
+- Predeterminado keyboard=false. Los valores antiguos presentes se conservan porque el formato anterior no distinguía elección manual de herencia. keyboardChoiceSchema registra elección explícita nueva o valor antiguo conservado; un archivo sin campo keyboard utiliza OFF. Sin escritura automática de preferencias al iniciar.
+- Interruptores individuales ON/OFF en las cuatro categorías; etiquetas de foco activado/desactivado para narración. No se cambian estados no booleanos.
+- Unity 6000.3.24f1 Play Mode con Keyboard/Mouse virtuales: OFF/ON, TAB, sliders, mapa en cuatro direcciones y límites, países bloqueados, foco, 1920x1080, 1280x720, documentos/sellos, diplomacia, pausa, tutorial, guardados y lector F2. Persistencia en proceso nuevo y regresiones existentes de documentos, menús, tutorial, lector y mando.
+- Backup previo verificado; ocho archivos personales comprobados por SHA-256 sin cambios. QualitySettings restaurado. Pendientes dispositivos físicos, escucha humana, cobertura de todas las campañas y nueva build independiente.
+- Informe: Documentation/El_Despacho_Keyboard_Map_And_Toggles_v0.10.9-prototipo.pdf. Capturas y registros: Documentation/Keyboard_Map_v0109/.
+
+## v0.10.8-prototipo — Flechas y retirada de Perfiles (2026-11-19)
+
+- Navegación espacial con las cuatro flechas: posición en pantalla, filas/columnas y listas; se conservan TAB/Mayús+TAB, INTRO/Espacio y ESC. Los sliders usan izquierda/derecha en pasos del 5 % sin desplazar el foco. Se reutilizan el marco asociado, las máscaras y el desplazamiento mínimo existentes.
+- Accesibilidad abre una página breve con las cuatro categorías individuales. Se retiran PERFILES, sus cuatro botones y su resumen, conservando arte, controles y funciones individuales.
+- La carga adopta los valores individuales efectivos y elimina las capas de perfiles; conserva elecciones manuales, contraste y movimiento. Los JSON antiguos siguen siendo legibles. No se restaura la base de un perfil ni se aplican recomendaciones ocultas. La normalización se escribe en el siguiente guardado de ajustes.
+- Se elimina una dependencia de arrays de perfiles en la migración antigua del glosario. Los helpers históricos de perfiles quedan solo en Editor para fixtures de pruebas; no forman parte del jugador ni de carga/guardado/interfaz.
+- Ayudas de documentos, sellos, lector y ajustes actualizadas para flechas y TAB. Etiqueta visible v0.10.8-prototipo, sobre v0.10.7 real.
+- Unity 6000.3.24f1 Play Mode: recorrido con teclado/ratón virtuales por menús, ajustes, documentos, sellos, mapa, diplomacia, tutorial, pausa, guardar/cargar y lector F2; foco, scroll, sliders, controles deshabilitados y texto al 175 %. Diez configuraciones históricas migradas; persistencia comprobada en proceso nuevo. Regresiones existentes de documentos, mando, menús, tutorial y lector completadas.
+- Backup previo verificado y ocho archivos reales de partidas/preferencias comprobados por SHA-256 sin cambios. QualitySettings restaurado después de las pruebas. Sin cambios en contenido, reglas ni formato de partidas.
+- Pendiente validación física, escucha humana, todas las resoluciones/combinaciones y una nueva build independiente. Las pruebas históricas exclusivas de perfiles ya no son criterios funcionales; se reemplazan por migración y edición individual.
+- Informe: Documentation/El_Despacho_Flechas_y_Retirada_de_Perfiles_v0.10.8-prototipo.pdf. Evidencia: Documentation/Flechas_v0108/.
+
+## v0.10.7-prototipo — Auditoría funcional de Accesibilidad > CONTROLES (2026-11-19)
+
+- Corregido el clic en la ampliación del expediente: seleccionar cambiaba su tamaño y el mismo evento podía cancelar la selección. La selección registra su frame y es idempotente; el clic que selecciona un sello tampoco puede confirmarlo simultáneamente.
+- Zona de lectura ampliada 24 unidades de Canvas con áreas grandes, tanto para clic como para arrastre; los rectángulos originales de botones vecinos conservan prioridad. Documento, sello, pausa y filas del lector comprobados con puntos de entrada exteriores.
+- Foco de teclado sobre la bandeja visible, zona de colocación y superficie del expediente al confirmar un sello. Cancelación de gestos al cambiar de esquema; instrucciones de confirmación por teclado; ajuste de slider protegido frente a destinos ausentes.
+- La Gaceta limita la navegación accesible a su contenido visible. Se elimina del modo visual el enlace virtual sin destino del glosario: se conserva en el lector, el botón nativo del despacho y Ajustes.
+- Pruebas en Unity 6000.3.24f1 Play Mode con Mouse/Keyboard virtuales: controles, arrastre/clics, ESC, sellos, decisión única, mapa/visita/informes, tutorial, pausa, guardar/cargar, atajos de voz, perfiles, combinaciones, 175% y 1280x720. Persistencia verificada en proceso nuevo. Regresiones de documentos, mando, menús, tutorial, lector, navegación y semántica completadas; no equivalen a pruebas físicas.
+- Sin cambios de arte, maquetación de tarjetas, contenido, reglas, diplomacia ni formato de guardado. Backup verificado; ocho archivos reales de partidas/preferencias intactos. Calidad/VSync restaurada tras las pruebas y clave de vibración preservada.
+- La etiqueta visible seguía en v0.9.14 aunque CHANGELOG/código ya estaban en v0.10.6; se sincroniza a v0.10.7. Pendientes dispositivos físicos, escucha humana y cobertura exhaustiva de todas las campañas/resoluciones.
+- Informe y evidencia: Documentation/El_Despacho_Auditoria_Controles_v0.10.7-prototipo.pdf y Documentation/Controles_v0107/.
+
+## v0.10.6-prototipo — Interruptor «VIBRACIÓN: SÍ / NO» en PlayerPrefs (2026-11-18)
 
 - Nuevo botón `VIBRACIÓN: SÍ / NO`, generado por `DespachoGame.BuildVibrationToggle` y colocado en Ajustes › Controles. El menú de Ajustes es el mismo desde la pantalla de título y desde la pausa, así que el ajuste está en los dos.
 - La preferencia se guarda en PlayerPrefs (`eldespacho_vibracion`, 1/0) mediante `Haptics.Enabled` en `Kit.cs`. La primera vez toma el valor anterior de settings.json (activada por defecto). La intensidad (100 / 70 / 40 %) sigue en settings.json.

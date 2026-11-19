@@ -1,0 +1,73 @@
+PASS isolated preferences directory
+PASS document added edge selects without cancellation (-1.00, 0.00)
+PASS document added edge selects without cancellation (1.00, 0.00)
+PASS document added edge selects without cancellation (0.00, 1.00)
+PASS document added edge selects without cancellation (0.00, -1.00)
+PASS stamp added area never confirms on selection frame
+PASS enlarged reading zone respects original neighbouring button
+PASS reader action grows from 64 to 96 logical units
+PASS reader added bottom area receives pointer and exits
+PASS keyboard reaches Seleccionar sello
+PASS visible focus: Seleccionar sello
+PASS Down arrow advances visible focus
+PASS Up arrow reverses focus
+PASS keyboard reaches Seleccionar sello
+PASS visible focus: Seleccionar sello
+PASS keyboard reaches Aplicar sello
+PASS visible focus: Aplicar sello
+PASS right arrow on stamp confirmation neither decides nor throws
+PASS keyboard reaches Volumen maestro
+PASS visible focus: Volumen maestro
+PASS Left arrow changes focused volume
+PASS Right arrow restores volume
+PASS document motion completes mode 0
+PASS document motion completes mode 1
+PASS actual opening reduced 0.233s -> 0.034s
+PASS keyboard reaches Seleccionar documentos con clics
+PASS visible focus: Seleccionar documentos con clics
+PASS mouse actual control toggles Seleccionar documentos con clics
+PASS keyboard reaches Seleccionar documentos con clics
+PASS visible focus: Seleccionar documentos con clics
+PASS keyboard reaches Navegación por teclado
+PASS visible focus: Navegación por teclado
+PASS mouse actual control toggles Navegación por teclado
+PASS keyboard reaches Navegación por teclado
+PASS visible focus: Navegación por teclado
+PASS keyboard reaches Botones y zonas más grandes
+PASS visible focus: Botones y zonas más grandes
+PASS mouse actual control toggles Botones y zonas más grandes
+PASS keyboard reaches Botones y zonas más grandes
+PASS visible focus: Botones y zonas más grandes
+PASS keyboard reaches Reducir animaciones
+PASS visible focus: Reducir animaciones
+PASS mouse actual control toggles Reducir animaciones
+PASS keyboard reaches Reducir animaciones
+PASS visible focus: Reducir animaciones
+PASS keyboard reaches Documento de ejemplo
+PASS visible focus: Documento de ejemplo
+PASS keyboard reaches Zona de lectura
+PASS visible focus: Zona de lectura
+PASS demo in live paused campaign leaves complete save state unchanged
+PASS actual Game View 1280x720
+PASS keyboard reaches Reducir animaciones
+PASS visible focus: Reducir animaciones
+PASS 175 percent category focus follows scroll
+PASS keyboard reaches Controles y atajos
+PASS visible focus: Controles y atajos
+PASS mouse shortcuts link at 175 percent
+PASS keyboard reaches Repetir voz
+PASS visible focus: Repetir voz
+PASS mouse repeat shortcut remapping
+PASS keyboard reaches Detener voz
+PASS visible focus: Detener voz
+PASS mouse stop shortcut remapping
+PASS keyboard reaches Activar navegación por teclado
+PASS visible focus: Activar navegación por teclado
+PASS linked keyboard switch uses same preference
+PASS remapped repeat key accepted by Windows speech worker (not audible verification)
+PASS remapped stop key accepted by Windows speech worker (not audible verification)
+PASS keyboard reaches Volver
+PASS visible focus: Volver
+PASS linked return action
+PASS extra controls tests do not force reading view
+COMPLETE extra coverage: simulated input plus state/geometry observation. Physical tests pending.

@@ -1,0 +1,27 @@
+PASS game boots in Unity Play mode
+PASS touching the gamepad makes it the active device
+PASS office has a selected button for the gamepad
+PASS default focus is never an irreversible decision
+PASS half R2 pulls the document without opening it
+PASS releasing R2 early returns the document to the tray
+PASS a digital full press does not open instantly
+PASS holding R2 to the bottom opens the document
+PASS the R2 that opened the document cannot stamp until released
+PASS half L2 lowers the DENEGADO stamp
+PASS releasing L2 early does not decide
+PASS both triggers together choose nothing
+PASS R2 to the bottom stamps APROBADO
+PASS stamping sends a strong low-motor pulse
+PASS turning vibration off stops the motors at once
+PASS with vibration off new pulses are skipped
+PASS after stamping the focus moves to CONTINUAR
+PASS changing screen stops the motors
+PASS map screen gets a selected button
+PASS settings show VIBRACIÓN: SÍ
+PASS the toggle turns vibration off and saves it in PlayerPrefs
+PASS the toggle turns vibration back on
+PASS Start opens the pause menu
+PASS pause menu gets the gamepad focus
+PASS B closes the pause menu
+PASS disconnecting the gamepad clears it safely
+COMPLETE: virtual gamepad in Play mode; physical rumble feel not verified.

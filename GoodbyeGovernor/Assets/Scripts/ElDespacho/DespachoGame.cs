@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -219,6 +219,7 @@ namespace ElDespacho
             Kit.Label(bar.transform, $"<b>{CountryDatabase.PlayerCountry.ToUpper()}</b>\n<size=20>Año {year} de {YearsInMandate}</size>", 30,
                 Pal.Gold, TextAnchor.MiddleLeft, new Vector2(0, 0), new Vector2(0.18f, 1), new Vector2(30, 0), Vector2.zero);
 
+            bar.gameObject.AddComponent<GameplayHudLayout>();
             Indicator(bar.transform, "ESTABILIDAD", estabilidad, 0.19f);
             Indicator(bar.transform, "SEGURIDAD", seguridad, 0.42f);
             Indicator(bar.transform, "PROSPERIDAD", prosperidad, 0.65f);
@@ -825,7 +826,7 @@ namespace ElDespacho
             side.gameObject.AddComponent<GameplayMapSidebar>();
             var st = side.transform;
             Kit.Label(st, "MAPA DEL MUNDO", 26, Pal.Ink, TextAnchor.UpperCenter, Vector2.zero, Vector2.one, new Vector2(10, 0), new Vector2(-10, -16), FontStyle.Bold);
-            Kit.Label(st, "Elige un país con el ratón.", 18, Pal.InkSoft, TextAnchor.UpperCenter, Vector2.zero, Vector2.one, new Vector2(10, 0), new Vector2(-10, -52), FontStyle.Italic);
+            Kit.Label(st, "Elige un país. Teclado ON: flechas. TAB: otros controles.", 18, Pal.InkSoft, TextAnchor.UpperCenter, Vector2.zero, Vector2.one, new Vector2(10, 0), new Vector2(-10, -52), FontStyle.Italic).name="MapKeyboardHint";
 
             var legend = new (string b, Color c, string text)[]
             {
@@ -897,6 +898,7 @@ namespace ElDespacho
                 ring.color = Kit.WithAlpha(Pal.Cream, 0.9f);
             }
 
+            if (!string.IsNullOrEmpty(badge)) dot.gameObject.AddComponent<AccessMapCountry>().Setup(label, onClick, badge);
             if (!string.IsNullOrEmpty(badge))
             {
                 var icon = Art.MapIcon(badge);
@@ -939,6 +941,7 @@ namespace ElDespacho
                 b.onClick.AddListener(() => { Sfx.Play(Sfx.Click); onClick(); });
             }
 
+            if (!future) icon.gameObject.AddComponent<AccessMapCountry>().Setup(label, onClick, badge);
             if (future)
             {
                 var q = Kit.Label(map, "???", 16, Kit.WithAlpha(Pal.InkSoft, 0.7f), TextAnchor.UpperCenter, pos, pos,

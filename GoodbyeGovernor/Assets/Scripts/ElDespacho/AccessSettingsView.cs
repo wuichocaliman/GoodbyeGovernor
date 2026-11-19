@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,7 +8,9 @@ namespace ElDespacho {
  public sealed partial class AccessController {
   bool demoSelected, demoOpened, demoNotice;
   string applied="Los ajustes se guardan automáticamente.";
-  public void OpenCategory(string name){generalAudio=false;page=name=="General"?"Inicio":name;focused=-1;Refresh();}
+  string glossaryReturnPage;bool glossaryReturnReader;
+  public void OpenCategory(string name){if(name=="Glosario"&&page!="Glosario"){glossaryReturnPage=page;glossaryReturnReader=reader;}generalAudio=false;page=name=="General"?"Inicio":name;focused=-1;Refresh();}
+#if UNITY_EDITOR
   public void ApplyProfile(int profile){
    if(profile<0||profile>3)return;
    P.ToggleProfile(profile,Speech.Ready&&Speech.Error=="");
@@ -17,23 +19,25 @@ namespace ElDespacho {
   public string ConfigurationStatus=>P.profileMask==0?"Configuración personalizada":
    "Configuración recomendada: "+string.Join(" + ",new[]{0,1,2,3}.Where(i=>(P.profileMask&(1<<i))!=0).Select(i=>new[]{"Lectura cómoda","Interacción sencilla","Comprensión guiada","Escucha asistida"}[i]))+
    (P.HasProfileOverrides?" · con ajustes personales prioritarios":"");
+#endif
   public void DemoDocument(){if(!P.simpleDocuments)return;demoSelected=true;demoOpened=false;Refresh();}
   public void DemoPlace(){if(!P.simpleDocuments||!demoSelected)return;demoOpened=true;demoSelected=false;Refresh();}
   public bool DemoOpened=>demoOpened;
-  public void AdjustFocused(float direction){if(focused<0||focused>=controls.Count)return;var slider=controls[focused].target.GetComponentInChildren<Slider>();if(slider!=null&&slider.interactable)slider.value=Mathf.Clamp(slider.value+direction*(slider.maxValue-slider.minValue)*.05f,slider.minValue,slider.maxValue);}
+  public void AdjustFocused(float direction){if(focused<0||focused>=controls.Count)return;var target=controls[focused].target;if(target==null)return;var slider=target.GetComponentInChildren<Slider>();if(slider!=null&&slider.interactable)slider.value=Mathf.Clamp(slider.value+direction*(slider.maxValue-slider.minValue)*.05f,slider.minValue,slider.maxValue);}
   List<Entry> SettingsEntries(){
    if(page=="Controles"||page=="Glosario"||page=="Restaurar")return LegacySettingsEntries();
    var a=new List<Entry>();
    void Info(string title,string desc,string icon="D")=>a.Add(new Entry(title){description=desc,icon=icon});
    void Action(string title,string desc,string icon,Action f,string value="",bool enabled=true)=>a.Add(new Entry(title,f,null,enabled){description=desc,icon=icon,value=value});
-   void Toggle(string title,string desc,string icon,bool value,Action f)=>Action(title,desc,icon,()=>Set(f),value?"Activado":"Desactivado");
+   void Toggle(string title,string desc,string icon,bool value,Action f)=>Action(title,desc,icon,()=>Set(f),value?"ON":"OFF");
    void Volume(string title,string desc,float value,Action<float> f,bool enabled=true)=>a.Add(new Entry(title,()=>{},null,enabled){description=desc,icon="audio",value=Mathf.RoundToInt(value*100)+" %",sliderValue=value,sliderChange=v=>Set(()=>f(v))});
    if(page=="Inicio"){
-    string[] names={"Lectura cómoda","Interacción sencilla","Comprensión guiada","Escucha asistida"};
-    string[] descriptions={"Letras más grandes y contraste mejorado.","Documentos con clics y zonas más fáciles de pulsar.","Instrucciones claras y ayuda durante el juego.","Narración y avisos visuales."};
+    Info("Elige una categoría","Configura cada ayuda por separado. Los cambios se guardan automáticamente.","gear");
+    string[] ids={"Visual","Motor","Cognitiva","Audio"};
+    string[] names={"VISIÓN Y LECTURA","CONTROLES","COMPRENSIÓN","AUDIO Y NARRACIÓN"};
+    string[] descriptions={"Texto, contraste y lectura opcional.","Documentos, teclado y movimiento.","Instrucciones, símbolos y ayudas.","Volúmenes, voz y avisos visuales."};
     string[] icons={"eye","cursor","book","audio"};
-    for(int i=0;i<4;i++){int n=i;Action(names[i],descriptions[i],icons[i],()=>ApplyProfile(n),(P.profileMask&(1<<i))!=0?"Desactivar perfil":"Activar perfil");a[a.Count-1].card=true;}
-    Info("Opciones activas",ConfigurationStatus+". "+ActiveOptions()+" Puedes combinar perfiles; tus cambios manuales tienen prioridad."+(P.profilesMigrated?" Preferencias anteriores conservadas como base personalizada.":""),"gear");
+    for(int i=0;i<4;i++){string id=ids[i];Action(names[i],descriptions[i],icons[i],()=>OpenCategory(id),"Abrir");a[a.Count-1].card=true;}
     Action("Restaurar accesibilidad","", "gear",()=>OpenCategory("Restaurar"),"Restaurar accesibilidad");
    }else if(page=="Visual"){
     Toggle("Alto contraste","Mejora la diferencia entre el texto y el fondo.","eye",DeskPreferences.Current.highContrast,()=>DeskPreferences.Current.highContrast=!DeskPreferences.Current.highContrast);
@@ -45,16 +49,16 @@ namespace ElDespacho {
     Action("Vista de lectura","Abre la alternativa de texto para esta sesión. F2, ESC o Volver al modo visual permiten salir. Los demás ajustes nunca la abren automáticamente.","D",OpenReadingView,"Abrir ahora");
    }else if(page=="Motor"){
     Toggle("Seleccionar documentos con clics","Pulsa un documento y después la zona de lectura. No hace falta arrastrarlo. Desactivado: arrastra el documento.","cursor",P.simpleDocuments,()=>SetDemoMode());
-    Toggle("Navegación por teclado","TAB elige; INTRO activa; las flechas izquierda y derecha ajustan los volúmenes.","cursor",P.keyboard,()=>P.keyboard=!P.keyboard);
+    Toggle("Navegación por teclado","Flechas: navegar. INTRO/Espacio: activar. TAB también avanza. En deslizadores, izquierda/derecha ajustan el valor.","cursor",P.keyboard,()=>P.SetKeyboard(!P.keyboard));
     Toggle("Botones y zonas más grandes","Amplía las zonas de documentos, sellos y botones pequeños del juego, además del lector.","cursor",P.largeTargets,()=>P.largeTargets=!P.largeTargets);
     Toggle("Reducir animaciones","Simplifica la apertura y el archivo de documentos y elimina temblores.","cursor",DeskPreferences.Current.reduceMotion,()=>DeskPreferences.Current.reduceMotion=!DeskPreferences.Current.reduceMotion);
     Action("Controles y atajos","Consulta los controles y cambia las teclas de repetir y detener voz.","cursor",()=>OpenCategory("Controles"),"Consultar");
     Info("Movimiento de cámara","Este prototipo no tiene movimiento de cámara.","cursor");
    }else if(page=="Cognitiva"){
-    Toggle("Instrucciones sencillas","Utiliza explicaciones más cortas en el tutorial. La narrativa conserva su significado.","book",P.simpleLanguage,()=>P.simpleLanguage=!P.simpleLanguage);
+    Toggle("Instrucciones sencillas","Aclara las acciones del tutorial, despacho, mapa e informes. No cambia declaraciones ni pruebas narrativas.","book",P.simpleLanguage,()=>P.simpleLanguage=!P.simpleLanguage);
     Toggle("Ayudas de navegación","Indica el siguiente paso en la nota del asesor y en el lector. El marco de teclado es independiente.","cursor",P.navigationHelp,()=>P.navigationHelp=!P.navigationHelp);
-    Toggle("Símbolos explicativos","Añade símbolos e indicadores a la nota del asesor y al lector. El glosario se controla por separado.","=",P.symbols,()=>P.symbols=!P.symbols);
-    Toggle("Glosario disponible","Añade acceso a términos en la nota del asesor y en el lector. Es independiente de los símbolos.","book",P.glossary,()=>P.glossary=!P.glossary);
+    Toggle("Símbolos explicativos","Identifica indicadores, sellos, informes y estados del mapa con símbolos y texto. El glosario se controla por separado.","=",P.symbols,()=>P.symbols=!P.symbols);
+    Toggle("Glosario disponible","Permite consultar términos desde el despacho, tutorial, diálogos, informes y lector, y volver al mismo lugar.","book",P.glossary,()=>P.glossary=!P.glossary);
     Action("Glosario político","Consulta términos y símbolos. Las sospechas nunca se presentan como certezas.","book",()=>OpenCategory("Glosario"),"Consultar");
     Action("Tutorial y ayudas contextuales","Consulta las doce lecciones del asesor. Las ayudas de la campaña conservan su progreso.","book",()=>{ClosePanels();menus.ShowLesson(0);},"Consultar tutorial");
    }else if(page=="Audio"){
@@ -75,8 +79,8 @@ namespace ElDespacho {
 
    }
    if(page!="Inicio"){
-    Info("VISTA PREVIA · sin efectos en tu partida","Presidente, hay un expediente pendiente de lectura.","D");
-    if(P.independentColor||P.symbols)Info("[=] Estabilidad: 65 · estable","[S] Seguridad: 48 · atención. [$] Prosperidad: 30 · en riesgo. Valores de ejemplo.","=");
+    Info("VISTA PREVIA · sin efectos en tu partida",P.simpleLanguage?"Abra el expediente. Lea la petición. Después elija una respuesta.":"Presidente, hay un expediente pendiente de lectura. Revise su contenido antes de responder.","D");
+    if(P.independentColor||P.symbols)Info((P.symbols?"[=] ":"")+"Estabilidad: 65 · estable",(P.symbols?"[S] ":"")+"Seguridad: 48 · atención. "+(P.symbols?"[$] ":"")+"Prosperidad: 30 · en riesgo. Valores de ejemplo.","=");
     if(page=="Motor"){
      Action(demoOpened?"Documento de ejemplo abierto":"Documento de ejemplo",demoOpened?"Lectura completada. Puedes repetir la demostración.":demoSelected?"Seleccionado. Pulsa ahora la zona de lectura.":"Activa la selección con clics y pulsa este documento.","D",DemoDocument,"Seleccionar",P.simpleDocuments);
      Action("Zona de lectura",demoOpened?"El documento se ha abierto sin arrastrar.":"Coloca aquí el documento seleccionado.","cursor",DemoPlace,"Colocar",P.simpleDocuments&&demoSelected);

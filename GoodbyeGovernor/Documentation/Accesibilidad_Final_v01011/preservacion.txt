@@ -1,0 +1,3 @@
+PASS: ocho archivos de usuario idénticos por SHA-256 al backup previo.
+PASS: configuraciones ajenas de Unity restauradas.
+Backup CRC verificado: C:\Users\User\Documents\Codex\work\access-final\Backup_antes_v01011.zip

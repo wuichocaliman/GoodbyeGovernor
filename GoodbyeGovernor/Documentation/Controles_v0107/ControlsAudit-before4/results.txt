@@ -1,0 +1,95 @@
+PASS isolated preferences directory
+PASS OFF click does not open or select
+PASS OFF actual simulated drag opens
+PASS ON fast double click selects once, no open/decision/duplicate
+PASS ESC virtual key cancels document before pause
+FAIL changing clicks OFF clears prior selection
+PASS ON second click opens
+PASS stamp click previews only
+PASS ESC cancels stamp without decision
+PASS simplified stamp confirms original decision
+PASS duplicate stamp decision blocked
+PASS next document after archive
+PASS document OFF excludes extra area
+PASS document ON includes 12-unit extension
+FAIL document extension receives actual pointer event
+PASS reading zone OFF excludes extension
+FAIL reading zone ON includes extension
+FAIL click in enlarged reading zone opens
+PASS stamp OFF excludes extension
+PASS stamp ON includes extension
+FAIL stamp extension receives actual pointer event
+FAIL pause launcher exists after enlarged hit tests; screen=Despacho menu=Pausa
+PASS keyboard reaches Seleccionar expediente
+FAIL visible focus: Seleccionar expediente
+PASS keyboard selects closed document with clicks OFF
+PASS keyboard reaches Colocar expediente
+PASS visible focus: Colocar expediente
+PASS Space places keyboard document
+PASS keyboard reaches Seleccionar sello
+PASS visible focus: Seleccionar sello
+PASS keyboard reaches Aplicar sello
+FAIL visible focus: Aplicar sello
+PASS keyboard stamp confirmation applies decision
+PASS keyboard reaches MAPA
+PASS visible focus: MAPA
+PASS keyboard office to map
+PASS keyboard reaches Lindmark - [+] Posible aliado
+PASS visible focus: Lindmark - [+] Posible aliado
+PASS keyboard country selection starts visit
+PASS keyboard reaches INTELIGENCIA
+PASS visible focus: INTELIGENCIA
+PASS keyboard intelligence report
+PASS keyboard reaches COMERCIO
+PASS visible focus: COMERCIO
+PASS keyboard trade report
+PASS keyboard reaches DOSSIER
+PASS visible focus: DOSSIER
+PASS keyboard dossier
+PASS keyboard reaches ¿Qué opinas de nuestros rivales?
+PASS visible focus: ¿Qué opinas de nuestros rivales?
+PASS keyboard diplomatic question increments once
+PASS ESC from diplomacy pauses
+PASS keyboard reaches GUARDAR PARTIDA
+PASS visible focus: GUARDAR PARTIDA
+PASS keyboard reaches GUARDAR
+PASS visible focus: GUARDAR
+PASS keyboard manual save exists
+PASS keyboard reaches CARGAR PARTIDA
+PASS visible focus: CARGAR PARTIDA
+PASS keyboard reaches CARGAR
+PASS visible focus: CARGAR
+PASS keyboard reaches CONFIRMAR
+PASS visible focus: CONFIRMAR
+PASS keyboard load confirmation resumes
+PASS keyboard reaches CÓMO JUGAR
+PASS visible focus: CÓMO JUGAR
+PASS keyboard reaches 01  Bienvenido a Aurelia
+PASS visible focus: 01  Bienvenido a Aurelia
+PASS keyboard reaches SIGUIENTE
+PASS visible focus: SIGUIENTE
+PASS keyboard tutorial lesson navigation
+PASS ESC exits lesson
+PASS F2 opens reader explicitly
+PASS reader large-target geometry not smaller
+PASS F2 returns illustrated mode
+PASS combination 1 opens without drag
+PASS combination 1 decision
+PASS combination 1 never forces reader
+PASS combination 2 opens without drag
+PASS combination 2 decision
+PASS combination 2 never forces reader
+PASS combination 3 opens without drag
+PASS combination 3 decision
+PASS combination 3 never forces reader
+PASS combination 4 opens without drag
+PASS combination 4 decision
+PASS combination 4 never forces reader
+PASS combination 5 opens without drag
+PASS combination 5 decision
+PASS combination 5 never forces reader
+PASS simple profile applies
+PASS manual change and pre-profile preference survive removal
+PASS reduce animations shortens document motion
+PASS Unity error/exception log empty
+COMPLETE simulated InputSystem keyboard/mouse in Unity Play Mode. Physical devices NOT tested.

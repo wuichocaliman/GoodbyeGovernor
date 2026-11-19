@@ -1,0 +1,14 @@
+PASS actual settings font 0.75
+PASS actual settings font 1
+PASS actual settings font 1.25
+PASS actual settings font 1.5
+PASS actual settings font 1.75
+PASS interface scale changes geometry not text
+PASS interface geometry reverses
+PASS indicator labels add actual value and status
+PASS indicator labels revert
+PASS normal animation moves actual Wiggle
+PASS reduce flashes stops real transform motion
+PASS motion restores after OFF
+PASS all vision values reload exactly
+COMPLETE runtime geometry, actual labels and transform motion; no physical perception claim

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -13,6 +13,8 @@ namespace ElDespacho {
   public static AccessController Instance {get;private set;}
   public sealed class Entry {public string description,icon,value;public bool card;public float sliderValue;public Action<float> sliderChange;public string text; public Action action;public Transform target;public bool enabled=true;public Entry(string t,Action a=null,Transform o=null,bool e=true){text=t;action=a;target=o;enabled=e;}}
 #if ENABLE_INPUT_SYSTEM
+  UnityEngine.InputSystem.UI.InputSystemUIInputModule nativeNavigationModule;
+  void RestrictNativeKeyboard(){var module=EventSystem.current!=null?EventSystem.current.currentInputModule as UnityEngine.InputSystem.UI.InputSystemUIInputModule:null;if(module==null||module==nativeNavigationModule)return;nativeNavigationModule=module;foreach(var reference in new[]{module.move,module.submit,module.cancel})if(reference!=null&&reference.action!=null)reference.action.bindingMask=new InputBinding{path="<Gamepad>/*"};}
   InputActionMap keys; readonly HashSet<string> pressed=new HashSet<string>(); bool mouseClick;
   bool Press(string key)=>pressed.Remove(key);
   void BindKeys(){keys=new InputActionMap("Accessibility09");foreach(var name in new[]{"f1","f2","f3","f6","f7","f8","tab","upArrow","downArrow","enter","space","pageDown","pageUp","leftArrow","rightArrow"}){string id=name;keys.AddAction(id,InputActionType.Button,"<Keyboard>/"+id).performed+=_=>pressed.Add(id);}keys.AddAction("place",InputActionType.Button,"<Mouse>/leftButton").performed+=_=>mouseClick=true;keys.Enable();}
@@ -20,14 +22,14 @@ namespace ElDespacho {
   DespachoGame game;DeskMenus menus; Canvas canvas;RectTransform root,content,focusRect;ScrollRect scroll;Image focus;Text notice;
   List<Entry> source=new List<Entry>(), controls=new List<Entry>();List<RectTransform> rows=new List<RectTransform>();
   public readonly AccessSpeech Speech=new AccessSpeech();
-  string layoutContext=""; int focused=-1;string signature="",page="";float nextScan;bool force=true;bool reader;bool announceAgain;bool lastNarration;string lastTutorial="";
+  string layoutContext=""; int focused=-1;string signature="",page="";float nextScan;bool force=true;bool reader;bool announceAgain;bool lastNarration; bool lastKeyboard; bool lastSimpleDocuments; int stampSelectionFrame=-1;string lastTutorial="";
   public StampTool SelectedStamp {get;private set;}
   Canvas alertCanvas;Text alertText;float alertUntil;
   public string CustomPage=>page;
   AccessPreferences P=>AccessPreferences.Current;
   public static string Plain(string t)=>Regex.Replace(t??"","<[^>]*>","");
   public static string Status(int n)=>n<=0?"agotado":n<35?"en riesgo":n<60?"atención":"estable";
-  void Awake(){Instance=this;AccessPreferences.Load();game=GetComponent<DespachoGame>();menus=GetComponent<DeskMenus>();Build();
+  void Awake(){Instance=this;AccessPreferences.Load();lastSimpleDocuments=P.simpleDocuments;lastKeyboard=P.keyboard;game=GetComponent<DespachoGame>();menus=GetComponent<DeskMenus>();Build();
 #if ENABLE_INPUT_SYSTEM
    BindKeys();
 #endif
@@ -38,46 +40,63 @@ namespace ElDespacho {
 #endif
    Speech.Dispose();if(Instance==this)Instance=null;}
   void Build(){var go=new GameObject("Accessibility",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler),typeof(GraphicRaycaster));go.transform.SetParent(transform,false);canvas=go.GetComponent<Canvas>();canvas.renderMode=RenderMode.ScreenSpaceOverlay;canvas.sortingOrder=700;root=(RectTransform)go.transform;var sc=go.GetComponent<CanvasScaler>();sc.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;sc.referenceResolution=new Vector2(1920,1080);sc.matchWidthOrHeight=.5f;canvas.enabled=false;}
-  public bool IsSource(Transform t){if(t.IsChildOf(root)||t.GetComponentsInParent<CanvasGroup>().Any(g=>g.alpha<=.01f))return false;var c=t.GetComponentInParent<Canvas>();if(c==null||!c.enabled||!c.gameObject.activeInHierarchy)return false;if(c.sortingOrder==100 && menus.IsVisible)return false;return c.sortingOrder==100||c.sortingOrder==400||c.sortingOrder==500||c.sortingOrder==300;}
+  public bool IsSource(Transform t){if(t.GetComponentsInParent<Transform>().Any(x=>x.name=="MapKeyboardSelection")||t.IsChildOf(root)||t.GetComponentsInParent<CanvasGroup>().Any(g=>g.alpha<=.01f))return false;var c=t.GetComponentInParent<Canvas>();if(c==null||!c.enabled||!c.gameObject.activeInHierarchy)return false;if(c.sortingOrder==100 && menus.IsVisible)return false;return c.sortingOrder==650||c.sortingOrder==100||c.sortingOrder==400||c.sortingOrder==500||c.sortingOrder==300;}
   public List<Entry> Snapshot(){
    var list=new List<Entry>();
    if(reader)list.Add(new Entry("[X] Volver al modo visual · F2 o ESC",()=>SetReadingView(false)));
    if(P.navigationHelp)list.Add(new Entry(menus.IsVisible?"[>] Elija una opción. ESC vuelve a la pantalla anterior.":game.ScreenName=="Despacho"?"[>] Abra el expediente, lea y elija un sello. Después, continúe. También puede abrir el mapa.":game.ScreenName=="Mapa"?"[>] Elija un país disponible. Las marcas de amenaza y aliado son sospechas.":"[>] Lea la información. Elija una pregunta, una pestaña o una decisión."));
    if(P.navigationHelp&&!menus.IsVisible)list.Add(new Entry(GameplayContextHelp()));
-   if(P.glossary)list.Add(new Entry("[?] Consultar símbolos y términos",()=>{page="Glosario";Refresh();}));
+   if(P.glossary && reader)list.Add(new Entry("[?] Consultar símbolos y términos",()=>OpenCategory("Glosario")));
    if(!menus.IsVisible&&game.HasSession && (P.independentColor||P.symbols||P.narration)) foreach(var indicator in game.AccessIndicators().Split(new[]{". "},StringSplitOptions.RemoveEmptyEntries))list.Add(new Entry(indicator));
    foreach(var t in game.GetComponentsInChildren<Text>(false)){
-    if(!IsSource(t.transform)||!t.enabled||t.GetComponentInParent<Button>()!=null||string.IsNullOrWhiteSpace(t.text))continue;
+    if(t.GetComponent<AccessSymbol>()!=null||Regex.IsMatch(Plain(t.text),@"^[!?+=$>VX]$")||!IsSource(t.transform)||!t.enabled||t.GetComponentInParent<Button>()!=null||string.IsNullOrWhiteSpace(t.text))continue;
     if(!menus.IsVisible&&(P.independentColor||P.symbols||P.narration)&&t.GetComponentsInParent<Transform>().Any(x=>x.name=="HUD"))continue;
     list.Add(new Entry(Plain(t.text),null,t.transform));
    }
    foreach(var b in game.GetComponentsInChildren<Button>(false)){
-    if(!IsSource(b.transform)||!b.enabled)continue;
+    if(!IsSource(b.transform)||!b.enabled||b.GetComponent<AccessMapCountry>()!=null)continue;
     string label=string.Join(" ",b.GetComponentsInChildren<Text>().Where(t=>t.enabled).Select(t=>Plain(t.text)));
     var semantic=b.GetComponent<AccessName>();if(semantic!=null)label=semantic.label;
     if(string.IsNullOrWhiteSpace(label))label=b.name;
     var button=b;list.Add(new Entry(label,()=>{if(button!=null&&button.IsActive()&&button.IsInteractable())button.onClick.Invoke();},b.transform,b.IsInteractable()));
    }
+   foreach(var node in game.GetComponentsInChildren<AccessMapCountry>(false))if(IsSource(node.transform))list.Add(new Entry(node.Label,node.Activate,node.transform));
    foreach(var slider in game.GetComponentsInChildren<Slider>(false))if(IsSource(slider.transform)&&slider.IsInteractable()){
     var s=slider;var txt=s.transform.parent.GetComponentsInChildren<Text>().Where(t=>t.rectTransform.anchorMin.y>=((RectTransform)s.transform).anchorMin.y).OrderBy(t=>Mathf.Abs(t.rectTransform.anchorMin.y-((RectTransform)s.transform).anchorMin.y)).FirstOrDefault();string label=txt!=null?Plain(txt.text):"Valor";
     list.Add(new Entry(label+" - reducir",()=>s.value=Mathf.Max(s.minValue,s.value-(s.maxValue-s.minValue)/10),s.transform));
     list.Add(new Entry(label+" - aumentar",()=>s.value=Mathf.Min(s.maxValue,s.value+(s.maxValue-s.minValue)/10),s.transform));
    }
    if(!menus.IsVisible){
-    foreach(var d in game.GetComponentsInChildren<DeskDocument>())if(!d.CanDecide&&d.AccessAvailable){var doc=d;list.Add(new Entry(doc.AccessSelected?"[>] Colocar expediente en zona de lectura":"[D] Seleccionar expediente",()=>{if(doc.AccessSelected)doc.AccessPlace();else doc.AccessSelect();},d.transform));}
-    foreach(var s in game.GetComponentsInChildren<StampTool>())if(s.AccessAvailable){var stamp=s;list.Add(new Entry("[S] Seleccionar sello: "+Plain(s.GetComponent<AccessName>()!=null?s.GetComponent<AccessName>().label:string.Join(" ",s.GetComponentsInChildren<Text>().Select(t=>t.text))),()=>SelectStamp(stamp),s.transform));}
-    if(SelectedStamp!=null)list.Add(new Entry("[V] Aplicar sello seleccionado al expediente",()=>{var s=SelectedStamp;SelectedStamp=null;s.AccessApply();}));
+    foreach(var d in game.GetComponentsInChildren<DeskDocument>())if(!d.CanDecide&&d.AccessAvailable){var doc=d;list.Add(new Entry(doc.AccessSelected?"[>] Colocar expediente en zona de lectura":"[D] Seleccionar expediente",()=>{if(doc.AccessSelected)doc.AccessPlace();else doc.AccessSelect();},doc.AccessFocusTarget));}
+    foreach(var s in game.GetComponentsInChildren<StampTool>())if(s.AccessAvailable){var stamp=s;list.Add(new Entry("[>] Seleccionar sello: "+Plain(s.GetComponent<AccessName>()!=null?s.GetComponent<AccessName>().label:string.Join(" ",s.GetComponentsInChildren<Text>().Select(t=>t.text))),()=>SelectStamp(stamp),s.transform));}
+    if(SelectedStamp!=null)list.Add(new Entry("[>] Aplicar sello seleccionado al expediente",()=>{var s=SelectedStamp;SelectedStamp=null;s.AccessApply();},SelectedStamp.AccessFocusTarget));
    }
    foreach(var manual in game.GetComponentsInChildren<TutorialManualView>())foreach(var area in manual.GetComponentsInChildren<ScrollRect>())if(IsSource(area.transform)&&area.content.rect.height>area.viewport.rect.height+2){var scrollArea=area;list.Add(new Entry("Desplazar contenido del tutorial",()=>scrollArea.verticalNormalizedPosition=scrollArea.verticalNormalizedPosition>.05f?Mathf.Max(0,scrollArea.verticalNormalizedPosition-.5f):1,area.transform));}
    foreach(var text in game.GetComponentsInChildren<GameplayTextAccess>())if(IsSource(text.transform)&&text.Scroll!=null&&text.Scroll.enabled&&text.Scroll.content.rect.height>text.Scroll.viewport.rect.height+2){var area=text.Scroll;list.Add(new Entry("Desplazar texto: "+Plain(text.GetComponent<Text>().text).Split('\n')[0],()=>area.verticalNormalizedPosition=area.verticalNormalizedPosition>.05f?Mathf.Max(0,area.verticalNormalizedPosition-.5f):1,area.transform));}
+   // The illustrated newspaper is modal. Its backdrop blocks pointer input, so keyboard
+   // and reader snapshots must exclude the covered office controls as well.
+   if(!menus.IsVisible){var modal=game.GetComponentsInChildren<Transform>().FirstOrDefault(t=>t.name=="GazetteOverlay");
+    if(modal!=null)list.RemoveAll(e=>e.target!=null&&!e.target.IsChildOf(modal));}
+   if(!P.symbols)foreach(var entry in list)entry.text=Regex.Replace(entry.text,@"^\[(?:A|=|S|\$|!|\+|V|\?|D|>|X|i|OK|NO|ALIADO|-)\]\s*","");
    return list;
   }
   void Update(){
+   Speech.UpdateConfiguration();
+   if(lastSimpleDocuments!=P.simpleDocuments){
+    // A changed interaction scheme cancels an in-flight gesture, never a campaign decision.
+    foreach(var d in game.GetComponentsInChildren<DeskDocument>())d.CancelDrag();
+    foreach(var s in game.GetComponentsInChildren<StampTool>())s.CancelDrag();
+    SelectedStamp=null;lastSimpleDocuments=P.simpleDocuments;Refresh();
+   }
    if(alertCanvas!=null)alertCanvas.enabled=(P.visualSounds||P.navigationHelp)&&!canvas.enabled&&Time.unscaledTime<alertUntil;
    if(SelectedStamp!=null&&!SelectedStamp.AccessAvailable)SelectedStamp=null;
    if(P.narration&&!lastNarration){announceAgain=true;force=true;}if(!P.narration&&lastNarration)Speech.Stop();lastNarration=P.narration;
-   if(EventSystem.current!=null && (P.keyboard || page!="" || reader))EventSystem.current.sendNavigationEvents=false;
-   if(!P.keyboard&&page==""&&!reader&&EventSystem.current!=null)EventSystem.current.sendNavigationEvents=true;
+   if(lastKeyboard!=P.keyboard){focused=-1;lastKeyboard=P.keyboard;DrawFocus();}
+   // Native UI retains gamepad navigation; keyboard routes through this controller.
+#if ENABLE_INPUT_SYSTEM
+   RestrictNativeKeyboard();
+#endif
+   if(EventSystem.current!=null)EventSystem.current.sendNavigationEvents=!P.keyboard&&page==""&&!reader;
 #if ENABLE_INPUT_SYSTEM
    var k=Keyboard.current;
    if(k!=null){
@@ -85,13 +104,13 @@ namespace ElDespacho {
     if(Press("f2"))SetReadingView(!reader);
     if(Press("f3"))Speech.Say(NarrationSnapshot(),true);
     if(KeyPressed(P.repeatKey))Speech.Repeat();if(KeyPressed(P.stopKey))Speech.Stop();
-    if(P.keyboard || page!="" || reader){if(Press("tab")||Press("downArrow"))MoveFocus(k.shiftKey.isPressed?-1:1);if(Press("upArrow"))MoveFocus(-1);if(Press("enter")||Press("space"))Activate();if(Press("leftArrow"))AdjustFocused(-1);if(Press("rightArrow"))AdjustFocused(1);}
+    {if(Press("tab"))MoveFocus(k.shiftKey.isPressed?-1:1);if(Press("upArrow")&&P.keyboard)NavigateDirection(Vector2.up);if(Press("downArrow")&&P.keyboard)NavigateDirection(Vector2.down);if(Press("leftArrow")){if(P.keyboard)NavigateDirection(Vector2.left);else AdjustFocused(-1);}if(Press("rightArrow")){if(P.keyboard)NavigateDirection(Vector2.right);else AdjustFocused(1);}if(Press("enter")||Press("space"))Activate();}
     if(canvas.enabled&&scroll!=null){if(Press("pageDown"))scroll.verticalNormalizedPosition-=.2f;if(Press("pageUp"))scroll.verticalNormalizedPosition+=.2f;}
    }
    if(P.simpleDocuments && !canvas.enabled && !menus.IsVisible && Mouse.current!=null && mouseClick){
     var pos=Mouse.current.position.ReadValue();
-    if(SelectedStamp!=null){var s=SelectedStamp;if(s.AccessContains(pos)){SelectedStamp=null;s.AccessApply();}else if(!s.AccessOnTool(pos)){SelectedStamp=null;Notify("Selección cancelada");}}
-    foreach(var doc in game.GetComponentsInChildren<DeskDocument>())if(doc.AccessSelected&&!doc.AccessOnSheet(pos)){if(doc.AccessOnTray(pos))doc.AccessPlace();else doc.AccessCancel();}
+    if(SelectedStamp!=null && stampSelectionFrame<Time.frameCount){var s=SelectedStamp;if(s.AccessContains(pos)){SelectedStamp=null;s.AccessApply();}else if(!s.AccessOnTool(pos)){SelectedStamp=null;Notify("Selección cancelada");}}
+    foreach(var doc in game.GetComponentsInChildren<DeskDocument>())if(doc.AccessSelected&&doc.AccessSelectionFrame<Time.frameCount&&!doc.AccessOnSheet(pos)){if(doc.AccessOnTray(pos))doc.AccessPlace();else doc.AccessCancel();}
    }
    pressed.Clear();mouseClick=false;
 #endif
@@ -100,6 +119,7 @@ namespace ElDespacho {
   bool KeyPressed(int n)=>Press("f"+n);
 #endif
   void LateUpdate(){
+   UpdateContextGlossary();
    UpdateGameplayPresentation();
    if(SettingsPointerDrag)return;
    if(Time.unscaledTime<nextScan&&!force){DrawFocus();return;}nextScan=Time.unscaledTime+.15f;
@@ -117,10 +137,10 @@ namespace ElDespacho {
    DrawFocus();
   }
   public void Refresh(){force=true;}
-  public void SelectStamp(StampTool stamp){SelectedStamp=stamp;stamp.AccessPreview();Notify("Sello seleccionado. Pulse el documento para confirmar; ESC cancela.");Refresh();}
-  public void ReturnSettingsLevel(){if(page=="Inicio"&&reader&&!generalAudio){SetReadingView(true);return;}if(generalAudio||page=="Inicio"){menus.ShowSettings(-1);return;}page="Inicio";focused=-1;Refresh();}
+  public void SelectStamp(StampTool stamp){SelectedStamp=stamp;stampSelectionFrame=Time.frameCount;stamp.AccessPreview();Notify(P.keyboard?"Sello seleccionado. Flechas o TAB: elegir confirmación · INTRO: aplicar · ESC: cancelar.":"Sello seleccionado. Pulse el documento para confirmar; ESC cancela.");Refresh();}
+  public void ReturnSettingsLevel(){if(page=="Glosario"&&glossaryReturnPage!=null){page=glossaryReturnPage;reader=glossaryReturnReader;glossaryReturnPage=null;focused=-1;Refresh();return;}if(page=="Inicio"&&reader&&!generalAudio){SetReadingView(true);return;}if(generalAudio||page=="Inicio"){menus.ShowSettings(-1);return;}page="Inicio";focused=-1;Refresh();}
   public void ShowGeneralAudio(){Speech.Probe();page="Audio";generalAudio=true;focused=-1;Refresh();}
-  public bool Escape(){if(page==""&&reader){SetReadingView(false);return true;}if(SelectedStamp!=null){SelectedStamp=null;Notify("Sello cancelado");return true;}foreach(var d in game.GetComponentsInChildren<DeskDocument>())if(d.AccessSelected){d.AccessCancel();return true;}if(page!=""){ReturnSettingsLevel();return true;}return false;}
+  public bool Escape(){if(page=="Glosario"){ReturnSettingsLevel();return true;}if(page==""&&reader){SetReadingView(false);return true;}if(SelectedStamp!=null){SelectedStamp=null;Notify("Sello cancelado");return true;}foreach(var d in game.GetComponentsInChildren<DeskDocument>())if(d.AccessSelected){d.AccessCancel();return true;}if(page!=""){ReturnSettingsLevel();return true;}return false;}
   public static bool CancelOrBack()=>Instance!=null&&Instance.Escape();
   public bool IsReadingView=>reader&&page=="";
   public void SetReadingView(bool enabled){page="";reader=enabled;focused=-1;SelectedStamp=null;Refresh();}
@@ -159,8 +179,9 @@ namespace ElDespacho {
   }
   public void Activate(){if(focused<0||focused>=controls.Count)return;var action=controls[focused].action;if(page!="")revealSetting=controls[focused].text.Split('.')[0];action?.Invoke();force=true;}
   void DrawFocus(){
-   bool show=(P.keyboard||page!=""||reader)&&focused>=0&&focused<controls.Count;
+   bool show=focused>=0&&focused<controls.Count;
    var target=show?controls[focused].target as RectTransform:null;
+   UpdateMapFocus(target);
    if(target==null||!target.gameObject.activeInHierarchy){if(focusRect!=null)focusRect.gameObject.SetActive(false);return;}
    // A child decoration inherits scrolling, transforms and every ancestor UI mask.
    // It cannot remain on an independent overlay after its control is clipped or destroyed.
@@ -170,6 +191,7 @@ namespace ElDespacho {
     Kit.Panel(focusRect,Pal.Gold,new Vector2(0,0),new Vector2(0,1),new Vector2(0,0),new Vector2(3,0));
     Kit.Panel(focusRect,Pal.Gold,new Vector2(1,0),new Vector2(1,1),new Vector2(-3,0),new Vector2(0,0));}
    focusRect.SetParent(target,false);focusRect.anchorMin=Vector2.zero;focusRect.anchorMax=Vector2.one;focusRect.offsetMin=focusRect.offsetMax=Vector2.zero;focusRect.localScale=Vector3.one;focusRect.localRotation=Quaternion.identity;focusRect.SetAsLastSibling();focusRect.gameObject.SetActive(true);
+   bool mapTarget=target.GetComponent<AccessMapCountry>()!=null;foreach(var image in focusRect.GetComponentsInChildren<Image>()){image.color=mapTarget&&DeskPreferences.Current.highContrast?Color.white:Pal.Gold;var shadow=image.GetComponent<Shadow>();if(mapTarget&&shadow==null)shadow=image.gameObject.AddComponent<Shadow>();if(shadow!=null){shadow.enabled=mapTarget;shadow.effectColor=Color.black;shadow.effectDistance=new Vector2(2,-2);}}
   }
   void Render(List<Entry> entries){
    if(page!=""){RenderSettings(entries);return;}
@@ -177,7 +199,7 @@ namespace ElDespacho {
    foreach(Transform child in root){child.gameObject.SetActive(false);Destroy(child.gameObject);}rows.Clear();controls.Clear();
    var dark=DeskPreferences.Current.highContrast;var bg=Kit.Panel(root,dark?Color.black:Pal.Wood,Vector2.zero,Vector2.one);bg.raycastTarget=true;
    var head=Kit.Label(bg.transform,"EL DESPACHO · "+(page!=""?"ACCESIBILIDAD / "+page:"VISTA DE LECTURA"),Mathf.RoundToInt(24*P.textScale),Pal.Cream,TextAnchor.MiddleLeft,new Vector2(.035f,.92f),new Vector2(.96f,.99f));
-   notice=Kit.Label(bg.transform,"TAB: elegir · INTRO: activar · RePág/AvPág: desplazar · ESC: volver · F1: ayuda",Mathf.RoundToInt(16*P.textScale),Pal.Cream,TextAnchor.MiddleLeft,new Vector2(.035f,.01f),new Vector2(.96f,.065f));
+   notice=Kit.Label(bg.transform,"Flechas: navegar · INTRO/Espacio: activar · ESC: volver · TAB: siguiente · F1: ayuda",Mathf.RoundToInt(16*P.textScale),Pal.Cream,TextAnchor.MiddleLeft,new Vector2(.035f,.01f),new Vector2(.96f,.065f));
    var viewport=Kit.Panel(bg.transform,dark?Color.black:Pal.Paper,new Vector2(.035f,.075f),new Vector2(.965f,.915f));viewport.raycastTarget=true;viewport.gameObject.AddComponent<RectMask2D>();
    content=Kit.Rect(viewport.transform,"Flow",new Vector2(0,1),new Vector2(1,1));content.pivot=new Vector2(.5f,1);content.sizeDelta=new Vector2(0,1);
    scroll=viewport.gameObject.AddComponent<ScrollRect>();scroll.viewport=viewport.rectTransform;scroll.content=content;scroll.horizontal=false;scroll.movementType=ScrollRect.MovementType.Clamped;scroll.scrollSensitivity=70;
@@ -193,7 +215,7 @@ namespace ElDespacho {
    }
    content.sizeDelta=new Vector2(0,y+15);scroll.verticalNormalizedPosition=previousScroll;if(focused>=controls.Count)focused=-1;
   }
-  void Set(Action a){a();P.Clamp();P.CaptureManualProfileChanges();SaveSettings();}
+  void Set(Action a){a();P.Clamp();SaveSettings();}
   void SaveSettings(){bool saved=P.Save();applied=saved?"Cambios aplicados y guardados.":AccessPreferences.Error;DeskPreferences.Current.Apply(false);try{DeskPreferences.Current.Save();}catch(Exception e){applied="No se guardaron todos los ajustes: "+e.Message;Notify(applied);}Refresh();}
   static float Cycle(float v,float[] values){int i=Array.FindIndex(values,x=>Mathf.Abs(x-v)<.01f);return values[(i+1)%values.Length];}
   List<Entry> LegacySettingsEntries(){var a=new List<Entry>();void Text(string t)=>a.Add(new Entry(t));void Button(string t,Action f)=>a.Add(new Entry(t,f));void Toggle(string t,bool v,Action f)=>Button(t+": "+(v?"SÍ":"NO"),()=>Set(f));void Volume(string t,float v,Action<float> f){Button(t+": "+Mathf.RoundToInt(v*100)+" % - reducir",()=>Set(()=>f(Mathf.Max(0,v-.1f))));Button(t+" - aumentar",()=>Set(()=>f(Mathf.Min(1,v+.1f))));}
@@ -210,7 +232,7 @@ namespace ElDespacho {
     Text("No existe movimiento de cámara en este prototipo. Reducir animaciones también simplifica abrir y archivar documentos.");
    }else if(page=="Motor"){
     Toggle("Selección simplificada: clic en documento y clic en zona",P.simpleDocuments,()=>P.simpleDocuments=!P.simpleDocuments);
-    Toggle("Navegación por teclado",P.keyboard,()=>P.keyboard=!P.keyboard);
+    Toggle("Navegación por teclado",P.keyboard,()=>P.SetKeyboard(!P.keyboard));
     Toggle("Áreas amplias: controles en filas grandes",P.largeTargets,()=>P.largeTargets=!P.largeTargets);
     Button("Controles y atajos",()=>{page="Controles";Refresh();});
     Text("Sello simplificado: elija el sello y pulse el documento para confirmar. ESC cancela. No hay límite de tiempo para decidir.");
@@ -219,7 +241,7 @@ namespace ElDespacho {
     Toggle("Ayudas de navegación",P.navigationHelp,()=>P.navigationHelp=!P.navigationHelp);
     Toggle("Símbolos explicativos",P.symbols,()=>P.symbols=!P.symbols);
     Toggle("Definiciones de términos",P.glossary,()=>P.glossary=!P.glossary);
-    Button("Consultar símbolos y términos",()=>{page="Glosario";Refresh();});
+    Button("Consultar símbolos y términos",()=>OpenCategory("Glosario"));
     Text("Las instrucciones cambian; las peticiones, respuestas políticas e información de los países conservan su significado original.");
    }else if(page=="Audio"){
     Volume("Maestro",DeskPreferences.Current.master,v=>DeskPreferences.Current.master=v);Volume("Música",P.music,v=>P.music=v);Volume("Efectos",DeskPreferences.Current.effects,v=>DeskPreferences.Current.effects=v);Volume("Interfaz",DeskPreferences.Current.ui,v=>DeskPreferences.Current.ui=v);Volume("Ambiente",P.ambient,v=>P.ambient=v);
@@ -229,18 +251,19 @@ namespace ElDespacho {
     Toggle("Audio mono",P.mono,()=>P.mono=!P.mono);Toggle("Reducir sonidos agudos",P.softAudio,()=>P.softAudio=!P.softAudio);Toggle("Avisos visuales de sonidos",P.visualSounds,()=>P.visualSounds=!P.visualSounds);
     Text("La voz necesita Windows PowerShell y una voz de Windows instalada; se prefiere una voz española. No es un lector de pantalla del sistema. Mono y reducción de agudos procesan sonidos Unity; la voz Windows usa la salida del sistema.");if(Speech.Voice!="")Text("Voz instalada: "+Speech.Voice+". Si no es española, instale una voz española compatible con System.Speech en Windows.");if(Speech.Error!="")Text(Speech.Error);
    }else if(page=="Controles"){
-    Text("F1: controles y acceso a opciones. F2: vista de lectura. F3: leer la pantalla. ESC: cancelar selección, volver o pausa. Con teclado activado: TAB/Mayús+TAB o flechas arriba/abajo eligen; INTRO/Espacio activan. RePág/AvPág desplazan la vista. Los expedientes y sellos requieren seleccionar y después confirmar, igual que con ratón simplificado.");
+    Text("F1: controles y acceso a opciones. F2: vista de lectura. F3: leer la pantalla. ESC: cancelar selección, volver o pausa. Con teclado activado: las cuatro flechas navegan por posición; INTRO/Espacio activan. TAB/Mayús+TAB recorren controles. En deslizadores, izquierda/derecha cambian el valor sin mover el foco. RePág/AvPág desplazan la vista. Los expedientes y sellos requieren seleccionar y después confirmar, igual que con ratón simplificado.");
     Button("Repetir voz: F"+P.repeatKey,()=>Set(()=>{P.repeatKey=P.repeatKey==8?6:P.repeatKey+1;}));Button("Detener voz: F"+P.stopKey,()=>Set(()=>{P.stopKey=P.stopKey==8?6:P.stopKey+1;}));
-    Toggle("Activar navegación por teclado",P.keyboard,()=>P.keyboard=!P.keyboard);
+    Toggle("Activar navegación por teclado",P.keyboard,()=>P.SetKeyboard(!P.keyboard));
    }else if(page=="Glosario"){
-    Text("Símbolos: [A] Aurelia, su país; [=] Estabilidad; [S] Seguridad; [$] Prosperidad; [!] posible amenaza; [+] posible aliado; [V] visitado/confirmado; [?] sin visitar; [D] documento; [>] siguiente acción; [X] cancelado. Amenaza y aliado son sospechas, no certezas. + / - indican aumento o descenso, no siempre una decisión buena o mala.");
+    Text("Símbolos: [A] Aurelia, su país; [=] Estabilidad; [S] Seguridad; [$] Prosperidad; [!] posible amenaza; [+] posible aliado; [V] visitado/confirmado; [?] sin visitar; [D] documento; [>] siguiente acción; [X] cancelado; [i] información; [OK] aprobación; [NO] rechazo; [ALIADO] alianza confirmada; [+] aumento; [-] descenso. Los cambios de indicadores no determinan por sí solos si una decisión política es buena o mala. Amenaza y aliado son sospechas, no certezas. + / - indican aumento o descenso, no siempre una decisión buena o mala.");
+    Text("Estabilidad: confianza y orden político. Seguridad: capacidad de defensa. Prosperidad: economía y comercio. Los tres indicadores van de 0 a 100; si cualquiera llega a 0, termina el mandato. Alianza: cooperación con un país que se incorpora a su bloque; aplica las consecuencias indicadas por el juego.");
     Text("Sanciones: restricciones económicas contra otro país. Relaciones diplomáticas: contactos oficiales entre gobiernos. Pacto militar: acuerdo de defensa. Acuerdo comercial: reglas para comprar y vender entre países. Gobierno autoritario: concentra el poder y limita la participación. Recesión: caída de la actividad económica. Inteligencia: información sobre riesgos; puede ser incorrecta o antigua.");
    }else if(page=="General"){
     Button("Aplicar y guardar",()=>Set(()=>{}));Button("Restaurar accesibilidad",()=>{page="Restaurar";Refresh();});Button("Controles",()=>{page="Controles";Refresh();});Text(AccessPreferences.Error==""?"Preferencias guardadas independientemente de los slots de campaña.":AccessPreferences.Error);
    }else if(page=="Restaurar"){
     Text("Se restablecerán accesibilidad, contraste y movimiento. La campaña y sus guardados no cambian.");Button("Confirmar restauración",()=>{AccessPreferences.Reset();Speech.Dispose();reader=false;page="Inicio";Refresh();});
    }
-   Button(page=="Inicio"?"Volver a Ajustes":"Volver a Accesibilidad",()=>{page=page=="Inicio"?"":"Inicio";Refresh();});return a;
+   Button(page=="Glosario"?"Volver":page=="Inicio"?"Volver a Ajustes":"Volver a Accesibilidad",ReturnSettingsLevel);return a;
   }
  }
  public sealed class AccessName:MonoBehaviour {public string label;}

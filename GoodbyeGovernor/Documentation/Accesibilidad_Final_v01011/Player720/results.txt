@@ -1,0 +1,5 @@
+PASS actual player resolution 1280x720
+PASS preferences survive fresh process
+PASS restart does not activate reader
+PASS saved campaign exists after restart
+PASS existing campaign loads visually

@@ -1,0 +1,15 @@
+[>] Abra el expediente, lea y elija un sello. Después, continúe. También puede abrir el mapa.. HERRAMIENTAS: Atienda los expedientes y visite los países pendientes. Después podrá cerrar el año; el mandato dura cuatro años. AYUDA permite consultar al asesor.. [=] Estabilidad 50 / 100: atención. [S] Seguridad 49 / 100: atención. [$] Prosperidad 45 / 100: atención. Año 1 de 4.. Hay nubes sobre Aurelia.. LA GACETA · ÚLTIMA HORA. SÍ a «Búho». CONFIDENCIAL. Esperan audiencia:
+Lindmark, Pavonia, Tarvessa. 1. Año 1 de 4. NOTA DEL ASESOR. [>] Decisión aplicada. Revise el resultado. Pulse CONTINUAR para archivar.
+
+[=] Estabilidad: orden y confianza.
+[S] Seguridad: defensa.
+[$] Prosperidad: economía.
+Si uno llega a 0, termina el mandato.
+
+AYUDA: Tutorial Presidencial. F1: controles. El mapa abre las visitas; La Gaceta reúne noticias.
+
+[=] Estabilidad 50 / 100: atención. [S] Seguridad 49 / 100: atención. [$] Prosperidad 45 / 100: atención. Año 1 de 4.
+Teclado: TAB o flechas seleccionan. INTRO activa; ESC cancela.. PRESIDENCIA
+DE AURELIA. 4. EXPEDIENTES. AURELIA / PRESIDENCIA. Asunto 1 de 5. «Búho»
+Jefe de los servicios secretos. Búho asiente. Nadie sabrá nada... de momento.. [S] Seguridad +4
+Un + aumenta ese indicador; un - lo reduce. Revise el resultado y continúe.. [NO] DENEGADO. [OK] APROBADO. Opciones disponibles: MAPA DEL MUNDO 3 visitas. AYUDA. GLOSARIO. 1. CONTINUAR. PAUSA. Desplazar texto: Hay nubes sobre Aurelia.. Desplazar texto: 50. Desplazar texto: 49. Desplazar texto: 45. Desplazar texto: Esperan audiencia:. Desplazar texto: MAPA DEL MUNDO. Desplazar texto: [>] Decisión aplicada. Revise el resultado. Pulse CONTINUAR para archivar.. Desplazar texto: PRESIDENCIA. Desplazar texto: «Búho». Desplazar texto: [S] Seguridad +4. Desplazar texto: CONTINUAR. Desplazar texto: [NO] DENEGADO. Desplazar texto: [OK] APROBADO

@@ -1,0 +1,10 @@
+Seleccionar documentos con clics | Pulsa un documento y después la zona de lectura. No hace falta arrastrarlo. Desactivado: arrastra el documento. | enabled=True
+Navegación por teclado | TAB elige; INTRO activa; las flechas izquierda y derecha ajustan los volúmenes. | enabled=True
+Botones y zonas más grandes | Amplía las zonas de documentos, sellos y botones pequeños del juego, además del lector. | enabled=True
+Reducir animaciones | Simplifica la apertura y el archivo de documentos y elimina temblores. | enabled=True
+Controles y atajos | Consulta los controles y cambia las teclas de repetir y detener voz. | enabled=True
+Movimiento de cámara | Este prototipo no tiene movimiento de cámara. | enabled=True
+VISTA PREVIA · sin efectos en tu partida | Presidente, hay un expediente pendiente de lectura. | enabled=True
+Documento de ejemplo | Activa la selección con clics y pulsa este documento. | enabled=False
+Zona de lectura | Coloca aquí el documento seleccionado. | enabled=False
+Volver a Accesibilidad | Tus preferencias quedan guardadas. | enabled=True

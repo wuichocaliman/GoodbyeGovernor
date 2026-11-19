@@ -1,0 +1,10 @@
+PASS isolated preferences directory
+PASS actual map Wiggle exists when all office cards complete
+PASS reduce animations removes real map Wiggle transform
+PASS Wiggle resumes after reversal
+PARTIAL keyboard glossary shortcut in normal map has no visible focus target; full glossary remains in settings/reader
+PASS actual newspaper overlay opened
+PARTIAL newspaper keyboard focus includes background actions: MAPA DEL MUNDO 3 visitas | 2 | PAUSA · ESC | [D] Seleccionar expediente | [S] Seleccionar sello: DENEGADO | [S] Seleccionar sello: APROBADO
+PASS keyboard reaches DOBLAR
+PASS visible focus: DOBLAR
+PASS keyboard closes newspaper

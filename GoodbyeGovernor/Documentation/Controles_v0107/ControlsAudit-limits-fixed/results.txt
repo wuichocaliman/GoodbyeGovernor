@@ -1,0 +1,23 @@
+PASS isolated preferences directory
+PASS actual map Wiggle exists when all office cards complete
+PASS reduce animations removes real map Wiggle transform
+PASS Wiggle resumes after reversal
+PASS normal map contains no invisible glossary action
+PASS keyboard reaches Consultar símbolos
+PASS visible focus: Consultar símbolos
+PASS glossary still reachable from keyboard reader
+PASS keyboard reaches GLOSARIO
+PASS visible focus: GLOSARIO
+PASS native office glossary remains keyboard accessible
+PASS keyboard reaches 2
+PASS visible focus: 2
+PASS actual newspaper overlay opened
+PASS newspaper focus confined to visible modal
+PASS keyboard reaches DOBLAR
+PASS visible focus: DOBLAR
+PASS keyboard closes newspaper
+PASS keyboard reaches Documento de ejemplo
+PASS visible focus: Documento de ejemplo
+PASS conditional preview exposes labelled fixture indicators
+PASS conditional preview explicitly identifies sample values
+PASS conditional preview leaves actual campaign unchanged

@@ -10,14 +10,14 @@ namespace ElDespacho
     public static class DeskSaveStore
     {
         [Serializable] class Envelope { public int format = 1; public string payload, sha256; }
-        #if UNITY_EDITOR
+        #if UNITY_EDITOR || DESPACHO_AUDIT
         public static string TestDirectory;
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ClearTestSession(){TestDirectory=null;}
 #endif
         public static string DirectoryPath {
             get {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DESPACHO_AUDIT
                 if (!string.IsNullOrEmpty(TestDirectory)) return Path.Combine(TestDirectory, "Saves");
 #endif
                 return Path.Combine(Application.persistentDataPath, "ElDespacho", "Saves");

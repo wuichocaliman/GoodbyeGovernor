@@ -1,0 +1,11 @@
+PASS C:\Users\User\AppData\Local\Temp\DespachoSpatial-7dd81026f9b842cc82bffa239a7e0517\migration-0
+PASS C:\Users\User\AppData\Local\Temp\DespachoSpatial-7dd81026f9b842cc82bffa239a7e0517\migration-1
+PASS C:\Users\User\AppData\Local\Temp\DespachoSpatial-7dd81026f9b842cc82bffa239a7e0517\migration-2
+PASS C:\Users\User\AppData\Local\Temp\DespachoSpatial-7dd81026f9b842cc82bffa239a7e0517\migration-3
+PASS C:\Users\User\AppData\Local\Temp\DespachoSpatial-7dd81026f9b842cc82bffa239a7e0517\migration-4
+PASS C:\Users\User\AppData\Local\Temp\DespachoSpatial-7dd81026f9b842cc82bffa239a7e0517\migration-5
+PASS C:\Users\User\AppData\Local\Temp\DespachoSpatial-7dd81026f9b842cc82bffa239a7e0517\migration-6
+PASS C:\Users\User\AppData\Local\Temp\DespachoSpatial-7dd81026f9b842cc82bffa239a7e0517\migration-7
+PASS C:\Users\User\AppData\Local\Temp\DespachoSpatial-7dd81026f9b842cc82bffa239a7e0517\migration-8
+PASS C:\Users\User\AppData\Local\Temp\DespachoSpatial-7dd81026f9b842cc82bffa239a7e0517\migration-9
+PASS final preferences restart

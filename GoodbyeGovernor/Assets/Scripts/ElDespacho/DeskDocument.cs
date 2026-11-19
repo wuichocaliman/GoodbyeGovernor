@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -224,10 +224,13 @@ namespace ElDespacho
 
         bool accessSelected;
         public bool AccessSelected=>accessSelected;
+        public int AccessSelectionFrame { get; private set; } = -1;
+        // The pile hit surface can be transparent; focus belongs on the visible tray instead.
+        public Transform AccessFocusTarget => accessSelected ? readingZone : hiddenInPile && pileAnchor != null ? pileAnchor : transform;
         public bool AccessAvailable=>phase==Phase.Pile;
         public bool AccessOnSheet(Vector2 p)=>RectTransformUtility.RectangleContainsScreenPoint(sheet,p) || (GetComponent<AccessHitPadding>()?.Contains(p) ?? false);
-        public bool AccessOnTray(Vector2 p)=>RectTransformUtility.RectangleContainsScreenPoint(readingZone,p);
-        public void AccessSelect(){if(DeskPreferences.Paused||phase!=Phase.Pile)return;accessSelected=true;if(hiddenInPile){SetPileVisible(true);sheet.localScale=Vector3.one*closedScale;}leftPile?.Invoke();Highlight(true);hint.text="[D] EXPEDIENTE SELECCIONADO\nPulse aquí para abrir. ESC cancela.";Grabbed?.Invoke();AccessController.Cue("Expediente seleccionado. Pulse la zona de lectura.");}
+        public bool AccessOnTray(Vector2 p)=>AccessHitPadding.ContainsZone(readingZone,p);
+        public void AccessSelect(){if(DeskPreferences.Paused||phase!=Phase.Pile||accessSelected)return;accessSelected=true;AccessSelectionFrame=Time.frameCount;if(hiddenInPile){SetPileVisible(true);sheet.localScale=Vector3.one*closedScale;}leftPile?.Invoke();Highlight(true);hint.text="[D] EXPEDIENTE SELECCIONADO\nPulse aquí para abrir. ESC cancela.";Grabbed?.Invoke();AccessController.Cue("Expediente seleccionado. Pulse la zona de lectura.");}
         public void AccessPlace(){if(!accessSelected||DeskPreferences.Paused||phase!=Phase.Pile)return;AnimatePlacement(true);}
         public void AccessCancel(){if(!accessSelected)return;accessSelected=false;GoBackToPile();Highlight(false);AccessController.Cue("Selección cancelada");}
         public void Dismiss(Action finished)
@@ -262,7 +265,7 @@ namespace ElDespacho
         bool LocalPointer(PointerEventData e, out Vector2 point) =>
             RectTransformUtility.ScreenPointToLocalPointInRectangle(desk, e.position, e.pressEventCamera, out point);
         bool IsOverTray(PointerEventData e) =>
-            RectTransformUtility.RectangleContainsScreenPoint(readingZone, e.position, e.pressEventCamera);
+            AccessHitPadding.ContainsZone(readingZone, e.position, e.pressEventCamera);
         void Highlight(bool active)
         {
             zone.color = active ? zoneActive : zoneIdle;
@@ -272,6 +275,7 @@ namespace ElDespacho
         void LateUpdate() { UpdateHint(); }
         void UpdateHint() {
             if(hint==null || phase==Phase.Open || phase==Phase.Opening || phase==Phase.Dismissing)return;
+            if(accessSelected && !AccessPreferences.Current.simpleDocuments){hint.text="EXPEDIENTE SELECCIONADO\nINTRO: colocar en lectura · ESC: cancelar";return;}
             if(AccessPreferences.Current.simpleDocuments)
                 hint.text=accessSelected?"2. PULSA AQUÍ PARA ABRIR\nESC cancela la selección":"1. PULSA EL EXPEDIENTE\nEstá en la bandeja de la derecha";
             else if(phase==Phase.Pile)hint.text=hintIdle;

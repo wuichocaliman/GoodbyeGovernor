@@ -7,6 +7,11 @@ namespace ElDespacho {
    void Poly(params Vector2[] pts){int n=v.currentVertCount;foreach(var p in pts)v.AddVert(new Vector3(r.xMin+p.x*r.width,r.yMin+p.y*r.height),color,Vector2.zero);for(int i=1;i<pts.Length-1;i++)v.AddTriangle(n,n+i,n+i+1);}
    void Box(float x,float y,float w,float h)=>Poly(new Vector2(x,y),new Vector2(x+w,y),new Vector2(x+w,y+h),new Vector2(x,y+h));
    switch(symbol){
+    case "O":case "V":Poly(new Vector2(.05f,.48f),new Vector2(.2f,.62f),new Vector2(.4f,.4f),new Vector2(.83f,.9f),new Vector2(.98f,.75f),new Vector2(.4f,.1f));break;
+    case "N":case "X":Poly(new Vector2(.1f,.2f),new Vector2(.2f,.1f),new Vector2(.9f,.8f),new Vector2(.8f,.9f));Poly(new Vector2(.1f,.8f),new Vector2(.2f,.9f),new Vector2(.9f,.2f),new Vector2(.8f,.1f));break;
+    case "i":Box(.43f,.12f,.14f,.48f);Box(.43f,.76f,.14f,.14f);break;
+    case ">":Poly(new Vector2(.2f,.1f),new Vector2(.8f,.5f),new Vector2(.2f,.9f),new Vector2(.2f,.7f),new Vector2(.5f,.5f),new Vector2(.2f,.3f));break;
+    case "-":Box(.15f,.42f,.7f,.16f);break;
     case "eye":
      Poly(new Vector2(.03f,.5f),new Vector2(.3f,.8f),new Vector2(.7f,.8f),new Vector2(.97f,.5f),new Vector2(.7f,.68f),new Vector2(.3f,.68f));
      Poly(new Vector2(.03f,.5f),new Vector2(.3f,.2f),new Vector2(.7f,.2f),new Vector2(.97f,.5f),new Vector2(.7f,.32f),new Vector2(.3f,.32f));

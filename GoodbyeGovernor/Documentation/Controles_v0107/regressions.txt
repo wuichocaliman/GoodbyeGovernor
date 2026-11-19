@@ -1,0 +1,7 @@
+ControlsExistingRunner.Documents exit=0
+ControlsExistingRunner.Gamepad exit=0
+MenuValidationRunner.Run exit=0
+TutorialValidationRunner.Run exit=0
+ReadingViewValidationRunner.Run exit=0
+NavigationScrollRunner.Run exit=0
+AccessibilityMeaningRunner.Run exit=0

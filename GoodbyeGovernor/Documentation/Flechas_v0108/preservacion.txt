@@ -1,0 +1,3 @@
+PASS: ocho archivos reales de partidas y preferencias idénticos al backup previo (SHA-256).
+PASS: QualitySettings.asset restaurado al backup previo.
+Backup previo verificado: C:\Users\User\Documents\Codex\work\arrows-v0108\Backup_antes_v0108.zip

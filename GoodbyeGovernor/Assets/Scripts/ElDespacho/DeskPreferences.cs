@@ -18,14 +18,14 @@ namespace ElDespacho
         public static bool Paused { get; internal set; }
         public static float GameDelta => Paused ? 0 : Time.unscaledDeltaTime;
         public static float AnimationDuration(float duration) => Current.reduceMotion ? Mathf.Min(duration,0.03f) : duration;
-        #if UNITY_EDITOR
+        #if UNITY_EDITOR || DESPACHO_AUDIT
         public static string TestDirectory;
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ClearTestSession(){TestDirectory=null;Paused=false;}
 #endif
         public static string FilePath {
             get {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DESPACHO_AUDIT
                 if (!string.IsNullOrEmpty(TestDirectory)) return Path.Combine(TestDirectory, "settings.json");
 #endif
                 return Path.Combine(Application.persistentDataPath,"ElDespacho","settings.json");

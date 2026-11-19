@@ -1,0 +1,151 @@
+PASS isolated preferences directory
+PASS keyboard reaches AJUSTES
+PASS visible focus: AJUSTES
+PASS keyboard main to settings
+PASS keyboard reaches ACCESIBILIDAD
+PASS visible focus: ACCESIBILIDAD
+PASS keyboard opens accessibility
+PASS keyboard reaches CONTROLES
+PASS visible focus: CONTROLES
+PASS keyboard opens motor category
+PASS keyboard reaches Seleccionar documentos con clics
+PASS visible focus: Seleccionar documentos con clics
+PASS Seleccionar documentos con clics activation
+PASS keyboard reaches Seleccionar documentos con clics
+PASS visible focus: Seleccionar documentos con clics
+PASS Seleccionar documentos con clics reversal
+PASS keyboard reaches Botones y zonas más grandes
+PASS visible focus: Botones y zonas más grandes
+PASS Botones y zonas más grandes activation
+PASS keyboard reaches Botones y zonas más grandes
+PASS visible focus: Botones y zonas más grandes
+PASS Botones y zonas más grandes reversal
+PASS keyboard reaches Reducir animaciones
+PASS visible focus: Reducir animaciones
+PASS Reducir animaciones activation
+PASS keyboard reaches Reducir animaciones
+PASS visible focus: Reducir animaciones
+PASS Reducir animaciones reversal
+PASS keyboard reaches Navegación por teclado
+PASS visible focus: Navegación por teclado
+PASS keyboard preference OFF; settings retain keyboard escape route
+PASS keyboard reaches Navegación por teclado
+PASS visible focus: Navegación por teclado
+PASS keyboard preference ON
+PASS keyboard reaches Seleccionar documentos con clics
+PASS visible focus: Seleccionar documentos con clics
+PASS keyboard reaches Documento de ejemplo
+PASS visible focus: Documento de ejemplo
+PASS keyboard reaches Zona de lectura
+PASS visible focus: Zona de lectura
+PASS demo opens without changing campaign
+PASS keyboard reaches Controles y atajos
+PASS visible focus: Controles y atajos
+PASS shortcut help reachable
+PASS keyboard reaches Repetir voz
+PASS visible focus: Repetir voz
+PASS repeat key cycles and avoids collision
+PASS keyboard reaches Detener voz
+PASS visible focus: Detener voz
+PASS stop key cycles and avoids collision
+PASS ESC shortcut help returns
+PASS keyboard reaches NUEVA PARTIDA
+PASS visible focus: NUEVA PARTIDA
+PASS keyboard reaches ASUMIR
+PASS visible focus: ASUMIR
+PASS new game keyboard reaches illustrated office
+PASS OFF click does not open or select
+PASS OFF actual simulated drag opens
+PASS ON fast double click selects once, no open/decision/duplicate
+PASS ESC virtual key cancels document before pause
+PASS changing clicks OFF clears prior selection
+PASS ON second click opens
+PASS stamp click previews only
+PASS ESC cancels stamp without decision
+PASS simplified stamp confirms original decision
+PASS duplicate stamp decision blocked
+PASS next document after archive
+PASS document OFF excludes extra area
+PASS document ON includes 12-unit extension
+PASS document extension receives actual pointer event
+PASS reading zone OFF excludes extension
+PASS reading zone ON includes extension
+PASS click in enlarged reading zone opens
+PASS stamp OFF excludes extension
+PASS stamp ON includes extension
+PASS stamp extension receives actual pointer event
+PASS small pause button OFF excludes extension
+PASS small pause button ON actual extension click pauses
+PASS keyboard reaches Seleccionar expediente
+PASS visible focus: Seleccionar expediente
+PASS keyboard selects closed document with clicks OFF
+PASS keyboard reaches Colocar expediente
+PASS visible focus: Colocar expediente
+PASS Space places keyboard document
+PASS keyboard reaches Seleccionar sello
+PASS visible focus: Seleccionar sello
+PASS keyboard reaches Aplicar sello
+PASS visible focus: Aplicar sello
+PASS keyboard stamp confirmation applies decision
+PASS keyboard reaches MAPA
+PASS visible focus: MAPA
+PASS keyboard office to map
+PASS keyboard reaches Lindmark - [+] Posible aliado
+PASS visible focus: Lindmark - [+] Posible aliado
+PASS keyboard country selection starts visit
+PASS keyboard reaches INTELIGENCIA
+PASS visible focus: INTELIGENCIA
+PASS keyboard intelligence report
+PASS keyboard reaches COMERCIO
+PASS visible focus: COMERCIO
+PASS keyboard trade report
+PASS keyboard reaches DOSSIER
+PASS visible focus: DOSSIER
+PASS keyboard dossier
+PASS keyboard reaches ¿Qué opinas de nuestros rivales?
+PASS visible focus: ¿Qué opinas de nuestros rivales?
+PASS keyboard diplomatic question increments once
+PASS ESC from diplomacy pauses
+PASS keyboard reaches GUARDAR PARTIDA
+PASS visible focus: GUARDAR PARTIDA
+PASS keyboard reaches GUARDAR
+PASS visible focus: GUARDAR
+PASS keyboard manual save exists
+PASS keyboard reaches CARGAR PARTIDA
+PASS visible focus: CARGAR PARTIDA
+PASS keyboard reaches CARGAR
+PASS visible focus: CARGAR
+PASS keyboard reaches CONFIRMAR
+PASS visible focus: CONFIRMAR
+PASS keyboard load confirmation resumes
+PASS keyboard reaches CÓMO JUGAR
+PASS visible focus: CÓMO JUGAR
+PASS keyboard reaches 01  Bienvenido a Aurelia
+PASS visible focus: 01  Bienvenido a Aurelia
+PASS keyboard reaches SIGUIENTE
+PASS visible focus: SIGUIENTE
+PASS keyboard tutorial lesson navigation
+PASS ESC exits lesson
+PASS F2 opens reader explicitly
+PASS reader large-target geometry not smaller
+PASS F2 returns illustrated mode
+PASS combination 1 opens without drag
+PASS combination 1 decision
+PASS combination 1 never forces reader
+PASS combination 2 opens without drag
+PASS combination 2 decision
+PASS combination 2 never forces reader
+PASS combination 3 opens without drag
+PASS combination 3 decision
+PASS combination 3 never forces reader
+PASS combination 4 opens without drag
+PASS combination 4 decision
+PASS combination 4 never forces reader
+PASS combination 5 opens without drag
+PASS combination 5 decision
+PASS combination 5 never forces reader
+PASS simple profile applies
+PASS manual change and pre-profile preference survive removal
+PASS reduce animations shortens document motion
+PASS Unity error/exception log empty
+COMPLETE simulated InputSystem keyboard/mouse in Unity Play Mode. Physical devices NOT tested.

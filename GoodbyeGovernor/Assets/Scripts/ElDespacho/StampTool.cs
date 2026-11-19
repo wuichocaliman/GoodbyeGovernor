@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -147,6 +147,7 @@ namespace ElDespacho
 
         public bool AccessAvailable=>!used && !dragging && !guided && isActiveAndEnabled;
         public bool AccessOnTool(Vector2 p)=>RectTransformUtility.RectangleContainsScreenPoint(self,p) || (GetComponent<AccessHitPadding>()?.Contains(p) ?? false);
+        public Transform AccessFocusTarget=>target;
         public bool AccessContains(Vector2 p)=>RectTransformUtility.RectangleContainsScreenPoint(target,p);
         public void AccessPreview(){if(AccessAvailable)onHover?.Invoke(true);}
         public void AccessApply(){if(!AccessAvailable||DeskPreferences.Paused)return;used=true;onStamped?.Invoke(Vector2.zero);}

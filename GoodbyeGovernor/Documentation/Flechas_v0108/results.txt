@@ -1,0 +1,172 @@
+PASS migration preserves every effective field: case 0
+PASS migration removes all live layers: case 0
+PASS individual edit survives reload without reapplication: case 0
+PASS migration preserves every effective field: case 1
+PASS migration removes all live layers: case 1
+PASS individual edit survives reload without reapplication: case 1
+PASS migration preserves every effective field: case 2
+PASS migration removes all live layers: case 2
+PASS individual edit survives reload without reapplication: case 2
+PASS migration preserves every effective field: case 3
+PASS migration removes all live layers: case 3
+PASS individual edit survives reload without reapplication: case 3
+PASS migration preserves every effective field: case 4
+PASS migration removes all live layers: case 4
+PASS individual edit survives reload without reapplication: case 4
+PASS migration preserves every effective field: case 5
+PASS migration removes all live layers: case 5
+PASS individual edit survives reload without reapplication: case 5
+PASS migration preserves every effective field: case 6
+PASS migration removes all live layers: case 6
+PASS individual edit survives reload without reapplication: case 6
+PASS migration preserves every effective field: case 7
+PASS migration removes all live layers: case 7
+PASS individual edit survives reload without reapplication: case 7
+PASS migration preserves every effective field: case 8
+PASS migration removes all live layers: case 8
+PASS individual edit survives reload without reapplication: case 8
+PASS migration preserves every effective field: case 9
+PASS migration removes all live layers: case 9
+PASS individual edit survives reload without reapplication: case 9
+PASS main Down moves down list
+PASS main Up returns to upper control
+PASS Tab and Shift+Tab remain inverse
+PASS arrow route exists: AJUSTES
+PASS virtual arrows reach: AJUSTES
+PASS arrow focus visible: AJUSTES
+PASS arrows activate settings
+PASS arrow route exists: ACCESIBILIDAD
+PASS virtual arrows reach: ACCESIBILIDAD
+PASS arrow focus visible: ACCESIBILIDAD
+PASS accessibility home opens
+PASS no profiles or profile summary in visible UI
+PASS arrow route exists: VISIÓN Y LECTURA
+PASS virtual arrows reach: VISIÓN Y LECTURA
+PASS arrow focus visible: VISIÓN Y LECTURA
+PASS home grid Right selects second column
+PASS home grid Down keeps column
+PASS home grid Left selects first column
+PASS home grid Up keeps column
+PASS grid activation opens individual visual category
+PASS arrow route exists: Alto contraste
+PASS virtual arrows reach: Alto contraste
+PASS arrow focus visible: Alto contraste
+PASS settings grid Right selects adjacent card
+PASS settings grid Down preserves column: Reducir destellos. Elimina el pulso del tutorial y reduce los temblores de la interfaz.. Desactivado
+PASS settings grid Left selects adjacent card: Indicadores con etiquetas. Añade nombres y estado de los indicadores al lector. Símbolos y narración también muestran esas etiquetas.. Desactivado
+PASS arrow route exists: CONTROLES
+PASS virtual arrows reach: CONTROLES
+PASS arrow focus visible: CONTROLES
+PASS arrow route exists: Seleccionar documentos con clics
+PASS virtual arrows reach: Seleccionar documentos con clics
+PASS arrow focus visible: Seleccionar documentos con clics
+PASS individual documents switch works after profile retirement
+PASS arrow route exists: Reducir animaciones
+PASS virtual arrows reach: Reducir animaciones
+PASS arrow focus visible: Reducir animaciones
+PASS ESC returns from category
+PASS arrow route exists: AUDIO Y NARRACIÓN
+PASS virtual arrows reach: AUDIO Y NARRACIÓN
+PASS arrow focus visible: AUDIO Y NARRACIÓN
+PASS arrow route exists: Volumen maestro
+PASS virtual arrows reach: Volumen maestro
+PASS arrow focus visible: Volumen maestro
+PASS slider Left changes value without moving focus
+PASS slider Right restores value and keeps focus
+PASS disabled music excluded from navigation
+PASS slider Down leaves slider
+PASS arrow route exists: NUEVA PARTIDA
+PASS virtual arrows reach: NUEVA PARTIDA
+PASS arrow focus visible: NUEVA PARTIDA
+PASS arrow route exists: ASUMIR
+PASS virtual arrows reach: ASUMIR
+PASS arrow focus visible: ASUMIR
+PASS arrows start illustrated campaign
+PASS arrow route exists: Seleccionar expediente
+PASS virtual arrows reach: Seleccionar expediente
+PASS arrow focus visible: Seleccionar expediente
+PASS arrows choose and Enter selects document
+PASS arrow route exists: Colocar expediente
+PASS virtual arrows reach: Colocar expediente
+PASS arrow focus visible: Colocar expediente
+PASS Space places document
+PASS arrow route exists: Seleccionar sello
+PASS virtual arrows reach: Seleccionar sello
+PASS arrow focus visible: Seleccionar sello
+PASS arrow route exists: Aplicar sello
+PASS virtual arrows reach: Aplicar sello
+PASS arrow focus visible: Aplicar sello
+PASS ESC cancels selected stamp without decision
+PASS arrow route exists: Seleccionar sello
+PASS virtual arrows reach: Seleccionar sello
+PASS arrow focus visible: Seleccionar sello
+PASS arrow route exists: Aplicar sello
+PASS virtual arrows reach: Aplicar sello
+PASS arrow focus visible: Aplicar sello
+PASS arrows confirm one real consequence
+PASS arrow route exists: MAPA
+PASS virtual arrows reach: MAPA
+PASS arrow focus visible: MAPA
+PASS arrows open map
+PASS arrow route exists: Lindmark - [+] Posible aliado
+PASS virtual arrows reach: Lindmark - [+] Posible aliado
+PASS arrow focus visible: Lindmark - [+] Posible aliado
+PASS spatial arrows reach a country and visit
+PASS arrow route exists: INTELIGENCIA
+PASS virtual arrows reach: INTELIGENCIA
+PASS arrow focus visible: INTELIGENCIA
+PASS arrows switch intelligence report
+PASS arrow route exists: COMERCIO
+PASS virtual arrows reach: COMERCIO
+PASS arrow focus visible: COMERCIO
+PASS arrows switch trade report
+PASS arrow route exists: ¿Qué opinas de nuestros rivales?
+PASS virtual arrows reach: ¿Qué opinas de nuestros rivales?
+PASS arrow focus visible: ¿Qué opinas de nuestros rivales?
+PASS arrows activate diplomatic question once
+PASS ESC pauses gameplay
+PASS arrow route exists: GUARDAR PARTIDA
+PASS virtual arrows reach: GUARDAR PARTIDA
+PASS arrow focus visible: GUARDAR PARTIDA
+PASS arrow route exists: GUARDAR
+PASS virtual arrows reach: GUARDAR
+PASS arrow focus visible: GUARDAR
+PASS arrows save temporary campaign
+PASS arrow route exists: CARGAR PARTIDA
+PASS virtual arrows reach: CARGAR PARTIDA
+PASS arrow focus visible: CARGAR PARTIDA
+PASS arrow route exists: CARGAR
+PASS virtual arrows reach: CARGAR
+PASS arrow focus visible: CARGAR
+PASS arrow route exists: CONFIRMAR
+PASS virtual arrows reach: CONFIRMAR
+PASS arrow focus visible: CONFIRMAR
+PASS arrows load and confirm
+PASS arrow route exists: CÓMO JUGAR
+PASS virtual arrows reach: CÓMO JUGAR
+PASS arrow focus visible: CÓMO JUGAR
+PASS arrow route exists: 01  Bienvenido a Aurelia
+PASS virtual arrows reach: 01  Bienvenido a Aurelia
+PASS arrow focus visible: 01  Bienvenido a Aurelia
+PASS arrow route exists: SIGUIENTE
+PASS virtual arrows reach: SIGUIENTE
+PASS arrow focus visible: SIGUIENTE
+PASS arrows navigate tutorial notes
+PASS F2 reader remains available
+PASS arrow route exists: Volver al modo visual
+PASS virtual arrows reach: Volver al modo visual
+PASS arrow focus visible: Volver al modo visual
+PASS arrows exit reading view
+PASS keyboard reaches Botones y zonas más grandes
+PASS visible focus: Botones y zonas más grandes
+PASS mouse still changes individual controls
+PASS arrow route exists: Controles y atajos
+PASS virtual arrows reach: Controles y atajos
+PASS arrow focus visible: Controles y atajos
+PASS 175 percent scroll retains associated focus
+PASS arrow route exists: Controles y atajos
+PASS virtual arrows reach: Controles y atajos
+PASS arrow focus visible: Controles y atajos
+PASS arrows open navigation reference
+PASS narration accepts F3 after navigation changes; physical audio not tested
+COMPLETE virtual Keyboard/Mouse Play Mode; graph exploration via controller API; no physical device claim.

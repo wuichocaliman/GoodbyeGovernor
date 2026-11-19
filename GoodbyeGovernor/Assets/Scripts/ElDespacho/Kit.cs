@@ -405,7 +405,7 @@ namespace ElDespacho
 
         public static void Play(AudioClip clip, float volume = 1f)
         {
-            if(AccessPreferences.Current.visualSounds && clip!=null && clip!=Click) AccessController.Cue(clip==Paper?"[D] Documento manipulado":clip==Thunk?"[V] Acción registrada":"[!] Aviso importante; revise el resultado visible");
+            if(AccessPreferences.Current.visualSounds && clip!=null && clip!=Click) AccessController.Cue(clip==Paper?"[D] Documento manipulado":clip==Thunk?"[>] Acción registrada":"[!] Aviso importante; revise el resultado visible");
             if (_src != null && clip != null) _src.PlayOneShot(clip, volume * (clip == Click ? DeskPreferences.Current.ui : DeskPreferences.Current.effects));
             Haptics.ForSound(clip); // cada sonido importante tiene su vibración (solo si se está jugando con mando)
         }

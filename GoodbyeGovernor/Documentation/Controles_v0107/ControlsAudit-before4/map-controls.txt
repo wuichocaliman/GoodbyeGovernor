@@ -1,0 +1,8 @@
+Lindmark - [+] Posible aliado
+Pavonia - [?] Sin visitar
+Tarvessa - [!] Posible amenaza
+Lindmark - Rumor: posible aliado
+Tarvessa - Rumor: posible amenaza
+Pavonia - Pendiente de visita
+VOLVER AL DESPACHO
+PAUSA · ESC

@@ -1,0 +1,2 @@
+[>] Elija una opción. ESC vuelve a la pantalla anterior.. REPÚBLICA DE AURELIA  /  PRESIDENCIA. v0.10.11-prototipo. MANIPULAR DOCUMENTOS. Lección 3 de 12 · Nota 1 de 2. JP. JULIÁN PAZ
+JEFE DE GABINETE. EXPEDIENTE DE FORMACIÓN. Este es su primer asunto. Mantenga pulsado el expediente de la pila para cogerlo; después llévelo a la zona de lectura. Con teclado: flechas o TAB para seleccionar; INTRO abre la selección y otro INTRO coloca el expediente.. Opciones disponibles: ATRÁS. VOLVER. SIGUIENTE. GLOSARIO. Desplazar texto: GLOSARIO

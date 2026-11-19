@@ -1,0 +1,9 @@
+FAIL navigation help independent of symbols
+FAIL preview reflects simple instructions
+PASS preview leaves campaign unchanged
+PASS keyboard reaches Glosario político
+PASS visible focus: Glosario político
+PASS consult glossary with contextual glossary OFF
+FAIL glossary defines indicators and alliance
+FAIL glossary returns to originating category
+COMPLETE baseline, failures record reproduced defects

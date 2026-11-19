@@ -1,0 +1,5 @@
+PASS live presidential guide active
+PASS live guide updates simple language without restart
+PASS live guide restores original language
+PASS welcome uses action symbol not document symbol
+COMPLETE live tutorial comparisons in Play Mode

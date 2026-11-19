@@ -1,0 +1,52 @@
+PASS Game View 1920x1080
+PASS only revealed country nodes exposed
+PASS map arrows never jump to duplicate card
+PASS map direction or retained boundary 0
+PASS map arrows never jump to duplicate card
+PASS map direction or retained boundary 1
+PASS map arrows never jump to duplicate card
+PASS map direction or retained boundary 2
+PASS map arrows never jump to duplicate card
+PASS map direction or retained boundary 3
+PASS map arrows never jump to duplicate card
+PASS map direction or retained boundary 0
+PASS map arrows never jump to duplicate card
+PASS map direction or retained boundary 1
+PASS map arrows never jump to duplicate card
+PASS map direction or retained boundary 2
+PASS map arrows never jump to duplicate card
+PASS map direction or retained boundary 3
+PASS map arrows never jump to duplicate card
+PASS map direction or retained boundary 0
+PASS map arrows never jump to duplicate card
+PASS map direction or retained boundary 1
+PASS map arrows never jump to duplicate card
+PASS map direction or retained boundary 2
+PASS map arrows never jump to duplicate card
+PASS map direction or retained boundary 3
+PASS map arrows never jump to duplicate card
+PASS map direction or retained boundary 0
+PASS map arrows never jump to duplicate card
+PASS map direction or retained boundary 1
+PASS map arrows never jump to duplicate card
+PASS map direction or retained boundary 2
+PASS map arrows never jump to duplicate card
+PASS map direction or retained boundary 3
+PASS keyboard reaches Aurelia (tú) — Visita bloqueada
+PASS visible focus: Aurelia (tú) — Visita bloqueada
+PASS blocked country cannot be visited
+PASS map focus visible normal
+PASS keyboard reaches Aurelia (tú) — Visita bloqueada
+PASS visible focus: Aurelia (tú) — Visita bloqueada
+PASS map focus visible contrast
+PASS keyboard reaches VOLVER AL DESPACHO
+PASS visible focus: VOLVER AL DESPACHO
+PASS TAB exits map to sidebar and activates
+PASS Game View 1280x720
+PASS keyboard reaches Aurelia (tú) — Visita bloqueada
+PASS visible focus: Aurelia (tú) — Visita bloqueada
+PASS 720p map focus
+PASS OFF map clears focus
+PASS OFF map arrows remain inactive
+PASS ON resumes without restart
+COMPLETE map visual integration; virtual keyboard in Play Mode

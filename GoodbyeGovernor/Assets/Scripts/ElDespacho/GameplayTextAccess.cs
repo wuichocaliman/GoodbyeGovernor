@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +13,7 @@ namespace ElDespacho {
   void Awake(){source=GetComponent<Text>();baseFont=source.fontSize;baseColor=source.color;baseEnabled=source.enabled;nativeScroll=source.GetComponent<ContentSizeFitter>()!=null;rawNative=source.text;}
   void LateUpdate()=>Apply();
   public void Apply(){
-   if(source==null)return;float scale=AccessPreferences.Current.textScale;bool contrast=DeskPreferences.Current.highContrast;Adapted=contrast||!Mathf.Approximately(scale,1)||(GetComponent<GameplayGuidanceNote>()!=null&&AccessPreferences.Current.navigationHelp);
+   if(source==null)return;float scale=AccessPreferences.Current.textScale;bool contrast=DeskPreferences.Current.highContrast;Adapted=(GetComponent<AccessMeaning>()!=null&&(AccessPreferences.Current.simpleLanguage||AccessPreferences.Current.symbols))||contrast||!Mathf.Approximately(scale,1)||(GetComponent<GameplayGuidanceNote>()!=null&&(AccessPreferences.Current.navigationHelp||AccessPreferences.Current.simpleLanguage));
    if(nativeScroll){if(source.text!=lastNative)rawNative=source.text;source.fontSize=Mathf.RoundToInt(baseFont*scale);source.color=contrast?Color.white:baseColor;source.text=Format(rawNative,scale,contrast);lastNative=source.text;
     var view=source.GetComponentInParent<ScrollRect>();if(view!=null){if(plate==null){plate=Kit.Panel(view.viewport,Color.clear,Vector2.zero,Vector2.one,default,default,"GameplayTextPlate");plate.rectTransform.SetAsFirstSibling();}plate.color=contrast?Color.black:Color.clear;}return;}
    source.enabled=Adapted?false:baseEnabled;
@@ -56,14 +56,15 @@ namespace ElDespacho {
 
 
    foreach(var text in game.GetComponentsInChildren<Text>(false)){
-    if(text.GetComponent<GameplayTextVisual>()!=null||text.GetComponentInParent<TutorialManualView>()!=null||!IsSource(text.transform))continue;
+    if(text.GetComponentsInParent<Transform>().Any(t=>t.name=="ContextGlossary")||text.GetComponent<GameplayTextVisual>()!=null||text.GetComponentInParent<TutorialManualView>()!=null||!IsSource(text.transform))continue;
     var c=text.GetComponentInParent<Canvas>();if(c.sortingOrder==400&&(menus.PageName=="Principal"||menus.PageName=="Ajustes"))continue;
     if((text.text=="Elige un país con el ratón."||text.text.StartsWith("Puedes hacer")||text.text.StartsWith("No te quedan preguntas"))&&text.GetComponent<GameplayGuidanceNote>()==null)text.gameObject.AddComponent<GameplayGuidanceNote>();
     text.GetComponent<GameplayGuidanceNote>()?.Apply();
+    var meaning=text.GetComponent<AccessMeaning>();if(meaning==null&&AccessMeaning.Supports(text))meaning=text.gameObject.AddComponent<AccessMeaning>();meaning?.Apply();
     var adapter=text.GetComponent<GameplayTextAccess>();if(adapter==null&&text.enabled)adapter=text.gameObject.AddComponent<GameplayTextAccess>();adapter?.Apply();
    }
    foreach(var b in game.GetComponentsInChildren<Button>(false))if(IsSource(b.transform)&&b.GetComponentInParent<Canvas>().sortingOrder!=400&&b.GetComponent<GameplayButtonAccess>()==null)b.gameObject.AddComponent<GameplayButtonAccess>();
   }
-  public string NarrationSnapshot(){var list=Snapshot();return string.Join(". ",list.Where(e=>e.action==null).Select(e=>e.text))+". Opciones disponibles: "+string.Join(". ",list.Where(e=>e.action!=null&&e.enabled).Select(e=>e.text));}
+  public string NarrationSnapshot(){var list=page!=""?SettingsEntries():Snapshot();return string.Join(". ",list.Where(e=>e.action==null).Select(e=>e.text))+". Opciones disponibles: "+string.Join(". ",list.Where(e=>e.action!=null&&e.enabled).Select(e=>e.text));}
  }
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,8 +21,8 @@ namespace ElDespacho {
    Kit.Panel(bg.transform,gold,new Vector2(.035f,.93f),new Vector2(.965f,.933f));
    Kit.Label(bg.transform,"REPÚBLICA DE AURELIA / PRESIDENCIA",19,Pal.Cream,TextAnchor.MiddleLeft,new Vector2(.04f,.94f),new Vector2(.8f,.98f));
    Kit.Label(bg.transform,"AJUSTES DEL DESPACHO",Mathf.RoundToInt(38*P.textScale),Pal.Gold,TextAnchor.MiddleLeft,new Vector2(.07f,.8f),new Vector2(.92f,.89f));
-   Kit.Label(bg.transform,generalAudio?"AUDIO Y NARRACIÓN":"ACCESIBILIDAD · "+(page=="Inicio"?"PERFILES":CategoryTitle()),Mathf.RoundToInt(22*P.textScale),Pal.Cream,TextAnchor.MiddleLeft,new Vector2(.35f,.715f),new Vector2(.92f,.79f));
-   notice=Kit.Label(bg.transform,applied+"  TAB: elegir · INTRO: activar · ←/→: volumen · AvPág: desplazar · ESC: volver",Mathf.RoundToInt(12*scale),Color.white,TextAnchor.MiddleLeft,new Vector2(.07f,.005f),new Vector2(.94f,.065f));
+   Kit.Label(bg.transform,generalAudio?"AUDIO Y NARRACIÓN":"ACCESIBILIDAD · "+(page=="Inicio"?"CATEGORÍAS":CategoryTitle()),Mathf.RoundToInt(22*P.textScale),Pal.Cream,TextAnchor.MiddleLeft,new Vector2(.35f,.715f),new Vector2(.92f,.79f));
+   notice=Kit.Label(bg.transform,applied+"  Flechas: navegar · INTRO: activar · ESC: volver · TAB: siguiente",Mathf.RoundToInt(12*scale),Color.white,TextAnchor.MiddleLeft,new Vector2(.07f,.005f),new Vector2(.94f,.065f));
    var viewport=Kit.Panel(bg.transform,Color.clear,new Vector2(.35f,.18f),new Vector2(.915f,.71f));viewport.raycastTarget=true;viewport.gameObject.AddComponent<RectMask2D>();
    content=Kit.Rect(viewport.transform,"Flow",new Vector2(0,1),new Vector2(1,1));content.pivot=new Vector2(.5f,1);
    scroll=viewport.gameObject.AddComponent<AccessScrollRect>();scroll.viewport=viewport.rectTransform;scroll.content=content;scroll.horizontal=false;scroll.movementType=ScrollRect.MovementType.Clamped;scroll.scrollSensitivity=48;
@@ -30,7 +30,7 @@ namespace ElDespacho {
    var thumb=Kit.Panel(rail.transform,gold,Vector2.zero,Vector2.one);thumb.raycastTarget=true;
    var bar=rail.gameObject.AddComponent<Scrollbar>();bar.handleRect=thumb.rectTransform;bar.targetGraphic=thumb;bar.direction=Scrollbar.Direction.BottomToTop;scroll.verticalScrollbar=bar;
    // Navigation is rendered separately; the setting model and callbacks remain unchanged.
-   entries=entries.Where(e=>!e.text.StartsWith("Volver a ")&&e.text!="Ajustes por categoría"&&!(page=="Inicio"&&new[]{"VISIÓN","MOVIMIENTO Y CONTROLES","COMPRENSIÓN","AUDIO","GENERAL"}.Contains(e.text))).ToList();
+   entries=entries.Where(e=>!e.text.StartsWith("Volver a ")&&e.text!="Ajustes por categoría").ToList();
    Canvas.ForceUpdateCanvases();float available=viewport.rectTransform.rect.width-48;float y=24;
    // Cards become a single column at enlarged scales; text is never shrunk to fit.
    bool twoColumns=scale<=1.25f&&available*canvas.scaleFactor>=840;
@@ -56,7 +56,7 @@ namespace ElDespacho {
    for(int i=0;i<entries.Count;i++){
     var e=entries[i];
     if(categoryCards){string next=SettingsSection(e.text);if(next!=section){section=next;y+=BuildSection(section,24,y,available)+14;}if(e.action==null&&e.sliderChange==null){y+=BuildNote(e,24,y,available)+18;continue;}}
-    if(page=="Inicio"&&!e.card){y+=BuildProfileFooter(e,24,y,available)+16;continue;}
+    if(page=="Inicio"&&!e.card){y+=BuildHomeNote(e,24,y,available)+16;continue;}
     bool pair=(e.card||categoryCards)&&scale<=1.25f&&available*canvas.scaleFactor>=840&&i+1<entries.Count&&
      (e.card?entries[i+1].card:(entries[i+1].action!=null||entries[i+1].sliderChange!=null)&&SettingsSection(entries[i+1].text)==section);
     if(pair){float w=(available-20)/2;float a=BuildSetting(e,24,y,w),b=BuildSetting(entries[++i],44+w,y,w);y+=Mathf.Max(a,b)+20;}
@@ -71,15 +71,14 @@ namespace ElDespacho {
     var nav=Kit.Panel(bg.transform,Color.clear,new Vector2(.065f,.18f),new Vector2(.31f,.71f));nav.raycastTarget=true;nav.gameObject.AddComponent<RectMask2D>();
     var navContent=Kit.Rect(nav.transform,"Categories",new Vector2(0,1),new Vector2(1,1));navContent.pivot=new Vector2(.5f,1);
     var navScroll=nav.gameObject.AddComponent<AccessScrollRect>();navScroll.viewport=nav.rectTransform;navScroll.content=navContent;navScroll.horizontal=false;navScroll.movementType=ScrollRect.MovementType.Clamped;navScroll.scrollSensitivity=48;
-    string[] ids={"Visual","Motor","Cognitiva","Audio","Inicio"},labels={"VISIÓN Y LECTURA","CONTROLES","COMPRENSIÓN","AUDIO Y NARRACIÓN","PERFILES"};
+    string[] ids={"Visual","Motor","Cognitiva","Audio"},labels={"VISIÓN Y LECTURA","CONTROLES","COMPRENSIÓN","AUDIO Y NARRACIÓN"};
     if(generalAudio){ids=new[]{"0","1","2","3","4"};labels=new[]{"AUDIO","PANTALLA","JUGABILIDAD","CONTROLES","ACCESIBILIDAD"};}
     Canvas.ForceUpdateCanvases();float navY=8;float width=nav.rectTransform.rect.width-12;
-    // Visual placement starts with profiles. Registration keeps the established TAB path
-    // (profile actions, Visión, remaining categories) for the default home screen.
+    // Registration and visual placement use the same four-category order.
     var navButtons=new List<Button>();var navRows=new List<RectTransform>();var navEntries=new List<Entry>();
-    foreach(int i in generalAudio?new[]{0,1,2,3,4}:new[]{4,0,1,2,3}){string id=ids[i];UnityEngine.Events.UnityAction navigate=generalAudio?()=>menus.ShowSettings(int.Parse(id)):()=>OpenCategory(id);string label=((generalAudio?id=="0":page==id)?"● ":"")+labels[i];var b=Ornate(navContent,label,navigate,width,Mathf.RoundToInt(20*scale));var rt=(RectTransform)b.transform;rt.anchoredPosition=new Vector2(6,-navY);navY+=rt.sizeDelta.y+14;navButtons.Add(b);navRows.Add(rt);navEntries.Add(new Entry(label,()=>navigate(),rt));}
+    foreach(int i in generalAudio?new[]{0,1,2,3,4}:new[]{0,1,2,3}){string id=ids[i];UnityEngine.Events.UnityAction navigate=generalAudio?()=>menus.ShowSettings(int.Parse(id)):()=>OpenCategory(id);string label=((generalAudio?id=="0":page==id)?"● ":"")+labels[i];var b=Ornate(navContent,label,navigate,width,Mathf.RoundToInt(20*scale));var rt=(RectTransform)b.transform;rt.anchoredPosition=new Vector2(6,-navY);navY+=rt.sizeDelta.y+14;navButtons.Add(b);navRows.Add(rt);navEntries.Add(new Entry(label,()=>navigate(),rt));}
     navContent.sizeDelta=new Vector2(0,navY+8);Canvas.ForceUpdateCanvases();navContent.anchoredPosition=new Vector2(0,Mathf.Clamp(previousNav,0,Mathf.Max(0,navContent.rect.height-nav.rectTransform.rect.height)));
-    foreach(int i in generalAudio?new[]{0,1,2,3,4}:new[]{1,2,3,4,0}){rows.Add(navRows[i]);controls.Add(navEntries[i]);}
+    foreach(int i in generalAudio?new[]{0,1,2,3,4}:new[]{0,1,2,3}){rows.Add(navRows[i]);controls.Add(navEntries[i]);}
     var back=Kit.MakeButton(bg.transform,"VOLVER",Mathf.RoundToInt(20*scale),Pal.Wood,Pal.Cream,()=>ReturnSettingsLevel(),new Vector2(.73f,.085f),new Vector2(.92f,.15f));DeskMenuSkin.Apply(back);back.GetComponentInChildren<Text>().resizeTextForBestFit=false;rows.Add((RectTransform)back.transform);controls.Add(new Entry("Volver",()=>back.onClick.Invoke(),back.transform));
    }
    Button Ornate(Transform parent,string label,UnityEngine.Events.UnityAction action,float width,int font){
@@ -94,18 +93,22 @@ namespace ElDespacho {
     var line=Kit.Panel(rt,Kit.WithAlpha(gold,.45f),Vector2.zero,new Vector2(1,0));line.rectTransform.sizeDelta=new Vector2(0,1);return rt.sizeDelta.y;
    }
    float BuildNote(Entry e,float x,float top,float width){
+    if(page=="Cognitiva"){
+     var panel=Kit.Panel(content,Kit.Hex("#202822"),new Vector2(0,1),new Vector2(0,1));var pr=panel.rectTransform;pr.name="ComprehensionPreview";pr.pivot=new Vector2(0,1);pr.anchoredPosition=new Vector2(x,-top);pr.sizeDelta=new Vector2(width,100);panel.raycastTarget=false;
+     var label=Kit.Label(pr,e.text+"\n"+e.description,Mathf.RoundToInt(18*scale),Pal.Cream,TextAnchor.UpperLeft,Vector2.zero,Vector2.one,new Vector2(16,12),new Vector2(-16,-12));label.supportRichText=false;label.raycastTarget=false;Canvas.ForceUpdateCanvases();pr.sizeDelta=new Vector2(width,label.preferredHeight+28);return pr.sizeDelta.y;
+    }
     var t=Kit.Label(content,e.text+"\n"+e.description,Mathf.RoundToInt(18*scale),ink,TextAnchor.UpperLeft,Vector2.zero,Vector2.zero);t.supportRichText=false;
     var rt=t.rectTransform;rt.name="Note: "+e.text;rt.anchorMin=rt.anchorMax=new Vector2(0,1);rt.pivot=new Vector2(0,1);rt.anchoredPosition=new Vector2(x,-top);rt.sizeDelta=new Vector2(width,100);rt.sizeDelta=new Vector2(width,t.preferredHeight+8);return rt.sizeDelta.y;
    }
 
-   float BuildProfileFooter(Entry e,float x,float top,float width){
-    if(e.action!=null){var b=Ornate(content,e.value,()=>{e.action();Refresh();},Mathf.Min(width,420*scale),Mathf.RoundToInt(18*scale));var rt=(RectTransform)b.transform;rt.name="Setting: "+e.text;rt.anchoredPosition=new Vector2(x,-top);rows.Add(rt);controls.Add(new Entry(e.text+". "+e.value,e.action,rt));return rt.sizeDelta.y;}
-    var label=Kit.Label(content,"Opciones activas · "+e.description,Mathf.RoundToInt(16*scale),Pal.Cream,TextAnchor.UpperLeft,Vector2.zero,Vector2.zero);var textRect=label.rectTransform;textRect.name="CompactProfileSummary";textRect.anchorMin=textRect.anchorMax=new Vector2(0,1);textRect.pivot=new Vector2(0,1);textRect.anchoredPosition=new Vector2(x,-top);textRect.sizeDelta=new Vector2(width,100);textRect.sizeDelta=new Vector2(width,label.preferredHeight+8);return textRect.sizeDelta.y;
+   float BuildHomeNote(Entry e,float x,float top,float width){
+    if(e.action!=null){var b=Ornate(content,e.value,()=>{e.action();Refresh();},Mathf.Min(width,420*scale),Mathf.RoundToInt(18*scale));var rt=(RectTransform)b.transform;rt.name="Setting: "+e.text;rt.anchoredPosition=new Vector2(x,-top);rows.Add(rt);controls.Add(new Entry(e.text+". "+SpokenState(e.value),e.action,rt));return rt.sizeDelta.y;}
+    var label=Kit.Label(content,e.text+" · "+e.description,Mathf.RoundToInt(16*scale),Pal.Cream,TextAnchor.UpperLeft,Vector2.zero,Vector2.zero);var textRect=label.rectTransform;textRect.name="AccessibilityHomeNote";textRect.anchorMin=textRect.anchorMax=new Vector2(0,1);textRect.pivot=new Vector2(0,1);textRect.anchoredPosition=new Vector2(x,-top);textRect.sizeDelta=new Vector2(width,100);textRect.sizeDelta=new Vector2(width,label.preferredHeight+8);return textRect.sizeDelta.y;
    }
 
    float BuildSetting(Entry e,float x,float top,float width){
     var rt=Kit.Rect(content,"Setting: "+e.text,new Vector2(0,1),new Vector2(0,1));rt.pivot=new Vector2(0,1);rt.anchoredPosition=new Vector2(x,-top);rt.sizeDelta=new Vector2(width,100);
-    var border=rt.gameObject.AddComponent<Image>();border.color=dark?Kit.Hex("#777777"):Kit.WithAlpha(gold,e.card&&e.value=="Desactivar perfil"?.95f:.38f);border.raycastTarget=e.action!=null;
+    var border=rt.gameObject.AddComponent<Image>();border.color=dark?Kit.Hex("#777777"):Kit.WithAlpha(gold,.38f);border.raycastTarget=e.action!=null;
     var inner=Kit.Panel(rt,paper,Vector2.zero,Vector2.one,new Vector2(2,2),new Vector2(-2,-2));
     bool compact=e.card||categoryCards;
     float pad=(compact?16:24)*P.interfaceScale,iconSize=(compact?28:32)*P.interfaceScale;
@@ -137,7 +140,7 @@ namespace ElDespacho {
     }else if(e.action!=null){
      string caption=!e.enabled?"No disponible":string.IsNullOrEmpty(e.value)?"Abrir":e.value;
      var b=Ornate(rt,caption,()=>{revealSetting=e.text;e.action();Refresh();},width-pad*2,Mathf.RoundToInt(20*scale));var br=(RectTransform)b.transform;if(categoryCards)current=controlTop+uniformControl-br.sizeDelta.y;br.anchoredPosition=new Vector2(pad,-current);b.interactable=e.enabled;current+=br.sizeDelta.y+pad;
-     if(e.enabled){rows.Add(rt);controls.Add(new Entry(e.text+". "+e.description+". "+e.value,e.action,br));}
+     if(e.enabled){rows.Add(rt);controls.Add(new Entry(e.text+". "+e.description+". "+SpokenState(e.value),e.action,br));}
     }else current+=pad;
     rt.sizeDelta=new Vector2(width,Mathf.Max(current,92*P.interfaceScale));return rt.sizeDelta.y;
     Text TextAt(string text,float left,float down,float w,int font,Color color,FontStyle style=FontStyle.Normal){
@@ -146,6 +149,7 @@ namespace ElDespacho {
    }
   }
   // Grouping is presentation metadata only: model order, callbacks and preference keys stay intact.
+  static string SpokenState(string value)=>value=="ON"?"activado":value=="OFF"?"desactivado":value;
   string SettingsSection(string title){
    if(title.StartsWith("VISTA PREVIA")||title.StartsWith("[=]")||title.StartsWith("Documento de ejemplo")||title=="Zona de lectura"||title=="Ejemplo de aviso")return "Vista previa";
    if(page=="Visual")return title=="Alto contraste"||title=="Tamaño de texto"||title=="Escala de interfaz"?"Presentación":title=="Indicadores con etiquetas"||title=="Reducir destellos"?"Apoyos visuales":"Lectura opcional";
